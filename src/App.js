@@ -4,32 +4,36 @@ import ColorLayer from './ColorLayer.js';
 import ElementsLayer from './ElementsLayer.js';
 
 /*
-    anns
-    nnnn
-    nnnn
-    nnnf
+    nnr
+    nnr
+    grb
+    rnn
+    rnn
 
-    rrrg
-    nnnr
-    nnnr
-    nnnr
+    nna
+    nnn
+    nsn
+    nnn
+    fnn
 */
 
+import levels from './levels.json';
+
 const defaultLevelDescription = {
-    'name': 'Angle',
-    'controlsBinaryId': 531,
-    'columns': 4,
-    'rows': 4,
-    'path': 'r r r g n n n r n n n r n n n r',
-    'angle': 0.5,
-    'elements': 'a n n s n n n n n n n n n n n f',
-    'f1Len': 3,
-    'f2Len': 0,
-    'f1MinSol': 'u_n l_g f1_n',
-    'f2MinSol': '',
-    'f1StarSol': 'u_n l_g f1_n',
-    'f2StarSol': ''
-};
+                "name": "Beginning",
+                "controlsBinaryId": 513,
+                "columns": 5,
+                "rows": 1,
+                "path": "r r r r r",
+                "angle": 0.5,
+                "elements": "a n s n f",
+                "f1Len": 3,
+                "f2Len": 0,
+                "f1MinSol": "u_n f1_n",
+                "f2MinSol": "",
+                "f1StarSol": "u_n f1_n",
+                "f2StarSol": ""
+            };
 
 function controlsListFromControlsBinaryId(controlsBinaryId) {
     let controlsList = [];
@@ -57,8 +61,9 @@ function twoDimArrayFromColumnsAndString(columns, string) {
     const splitedString = string.split(' ');
     const rows = splitedString.length / columns;
     for (let i = 0; i < rows; i++)
-        twoDimArray.push(splitedString.slice(4 * i, 4 * (i + 1)));
-    return twoDimArray.reverse();
+        twoDimArray.push(splitedString.slice(columns * i, columns * (i + 1)));
+    twoDimArray = twoDimArray.reverse();
+    return twoDimArray;
 }
 
 function elementCoordinatesFromColumnsAndElementsString(element, columns, elements) {
@@ -83,17 +88,21 @@ function commandDictFromCommandString(commandString) {
     let commandDict = undefined;
     const splitedCommandString = commandString.split('_');
     commandDict = {
-        'action': splitedCommandString[0],
+        'action': splitedCommandString[0][0],
         'color': splitedCommandString[1]
     };
     if (commandDict.action[0] === 'f') {
-        commandDict.fNumber = commandDict.action.substr(1);
+        commandDict.fNumber = Number.parseInt(splitedCommandString[0].substring(1));
         commandDict.action = 'f';
     }
+    else if (commandDict.action[0] === 'p')
+        commandDict.paintColor = splitedCommandString[0][1];
     return commandDict;
 }
 
 function commandsListFromCommandsString(commandsString) {
+    if (commandsString.length === 0)
+        return [];
     let commandsList = undefined;
     const commandsStringsList = commandsString.split(' ');
     commandsList = commandsStringsList.map(commandDictFromCommandString);
@@ -101,7 +110,28 @@ function commandsListFromCommandsString(commandsString) {
 }
 
 function convertedAngle(angle) {
-    return (-angle + 0.5 + 2) % 2;
+    return (angle - 0.5 + 2) % 2;
+}
+
+function solutionsFunctionsListFromLevelDescription(levelDescription, postfix) {
+    let result = []
+    for (let functionNumber = 1; ; functionNumber++) {
+        const propertyName = 'f' + functionNumber.toString() + postfix;
+        if (propertyName in levelDescription)
+            result.push(levelDescription[propertyName]);
+        else
+            break;
+    }
+    result = result.map(commandsListFromCommandsString);
+    return result;
+}
+
+function minSolutionsFunctionsListFromLevelDescription(levelDescription) {
+    return solutionsFunctionsListFromLevelDescription(levelDescription, 'MinSol');
+}
+
+function starSolutionsFunctionsListFromLevelDescription(levelDescription) {
+    return solutionsFunctionsListFromLevelDescription(levelDescription, 'StarSol');
 }
 
 function getConvertedLevelDescription(levelDescription) {
@@ -112,7 +142,9 @@ function getConvertedLevelDescription(levelDescription) {
         'angle': convertedAngle(levelDescription.angle),
         'elements': twoDimArrayFromColumnsAndString(levelDescription.columns, levelDescription.elements),
         'arrowCoordinates': elementCoordinatesFromColumnsAndElementsString('a', levelDescription.columns, levelDescription.elements),
-        'finishCoordinates': elementCoordinatesFromColumnsAndElementsString('f', levelDescription.columns, levelDescription.elements)
+        'finishCoordinates': elementCoordinatesFromColumnsAndElementsString('f', levelDescription.columns, levelDescription.elements),
+        'minSolution': minSolutionsFunctionsListFromLevelDescription(levelDescription),
+        'starSolution': starSolutionsFunctionsListFromLevelDescription(levelDescription)
     };
     return convertedLevelDescription;
 }
@@ -125,11 +157,21 @@ class App extends Component {
             'initialLevelDescription': getConvertedLevelDescription(defaultLevelDescription),
             'stack': [],
             'stackPointerPosition': undefined,
-            'functionsList': undefined
+            'functionsList': undefined,
+            'testing': false
         }
         this.state.levelDescription = this.state.initialLevelDescription;
 
         this.handleKeyPress = this.handleKeyPress.bind(this);
+    }
+
+    setLevel(levelDescription) {
+        console.log('set level', levelDescription.name);
+        this.setState(state => {
+            state.initialLevelDescription = getConvertedLevelDescription(levelDescription);
+            state.levelDescription = state.initialLevelDescription;
+            return state;
+        });
     }
 
     isCellPassable(x, y) {
@@ -209,18 +251,68 @@ class App extends Component {
         if (this.canMove(direction)) {
             return this.move(direction);
         }
+        console.log('fucked');
         return this.state;
+    }
+
+    processMinSolution() {
+        this.processAlgorithm(this.state.levelDescription.minSolution);
+    }
+
+    processStarSolution() {
+        this.processAlgorithm(this.state.levelDescription.starSolution);
+    }
+
+    test() {
+        let testingLevelsList = [];
+        for (const [levelPackNumber, levelPack] of Object.entries(levels)) {
+            for (const [levelNumber, level] of Object.entries(levelPack.levels)) {
+                testingLevelsList.push(level);
+            }
+        }
+        const firstLevel = testingLevelsList[0];
+        this.setState(state => {
+            state.testing = true;
+            state.testingLevelsList = testingLevelsList;
+            state.testingLevelsList = state.testingLevelsList.reverse();
+            return state;
+        });
+        this.setLevel(firstLevel);
+        this.processStarSolution();
+    }
+
+    testNextLevelInTestingList() {
+        const oldTestingList = this.state.testingLevelsList;
+        const newTestingList = this.state.testingLevelsList.slice(1);
+        const nextLevel = newTestingList[0];
+        //console.log(oldTestingList);
+        if (oldTestingList.length <= 1)
+            this.setState(state => {
+                state.testing = false;
+                return state;
+            });
+        else {
+            this.setState(state => {
+                state.testingLevelsList = newTestingList;
+            });
+            this.setLevel(nextLevel);
+            this.processStarSolution();
+        }
     }
 
     handleKeyPress(event) {
         const key = event.key;
         if (key === 'a')
-            this.processAlgorithm([commandsListFromCommandsString('u_n l_g f1_n')]);
+            this.processStarSolution();
+        else if (key === 't')
+            this.test();
         else
             this.tryMove(key);
     }
 
     commandCondition(command) {
+        if (command === undefined)
+            return false;
         const x = this.state.levelDescription.arrowCoordinates.x;
         const y = this.state.levelDescription.arrowCoordinates.y;
         const color = this.state.levelDescription.colors[y][x];
@@ -242,18 +334,28 @@ class App extends Component {
         return (x === finishCoordinates.x) && (y === finishCoordinates.y);
     }
 
+    paintArrowCell(color) {
+        let newState = this.state;
+        const x = this.state.levelDescription.arrowCoordinates.x;
+        const y = this.state.levelDescription.arrowCoordinates.y;
+        newState.levelDescription.colors[y][x] = color;
+        return newState;
+    }
+
     componentDidUpdate(prevProps, prevState) {
         const stack = this.state.stack;
         if (stack.length !== 0) {
             const pointerPosition = this.state.stackPointerPosition;
             const command = stack[pointerPosition];
             const functionsList = this.state.functionsList;
-            console.log(this.state.levelDescription.arrowCoordinates, stack, pointerPosition, command);
+            //console.log(this.state.levelDescription.arrowCoordinates, stack, pointerPosition, command);
             let newStack = stack;
             let newPointerPosition = pointerPosition + 1;
             let newFunctionsList = functionsList;
             let newState = this.state;
+            let newTesting = this.state.testing;
             if (this.finishReached()) {
+                console.log('finish reached');
                 newStack = [];
                 newFunctionsList = [];
                 newPointerPosition = undefined;
@@ -263,6 +365,9 @@ class App extends Component {
                     if (command.action === 'f') {
                         newStack = this.replaceElement(stack, functionsList[command.fNumber - 1], pointerPosition);
                         newPointerPosition = pointerPosition;
+                    }
+                    else if (command.action[0] === 'p') {
+                        newState = this.paintArrowCell(command.paintColor);
                     }
                     else {
                         newState = this.tryMove(command.action);
@@ -274,14 +379,17 @@ class App extends Component {
                     newState.stack = newStack;
                     newState.stackPointerPosition = newPointerPosition;
                     newState.functionsList = newFunctionsList;
+                    newState.testing = newTesting;
                     return newState;
                 });
-            }, 200);
+                if (newTesting && (newStack.length === 0))
+                    this.testNextLevelInTestingList();
+            }, 0);
         }
     }
 
     processAlgorithm(functionsList) {
-        console.log('processAlgorithm', functionsList);
+        //console.log('processAlgorithm', functionsList);
         this.setState((state) => {
             state.stack = functionsList[0];
             state.stackPointerPosition = 0;
