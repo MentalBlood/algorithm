@@ -1,4 +1,5 @@
 import React from 'react';
+import './Layer.css';
 import './ElementsLayer.css';
 
 function directionFromAngle(angle) {
@@ -19,24 +20,23 @@ function directionFromAngle(angle) {
 function ElementsLayer(props) {
     const elements = props.elements;
     const angle = props.angle;
+    const cellSize = props.cellSize;
     return (
-        <div className="ElementsLayer">
-            <table>
-                <tbody>
-                    {
-                        elements.map((row, index) => 
-                            <tr key={index}>
-                                {
-                                    row.map((element, index) => <td key={index} className={
-                                            (element === 'a') ? element + ' ' + directionFromAngle(angle) : element
-                                        }></td>)
-                                }
-                            </tr>
-                        )
-                    }
-                </tbody>
-            </table>
-        </div>
+        <table className="Layer ElementsLayer">
+            <tbody>
+                {
+                    elements.map((row, index) => 
+                        <tr key={index}>
+                            {
+                                row.map((element, index) => <td key={index} className={
+                                        (element === 'a') ? element + ' ' + directionFromAngle(angle) : element
+                                    } style={{width: cellSize, height: cellSize}}></td>)
+                            }
+                        </tr>
+                    )
+                }
+            </tbody>
+        </table>
     );
 }
 

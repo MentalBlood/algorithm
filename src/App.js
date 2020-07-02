@@ -1,37 +1,24 @@
 import React, { Component } from 'react';
+import './App.css';
 import './Map.css';
 import ColorLayer from './ColorLayer.js';
 import ElementsLayer from './ElementsLayer.js';
 
-/*
-    nnr
-    nnr
-    grb
-    rnn
-    rnn
-
-    nna
-    nnn
-    nsn
-    nnn
-    fnn
-*/
-
 import levels from './levels.json';
 
 const defaultLevelDescription = {
-                "name": "Beginning",
-                "controlsBinaryId": 513,
-                "columns": 5,
-                "rows": 1,
-                "path": "r r r r r",
-                "angle": 0.5,
-                "elements": "a n s n f",
-                "f1Len": 3,
+                "name": "Lollipop",
+                "controlsBinaryId": 823,
+                "columns": 7,
+                "rows": 12,
+                "path": "n n n r n n n n n n r n n n n n n r n n n n n n r n n n n n n r n n n b r r g r r b r n n r n n r r n n r n n r r n n g r n r r n n n n n r r n n n n n r b r r r r r b",
+                "angle": 1.0,
+                "elements": "n n n a n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n s n n n n n s n n n n n n n n n n n n n n n n n n f n n n n n n n n n n n n n n n n s n n n n n s",
+                "f1Len": 5,
                 "f2Len": 0,
-                "f1MinSol": "u_n f1_n",
+                "f1MinSol": "u_n u_n r_g f1_n",
                 "f2MinSol": "",
-                "f1StarSol": "u_n f1_n",
+                "f1StarSol": "u_n r_g l_b pb_g f1_n",
                 "f2StarSol": ""
             };
 
@@ -399,11 +386,31 @@ class App extends Component {
     }
 
     render() {
+        const colors = this.state.levelDescription.colors;
+        const elements = this.state.levelDescription.elements;
+        const angle = this.state.levelDescription.angle;
+
+        const maxMapWidth = 50;
+        const maxMapHeight = 50;
+        const dimension = 'vw';
+
+        const rowsNumber = colors.length;
+        const columnsNumber = colors[0].length;
+        const cellSizeToFitWidth = maxMapWidth / columnsNumber;
+        const cellSizeToFitHeight = maxMapHeight / rowsNumber;
+        const cellSizeToFitRect = Math.min(cellSizeToFitWidth, cellSizeToFitHeight);
+        const cellSizeWithDimension = cellSizeToFitRect.toString() + dimension;
+        console.log('cellSizeWithDimension:', cellSizeWithDimension);
+
+        const mapWidth = (cellSizeToFitRect * columnsNumber).toString() + dimension;
+        const mapHeight = (cellSizeToFitRect * rowsNumber).toString() + dimension;
+        console.log(mapWidth, mapHeight);
+
         return (
             <div className="App" onKeyDown={this.handleKeyPress} tabIndex={-1}>
-                <div className="Map">
-                    <ColorLayer colors={this.state.levelDescription.colors}></ColorLayer>
-                    <ElementsLayer elements={this.state.levelDescription.elements} angle={this.state.levelDescription.angle}></ElementsLayer>
+                <div className="Map" style={{width: mapWidth, height: mapHeight}}>
+                    <ColorLayer colors={colors} cellSize={cellSizeWithDimension}></ColorLayer>
+                    <ElementsLayer elements={elements} angle={angle} cellSize={cellSizeWithDimension}></ElementsLayer>
                 </div>
             </div>
         );

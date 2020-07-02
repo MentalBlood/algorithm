@@ -1,24 +1,11 @@
-.ColorLayer table {
-    position: absolute;
-    left: calc((100vw - min(50vh, 50vw)) / 2);
-    top: calc((100vh - min(50vh, 50vw)) / 2);
-    border-collapse: collapse;
-    width: min(50vh, 50vw);
-    height: min(50vh, 50vw);
-}
-
-.ColorLayer table tbody tr td {
-    border: 1px solid black;
-}
-
-.ColorLayer table tbody tr td.r {
+table.ColorLayer tbody tr td.r {
     background-color: red;
 }
 
-.ColorLayer table tbody tr td.g {
+table.ColorLayer tbody tr td.g {
     background-color: green;
 }
 
-.ColorLayer table tbody tr td.b {
+table.ColorLayer tbody tr td.b {
     background-color: blue;
 }
