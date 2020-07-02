@@ -20,9 +20,8 @@ function directionFromAngle(angle) {
 function ElementsLayer(props) {
     const elements = props.elements;
     const angle = props.angle;
-    const cellSize = props.cellSize;
     return (
-        <table className="Layer ElementsLayer">
+        <table className="Layer ElementsLayer" style={{width: props.mapWidth, height: props.mapHeight}}>
             <tbody>
                 {
                     elements.map((row, index) => 
@@ -30,7 +29,7 @@ function ElementsLayer(props) {
                             {
                                 row.map((element, index) => <td key={index} className={
                                         (element === 'a') ? element + ' ' + directionFromAngle(angle) : element
-                                    } style={{width: cellSize, height: cellSize}}></td>)
+                                    }></td>)
                             }
                         </tr>
                     )

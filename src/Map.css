@@ -1,3 +1,6 @@
 .Map {
+    position: relative;
     margin: 0 auto;
+
+    outline: none;
 }

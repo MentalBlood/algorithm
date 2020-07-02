@@ -390,27 +390,25 @@ class App extends Component {
         const elements = this.state.levelDescription.elements;
         const angle = this.state.levelDescription.angle;
 
-        const maxMapWidth = 50;
-        const maxMapHeight = 50;
-        const dimension = 'vw';
+        const maxMapWidth = 100 * window.innerWidth / 100;
+        const maxMapHeight = 100 * window.innerHeight / 100;
+        const dimension = 'px';
 
         const rowsNumber = colors.length;
         const columnsNumber = colors[0].length;
-        const cellSizeToFitWidth = maxMapWidth / columnsNumber;
-        const cellSizeToFitHeight = maxMapHeight / rowsNumber;
-        const cellSizeToFitRect = Math.min(cellSizeToFitWidth, cellSizeToFitHeight);
-        const cellSizeWithDimension = cellSizeToFitRect.toString() + dimension;
-        console.log('cellSizeWithDimension:', cellSizeWithDimension);
+        const cellSize = Math.min(maxMapWidth / columnsNumber, maxMapHeight / rowsNumber);
 
-        const mapWidth = (cellSizeToFitRect * columnsNumber).toString() + dimension;
-        const mapHeight = (cellSizeToFitRect * rowsNumber).toString() + dimension;
+        const minSideCellsNumber = Math.min(rowsNumber, columnsNumber);
+        const maxSideCellsNumber = Math.max(rowsNumber, columnsNumber);
+        const mapWidth = cellSize * columnsNumber + dimension;
+        const mapHeight = cellSize * rowsNumber + dimension;
         console.log(mapWidth, mapHeight);
 
         return (
             <div className="App" onKeyDown={this.handleKeyPress} tabIndex={-1}>
                 <div className="Map" style={{width: mapWidth, height: mapHeight}}>
-                    <ColorLayer colors={colors} cellSize={cellSizeWithDimension}></ColorLayer>
-                    <ElementsLayer elements={elements} angle={angle} cellSize={cellSizeWithDimension}></ElementsLayer>
+                    <ColorLayer colors={colors} mapWidth={mapWidth} mapHeight={mapHeight}></ColorLayer>
+                    <ElementsLayer elements={elements} angle={angle} mapWidth={mapWidth} mapHeight={mapHeight}></ElementsLayer>
                 </div>
             </div>
         );

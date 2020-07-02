@@ -4,15 +4,13 @@ import './ColorLayer.css';
 
 function ColorLayer(props) {
     const colors = props.colors;
-    const cellSize = props.cellSize;
     return (
-        <table className="Layer ColorLayer">
+        <table className="Layer ColorLayer" style={{width: props.mapWidth, height: props.mapHeight}}>
             <tbody>
                 {
                     colors.map((row, index) => 
                         <tr key={index}>
-                            {row.map((color, index) => <td key={index} className={color}
-                                style={{width: cellSize, height: cellSize}}></td>)}
+                            {row.map((color, index) => <td key={index} className={color}></td>)}
                         </tr>
                     )
                 }
