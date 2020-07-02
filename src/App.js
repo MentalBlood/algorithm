@@ -3,6 +3,7 @@ import './App.css';
 import './Map.css';
 import ColorLayer from './ColorLayer.js';
 import ElementsLayer from './ElementsLayer.js';
+import AvailableControls from './AvailableControls.js';
 
 import levels from './levels.json';
 
@@ -38,7 +39,7 @@ function controlsListFromControlsBinaryId(controlsBinaryId) {
         'f2': 1024
     };
     for (const controllerName in controllers)
-        if (controlsBinaryId & controllers[controllerName] === 1)
+        if (controlsBinaryId & controllers[controllerName])
             controlsList.push(controllerName);
     return controlsList;
 }
@@ -389,9 +390,10 @@ class App extends Component {
         const colors = this.state.levelDescription.colors;
         const elements = this.state.levelDescription.elements;
         const angle = this.state.levelDescription.angle;
+        const controlsList = this.state.levelDescription.availableControls;
 
-        const maxMapWidth = 100 * window.innerWidth / 100;
-        const maxMapHeight = 100 * window.innerHeight / 100;
+        const maxMapWidth = 80 * window.innerWidth / 100;
+        const maxMapHeight = 80 * window.innerHeight / 100;
         const dimension = 'px';
 
         const rowsNumber = colors.length;
@@ -402,13 +404,15 @@ class App extends Component {
         const maxSideCellsNumber = Math.max(rowsNumber, columnsNumber);
         const mapWidth = cellSize * columnsNumber + dimension;
         const mapHeight = cellSize * rowsNumber + dimension;
-        console.log(mapWidth, mapHeight);
 
         return (
             <div className="App" onKeyDown={this.handleKeyPress} tabIndex={-1}>
                 <div className="Map" style={{width: mapWidth, height: mapHeight}}>
                     <ColorLayer colors={colors} mapWidth={mapWidth} mapHeight={mapHeight}></ColorLayer>
                     <ElementsLayer elements={elements} angle={angle} mapWidth={mapWidth} mapHeight={mapHeight}></ElementsLayer>
+                </div>
+                <div className="ControlsPanel">
+                    <AvailableControls controlsList={controlsList}></AvailableControls>
                 </div>
             </div>
         );

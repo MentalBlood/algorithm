@@ -1,8 +1,6 @@
 table.Layer {
     position: absolute;
     border-collapse: collapse;
-
-    outline: none;
 }
 
 table.Layer tbody tr td {

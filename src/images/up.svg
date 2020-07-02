@@ -1,0 +1,64 @@
+<?xml-stylesheet type="text/css" href="up.css"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- PDFTron PDFNet Generated! Version: 7.1.0.74195 -->
+<svg id="svgRoot" version="1.1" baseProfile="Full" width="82px" height="82px" viewBox="0 0 82 82" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:cs="http://www.pdftron.com/pdf2svg" xml:space="preserve">
+<defs>
+</defs>
+<style type="text/css">
+<![CDATA[
+.ps03 { stroke:#98B3FC;fill:none; }
+.ps01 { stroke:none;fill-opacity:0;fill:#D7D7D7;fill-rule:nonzero; }
+.ps02 { stroke:none;fill:#4D4D4D;fill-rule:nonzero; }
+.ps00 { stroke:none;fill:none; }
+.ps10 { stroke-width:0.05; }
+.ps20 { 
+letter-spacing:0px;word-spacing:0;font-family:fnt0;font-style:normal;font-weight:normal;font-size:12.947px; }
+]]>
+</style>
+<clipPath id="clp1" clip-rule="nonzero">
+<rect x="0" y="0" width="82" height="82"/>
+</clipPath>
+<g clip-path="url(#clp1)" transform="matrix(1 0 0 -1 -0 82)">
+<g id="q1" class="">
+<g id="q2" class="">
+</g>
+<g id="q3" class="">
+<clipPath id="clp2" clip-rule="evenodd">
+<path d="M6 82 L76 82 C79.314 82 82 79.314 82 76 L82 6 C82 2.6863 79.314 0 76 0 L6 0 C2.6863 0 0 2.6863 0 6 L0 76 C0 79.314 2.6863 82 6 82 Z"/>
+</clipPath>
+<g clip-path="url(#clp2)">
+<clipPath id="clp3" clip-rule="nonzero">
+<path d="M0 0 L82 0 L82 82 L0 82 Z"/>
+</clipPath>
+<g clip-path="url(#clp3)">
+<path d="M-5 87 L87 87 L87 -5 L-5 -5 Z" class="ps01"/>
+</g>
+</g>
+</g>
+<g id="q4" class="">
+<clipPath id="clp4" clip-rule="evenodd">
+<path d="M37.029 71.768 C38.353 73.256 39.676 74 40.999 74 C42.323 74 43.646 73.256 44.97 71.768 L44.97 71.747 L44.99 71.768 L61.834 54.835 C63.389 53.273 63.389 50.754 61.834 49.191 C60.297 47.647 57.795 47.636 56.244 49.167 C56.236 49.175 56.228 49.183 56.219 49.191 L44.97 60.5 L44.97 11.956 C44.97 9.7709 43.192 8 40.999 8 C38.807 8 37.029 9.7709 37.029 11.956 L37.029 60.499 L25.781 49.191 C24.244 47.647 21.741 47.636 20.191 49.167 C20.182 49.175 20.174 49.183 20.166 49.191 C18.611 50.754 18.611 53.273 20.166 54.835 L37.01 71.768 L37.029 71.749 L37.029 71.768 L37.029 71.768 Z"/>
+</clipPath>
+<g clip-path="url(#clp4)">
+<clipPath id="clp5" clip-rule="nonzero">
+<path d="M0 0 L82 0 L82 82 L0 82 Z"/>
+</clipPath>
+<g clip-path="url(#clp5)">
+<path d="M14 79 L68 79 L68 3 L14 3 Z" class="ps02"/>
+</g>
+</g>
+</g>
+</g>
+<g id="q5" class="">
+<g id="xfrm6" transform="matrix(82 0 0 82 0 0)">
+<clipPath id="clp6" clip-rule="nonzero">
+<rect x="0" y="0" width="100" height="100"/>
+</clipPath>
+<g id="frm7" transform="matrix(0.01 0 0 0.01 0 0)" clip-path="url(#clp6)">
+<text transform="matrix(1 0 0 -1 0 43.5267)"><tspan x="0,9.3475,18.695,28.043,31.642,38.84,46.038,49.638,53.237,57.548,64.746,71.945,75.544,82.017,89.216" y="-0" class="ps03 ps10 ps20"></tspan>
+</text>
+</g>
+</g>
+</g>
+</g>
+</svg>
