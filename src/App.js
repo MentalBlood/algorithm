@@ -146,7 +146,10 @@ class App extends Component {
             'stack': [],
             'stackPointerPosition': undefined,
             'functionsList': undefined,
-            'testing': false
+            'evaluating': false,
+            'testing': false,
+            'mapWidth': undefined,
+            'mapHeight': undefined
         }
         this.state.levelDescription = this.state.initialLevelDescription;
 
@@ -249,6 +252,10 @@ class App extends Component {
 
     processStarSolution() {
         this.processAlgorithm(this.state.levelDescription.starSolution);
+        this.setState(state => {
+            state.evaluating = true;
+            return state;
+        });
     }
 
     test() {
@@ -332,7 +339,8 @@ class App extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         const stack = this.state.stack;
-        if (stack.length !== 0) {
+        const evaluating = this.state.evaluating;
+        if (stack.length !== 0 && evaluating) {
             const pointerPosition = this.state.stackPointerPosition;
             const command = stack[pointerPosition];
             const functionsList = this.state.functionsList;
@@ -342,8 +350,10 @@ class App extends Component {
             let newFunctionsList = functionsList;
             let newState = this.state;
             let newTesting = this.state.testing;
+            let newEvaluating = evaluating;
             if (this.finishReached()) {
                 console.log('finish reached');
+                newEvaluating = false;
                 newStack = [];
                 newFunctionsList = [];
                 newPointerPosition = undefined;
@@ -368,6 +378,7 @@ class App extends Component {
                     newState.stackPointerPosition = newPointerPosition;
                     newState.functionsList = newFunctionsList;
                     newState.testing = newTesting;
+                    newState.evaluating = newEvaluating;
                     return newState;
                 });
                 if (newTesting && (newStack.length === 0))
@@ -386,14 +397,12 @@ class App extends Component {
         });
     }
 
-    render() {
+    updateMapSize() {
+        console.log('updateMapSize');
         const colors = this.state.levelDescription.colors;
-        const elements = this.state.levelDescription.elements;
-        const angle = this.state.levelDescription.angle;
-        const controlsList = this.state.levelDescription.availableControls;
 
         const maxMapWidth = 80 * window.innerWidth / 100;
-        const maxMapHeight = 80 * window.innerHeight / 100;
+        const maxMapHeight = 60 * window.innerHeight / 100;
         const dimension = 'px';
 
         const rowsNumber = colors.length;
@@ -404,6 +413,29 @@ class App extends Component {
         const maxSideCellsNumber = Math.max(rowsNumber, columnsNumber);
         const mapWidth = cellSize * columnsNumber + dimension;
         const mapHeight = cellSize * rowsNumber + dimension;
+
+        this.setState(state => {
+            state.mapWidth = mapWidth;
+            state.mapHeight = mapHeight;
+            return state;
+        });
+    }
+
+    componentDidMount() {
+        window.addEventListener('resize', this.updateMapSize.bind(this));
+    }
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.updateMapSize.bind(this));
+    }
+
+    render() {
+        const colors = this.state.levelDescription.colors;
+        const elements = this.state.levelDescription.elements;
+        const angle = this.state.levelDescription.angle;
+        const controlsList = this.state.levelDescription.availableControls;
+
+        const mapWidth = this.state.mapWidth;
+        const mapHeight = this.state.mapHeight;
 
         return (
             <div className="App" onKeyDown={this.handleKeyPress} tabIndex={-1}>
