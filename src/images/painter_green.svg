@@ -1,0 +1,118 @@
+<?xml-stylesheet type="text/css" href="painter_green_hint.css"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- PDFTron PDFNet Generated! Version: 7.1.0.74195 -->
+<svg id="svgRoot" version="1.1" baseProfile="Full" width="82px" height="82px" viewBox="0 0 82 82" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:cs="http://www.pdftron.com/pdf2svg" xml:space="preserve">
+<defs>
+</defs>
+<style type="text/css">
+<![CDATA[
+.ps03 { stroke:#98B3FC;fill:none; }
+.ps02 { stroke:none;fill:#4D4D4D;fill-rule:nonzero; }
+.ps01 { stroke:none;fill:#FFFFFF;fill-rule:nonzero; }
+.ps00 { stroke:none;fill:none; }
+.ps10 { stroke-width:0.05; }
+.ps20 { 
+letter-spacing:0px;word-spacing:0;font-family:fnt0;font-style:normal;font-weight:normal;font-size:12.947px; }
+]]>
+</style>
+<clipPath id="clp1" clip-rule="nonzero">
+<rect x="0" y="0" width="82" height="82"/>
+</clipPath>
+<g clip-path="url(#clp1)" transform="matrix(1 0 0 -1 -0 82)">
+<g id="q1" class="">
+<g id="q2" class="">
+</g>
+<g id="q3" class="">
+<clipPath id="clp2" clip-rule="evenodd">
+<path d="M6 82 L76 82 C79.314 82 82 79.314 82 76 L82 6 C82 2.6863 79.314 0 76 0 L6 0 C2.6863 0 0 2.6863 0 6 L0 76 C0 79.314 2.6863 82 6 82 Z"/>
+</clipPath>
+<g clip-path="url(#clp2)">
+<clipPath id="clp3" clip-rule="nonzero">
+<path d="M-780 -822 L817 -822 L817 1020 L-780 1020 Z"/>
+</clipPath>
+<g clip-path="url(#clp3)">
+<path d="M-5 87 L87 87 L87 -5 L-5 -5 Z" class="ps01"/>
+</g>
+</g>
+</g>
+<g id="q4" class="">
+<clipPath id="clp4" clip-rule="evenodd">
+<path d="M39.15 26.221 L39.851 26.221 C41.013 26.221 41.955 25.108 41.955 23.736 L41.955 10.485 C41.955 9.1124 41.013 8 39.851 8 L34.242 8 C33.081 8 32.139 9.1124 32.139 10.485 L32.139 23.736 C32.139 25.108 33.081 26.221 34.242 26.221 L34.494 26.221 L34.494 32.113 C34.494 32.754 34.557 33.393 34.682 34.017 C34.807 34.641 34.981 35.251 35.2 35.838 L35.202 35.844 C35.423 36.435 35.694 36.998 36.012 37.524 L36.133 37.725 C36.53 38.384 36.998 38.979 37.523 39.497 L37.607 39.58 C38.094 40.059 38.616 40.485 39.168 40.852 C39.716 41.217 40.318 41.453 40.942 41.547 L55.135 43.684 C55.456 43.733 55.777 43.784 56.097 43.838 L59.109 44.349 C60.229 44.539 61.707 45.336 63.542 46.739 C64.338 47.348 64.805 48.293 64.805 49.296 L64.805 59.314 C64.805 59.674 64.567 59.989 64.22 60.088 L63.433 60.312 C63.151 60.564 62.288 60.919 62.288 61.834 L62.288 63.49 C62.288 64.405 62.915 65.146 63.69 65.146 L68.598 65.146 C69.372 65.146 70 64.405 70 63.49 L70 48.887 C70 48.112 69.84 47.345 69.53 46.635 C69.407 46.354 69.294 46.104 69.19 45.886 C68.963 45.41 68.624 44.82 68.174 44.115 C67.556 43.322 66.796 42.522 66.023 41.931 L65.151 41.263 C63.805 40.233 62.281 39.571 60.69 39.326 L47.321 37.261 C46.902 37.196 46.483 37.125 46.066 37.046 L45.209 36.885 C44.227 36.699 43.274 36.337 42.384 35.809 L42.133 35.66 C41.348 35.194 40.641 34.563 40.048 33.798 C39.47 33.054 39.15 32.081 39.15 31.071 L39.15 26.221 ZM16.975 74 L55.358 74 C58.106 74 60.333 71.384 60.333 68.157 L60.333 57.306 C60.333 54.079 58.106 51.463 55.358 51.463 L16.975 51.463 C14.228 51.463 12 54.079 12 57.306 L12 68.157 C12 71.384 14.228 74 16.975 74 Z"/>
+</clipPath>
+<g clip-path="url(#clp4)">
+<clipPath id="clp5" clip-rule="nonzero">
+<path d="M-780 -822 L817 -822 L817 1020 L-780 1020 Z"/>
+</clipPath>
+<g clip-path="url(#clp5)">
+<path d="M7 79 L75 79 L75 3 L7 3 Z" class="ps02"/>
+</g>
+</g>
+</g>
+<g id="q5" class="">
+<clipPath id="clp6" clip-rule="evenodd">
+<path d="M19.222 70.78 L53.111 70.78 C55.32 70.78 57.111 68.99 57.111 66.78 L57.111 58.683 C57.111 56.474 55.32 54.683 53.111 54.683 L19.222 54.683 C17.013 54.683 15.222 56.474 15.222 58.683 L15.222 66.78 C15.222 68.99 17.013 70.78 19.222 70.78 Z"/>
+</clipPath>
+<g clip-path="url(#clp6)">
+<clipPath id="clp7" clip-rule="nonzero">
+<path d="M-780 -822 L817 -822 L817 1020 L-780 1020 Z"/>
+</clipPath>
+<g clip-path="url(#clp7)">
+<g id="q6" class="ps00">
+<g id="xfrm7" transform="matrix(1 0 0 -1 15.22222 70.78049)">
+<defs>
+<linearGradient id="AX_SHAD_0" x1="0" y1="0" x2="0" y2="1024" gradientUnits="userSpaceOnUse">
+<stop offset="0" stop-opacity="0"/>
+<stop offset="0" stop-color="#59F876"/>
+<stop offset="0.1" stop-color="#51F36F"/>
+<stop offset="0.2" stop-color="#49ED68"/>
+<stop offset="0.3" stop-color="#41E861"/>
+<stop offset="0.4" stop-color="#3AE359"/>
+<stop offset="0.5" stop-color="#32DD53"/>
+<stop offset="0.6" stop-color="#2AD74C"/>
+<stop offset="0.7" stop-color="#23D344"/>
+<stop offset="0.8" stop-color="#1BCD3C"/>
+<stop offset="0.9" stop-color="#13C835"/>
+<stop offset="1" stop-color="#0BC32F"/>
+<stop offset="1" stop-opacity="0"/>
+</linearGradient>
+</defs>
+<path fill="url(#AX_SHAD_0)" stroke="none" d="M-15.222 70.78 L66.778 70.78 L66.778 0 L66.778 -11.22 L-15.222 -11.22 L-15.222 0 Z"/>
+</g>
+</g>
+<g id="q8" class="ps00">
+<g id="xfrm9" transform="matrix(1 0 0 -1 15.22222 70.78049)">
+<defs>
+<linearGradient id="AX_SHAD_1" x1="20.944" y1="0" x2="20.944" y2="16.098" gradientUnits="userSpaceOnUse">
+<stop offset="0" stop-color="#59F876"/>
+<stop offset="0.1" stop-color="#51F36F"/>
+<stop offset="0.2" stop-color="#49ED68"/>
+<stop offset="0.3" stop-color="#41E861"/>
+<stop offset="0.4" stop-color="#3AE359"/>
+<stop offset="0.5" stop-color="#32DD53"/>
+<stop offset="0.6" stop-color="#2AD74C"/>
+<stop offset="0.7" stop-color="#23D344"/>
+<stop offset="0.8" stop-color="#1BCD3C"/>
+<stop offset="0.9" stop-color="#13C835"/>
+<stop offset="1" stop-color="#0BC32F"/>
+</linearGradient>
+</defs>
+<path fill="url(#AX_SHAD_1)" stroke="none" d="M-15.222 70.78 L66.778 70.78 L66.778 -11.22 L-15.222 -11.22 Z"/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+<g id="q10" class="">
+<g id="xfrm11" transform="matrix(82 0 0 82 0 0)">
+<clipPath id="clp8" clip-rule="nonzero">
+<rect x="0" y="0" width="100" height="100"/>
+</clipPath>
+<g id="frm12" transform="matrix(0.01 0 0 0.01 0 0)" clip-path="url(#clp8)">
+<text transform="matrix(1 0 0 -1 0 43.5267)"><tspan x="0,9.3475,18.695,28.043,31.642,38.84,46.038,49.638,53.237,57.548,64.746,71.945,75.544,82.017,89.216" y="-0" class="ps03 ps10 ps20"></tspan>
+</text>
+</g>
+</g>
+</g>
+</g>
+</svg>

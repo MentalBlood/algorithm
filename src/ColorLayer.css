@@ -1,11 +1,17 @@
+table.ColorLayer tbody tr td {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
 table.ColorLayer tbody tr td.r {
-    background-color: red;
+    background-image: url('./images/red.svg');
 }
 
 table.ColorLayer tbody tr td.g {
-    background-color: green;
+    background-image: url('./images/green.svg');
 }
 
 table.ColorLayer tbody tr td.b {
-    background-color: blue;
+    background-image: url('./images/blue.svg');
 }

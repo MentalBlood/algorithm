@@ -3,7 +3,6 @@ import './AvailableControls.css';
 
 function AvailableControls(props) {
     const controlsList = props.controlsList;
-    console.log(controlsList);
     return (
         <table className="AvailableControls" style={{width: props.mapWidth, height: props.mapHeight}}>
             <tbody>

@@ -5,29 +5,29 @@ table.ElementsLayer tbody tr td {
 }
 
 table.ElementsLayer tbody tr td.s {
-    background-image: url("https://assets.dryicons.com/uploads/icon/svg/12714/6cc50738-68d5-432c-9248-fc5391b7ba3b.svg");
+    background-image: url("./images/star.svg");
 }
 
 table.ElementsLayer tbody tr td.a {
-    background-image: url("https://assets.dryicons.com/uploads/icon/svg/9823/2c6b3c07-59fa-4d6c-801e-1dc8de80e20f.svg");
+    background-image: url("./images/arrow.svg");
 }
 
 table.ElementsLayer tbody tr td.a.right {
-    transform: rotate(0turn);
-}
-
-table.ElementsLayer tbody tr td.up {
     transform: rotate(-0.25turn);
 }
 
-table.ElementsLayer tbody tr td.left {
+table.ElementsLayer tbody tr td.up {
     transform: rotate(-0.5turn);
 }
 
-table.ElementsLayer tbody tr td.down {
+table.ElementsLayer tbody tr td.left {
     transform: rotate(-0.75turn);
 }
 
+table.ElementsLayer tbody tr td.down {
+    transform: rotate(-1turn);
+}
+
 table.ElementsLayer tbody tr td.f {
-    background-image: url("https://image.flaticon.com/icons/svg/783/783756.svg");
+    background-image: url("./images/flag.svg");
 }
