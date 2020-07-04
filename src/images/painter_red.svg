@@ -8,7 +8,7 @@
 <![CDATA[
 .ps03 { stroke:#98B3FC;fill:none; }
 .ps02 { stroke:none;fill:#4D4D4D;fill-rule:nonzero; }
-.ps01 { stroke:none;fill:#FFFFFF;fill-rule:nonzero; }
+.ps01 { stroke:none;opacity:0;fill:#FFFFFF;fill-rule:nonzero; }
 .ps00 { stroke:none;fill:none; }
 .ps10 { stroke-width:0.05; }
 .ps20 { 

@@ -4,6 +4,7 @@ import './Map.css';
 import ColorLayer from './ColorLayer.js';
 import ElementsLayer from './ElementsLayer.js';
 import AvailableControls from './AvailableControls.js';
+import Functions from './Functions.js';
 
 import levels from './levels.json';
 
@@ -102,7 +103,7 @@ function convertedAngle(angle) {
 }
 
 function solutionsFunctionsListFromLevelDescription(levelDescription, postfix) {
-    let result = []
+    let result = [];
     for (let functionNumber = 1; ; functionNumber++) {
         const propertyName = 'f' + functionNumber.toString() + postfix;
         if (propertyName in levelDescription)
@@ -137,6 +138,25 @@ function getConvertedLevelDescription(levelDescription) {
     return convertedLevelDescription;
 }
 
+function emptyFunctionsListFromLevelDescription(levelDescription) {
+    let result = [];
+    for (let functionNumber = 1; ; functionNumber++) {
+        const propertyName = 'f' + functionNumber.toString() + 'Len';
+        if (propertyName in levelDescription) {
+            const newEmptyFunctionLength = levelDescription[propertyName];
+            if (newEmptyFunctionLength === 0)
+                break;
+            let newEmptyFunction = [];
+            for (let commandNumber = 0; commandNumber < newEmptyFunctionLength; commandNumber++)
+                newEmptyFunction.push({});
+            result.push(newEmptyFunction);
+        }
+        else
+            break;
+    }
+    return result;
+}
+
 class App extends Component {
     constructor(props) {
         super(props);
@@ -145,7 +165,7 @@ class App extends Component {
             'initialLevelDescription': getConvertedLevelDescription(defaultLevelDescription),
             'stack': [],
             'stackPointerPosition': undefined,
-            'functionsList': undefined,
+            'functionsList': emptyFunctionsListFromLevelDescription(defaultLevelDescription),
             'evaluating': false,
             'testing': false,
             'mapWidth': undefined,
@@ -156,13 +176,15 @@ class App extends Component {
         this.handleKeyPress = this.handleKeyPress.bind(this);
     }
 
-    setLevel(levelDescription) {
+    setLevel(levelDescription, functionToExecuteAfter) {
         console.log('set level', levelDescription.name);
+        const convertedLevelDescription = getConvertedLevelDescription(levelDescription);
         this.setState(state => {
-            state.initialLevelDescription = getConvertedLevelDescription(levelDescription);
+            state.initialLevelDescription = convertedLevelDescription;
             state.levelDescription = state.initialLevelDescription;
+            state.functionsList = emptyFunctionsListFromLevelDescription(levelDescription);
             return state;
-        });
+        }, functionToExecuteAfter);
     }
 
     isCellPassable(x, y) {
@@ -251,6 +273,7 @@ class App extends Component {
     }
 
     processStarSolution() {
+        console.log('processStarSolution for level', this.state.levelDescription.name)
         this.processAlgorithm(this.state.levelDescription.starSolution);
         this.setState(state => {
             state.evaluating = true;
@@ -272,15 +295,15 @@ class App extends Component {
             state.testingLevelsList = state.testingLevelsList.reverse();
             return state;
         });
-        this.setLevel(firstLevel);
-        this.processStarSolution();
+        this.setLevel(firstLevel, () => {
+            this.processStarSolution()
+        });
     }
 
     testNextLevelInTestingList() {
         const oldTestingList = this.state.testingLevelsList;
         const newTestingList = this.state.testingLevelsList.slice(1);
         const nextLevel = newTestingList[0];
-        //console.log(oldTestingList);
         if (oldTestingList.length <= 1)
             this.setState(state => {
                 state.testing = false;
@@ -347,7 +370,6 @@ class App extends Component {
             //console.log(this.state.levelDescription.arrowCoordinates, stack, pointerPosition, command);
             let newStack = stack;
             let newPointerPosition = pointerPosition + 1;
-            let newFunctionsList = functionsList;
             let newState = this.state;
             let newTesting = this.state.testing;
             let newEvaluating = evaluating;
@@ -355,28 +377,23 @@ class App extends Component {
                 console.log('finish reached');
                 newEvaluating = false;
                 newStack = [];
-                newFunctionsList = [];
                 newPointerPosition = undefined;
             }
-            else {
-                if (this.commandCondition(command) === true) {
+            else
+                if ((command.action !== undefined) && (this.commandCondition(command) === true)) {
                     if (command.action === 'f') {
                         newStack = this.replaceElement(stack, functionsList[command.fNumber - 1], pointerPosition);
                         newPointerPosition = pointerPosition;
                     }
-                    else if (command.action[0] === 'p') {
+                    else if (command.action[0] === 'p')
                         newState = this.paintArrowCell(command.paintColor);
-                    }
-                    else {
+                    else
                         newState = this.tryMove(command.action);
-                    }
                 }
-            }
             setTimeout(() => {
                 this.setState((state) => {
                     newState.stack = newStack;
                     newState.stackPointerPosition = newPointerPosition;
-                    newState.functionsList = newFunctionsList;
                     newState.testing = newTesting;
                     newState.evaluating = newEvaluating;
                     return newState;
@@ -388,18 +405,29 @@ class App extends Component {
     }
 
     processAlgorithm(functionsList) {
-        //console.log('processAlgorithm', functionsList);
         this.setState((state) => {
-            state.stack = functionsList[0];
             state.stackPointerPosition = 0;
-            state.functionsList = functionsList;
+            for (let functionNumber = 0; functionNumber < state.functionsList.length; functionNumber++)
+                for (let commandNumber = 0; commandNumber < state.functionsList[functionNumber].length; commandNumber++) {
+                    const newFunction = functionsList[functionNumber][commandNumber];
+                    state.functionsList[functionNumber][commandNumber] = (newFunction === undefined) ? {} : newFunction;
+                }
+            state.stack = functionsList[0];
             return state;
         });
     }
 
-    updateMapSize() {
-        console.log('updateMapSize');
+    componentDidMount() {
+    }
+    componentWillUnmount() {
+    }
+
+    render() {
         const colors = this.state.levelDescription.colors;
+        const elements = this.state.levelDescription.elements;
+        const angle = this.state.levelDescription.angle;
+        const controlsList = this.state.levelDescription.availableControls;
+        const functionsList = this.state.functionsList;
 
         const maxMapWidth = 80 * window.innerWidth / 100;
         const maxMapHeight = 60 * window.innerHeight / 100;
@@ -409,33 +437,8 @@ class App extends Component {
         const columnsNumber = colors[0].length;
         const cellSize = Math.min(maxMapWidth / columnsNumber, maxMapHeight / rowsNumber);
 
-        const minSideCellsNumber = Math.min(rowsNumber, columnsNumber);
-        const maxSideCellsNumber = Math.max(rowsNumber, columnsNumber);
         const mapWidth = cellSize * columnsNumber + dimension;
         const mapHeight = cellSize * rowsNumber + dimension;
-
-        this.setState(state => {
-            state.mapWidth = mapWidth;
-            state.mapHeight = mapHeight;
-            return state;
-        });
-    }
-
-    componentDidMount() {
-        window.addEventListener('resize', this.updateMapSize.bind(this));
-    }
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.updateMapSize.bind(this));
-    }
-
-    render() {
-        const colors = this.state.levelDescription.colors;
-        const elements = this.state.levelDescription.elements;
-        const angle = this.state.levelDescription.angle;
-        const controlsList = this.state.levelDescription.availableControls;
-
-        const mapWidth = this.state.mapWidth;
-        const mapHeight = this.state.mapHeight;
 
         return (
             <div className="App" onKeyDown={this.handleKeyPress} tabIndex={-1}>
@@ -445,6 +448,7 @@ class App extends Component {
                 </div>
                 <div className="ControlsPanel">
                     <AvailableControls controlsList={controlsList}></AvailableControls>
+                    <Functions functionsList={functionsList}></Functions>
                 </div>
             </div>
         );

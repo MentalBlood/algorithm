@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './AvailableControls.css';
 
 function AvailableControls(props) {
     const controlsList = props.controlsList;
     return (
-        <table className="AvailableControls" style={{width: props.mapWidth, height: props.mapHeight}}>
+        <table className="AvailableControls">
             <tbody>
                 <tr>
                     {controlsList.map((controlsListElement, index) =>
