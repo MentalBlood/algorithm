@@ -5,6 +5,7 @@ import ColorLayer from './ColorLayer.js';
 import ElementsLayer from './ElementsLayer.js';
 import AvailableControls from './AvailableControls.js';
 import Functions from './Functions.js';
+import DraggingController from './DraggingController.js';
 
 import levels from './levels.json';
 
@@ -27,17 +28,17 @@ const defaultLevelDescription = {
 function controlsListFromControlsBinaryId(controlsBinaryId) {
     let controlsList = [];
     const controllers = {
-        'up': 1,
-        'left': 2,
-        'right': 4,
-        'red': 8,
-        'green': 16,
-        'blue': 32,
-        'painter_red': 64,
-        'painter_green': 128,
-        'painter_blue': 256,
-        'f1': 512,
-        'f2': 1024
+        'action-u': 1,
+        'action-l': 2,
+        'action-r': 4,
+        'color-r': 8,
+        'color-g': 16,
+        'color-b': 32,
+        'action-p-r': 64,
+        'action-p-g': 128,
+        'action-p-b': 256,
+        'action-f-1': 512,
+        'action-f-2': 1024
     };
     for (const controllerName in controllers)
         if (controlsBinaryId & controllers[controllerName])
@@ -148,7 +149,7 @@ function emptyFunctionsListFromLevelDescription(levelDescription) {
                 break;
             let newEmptyFunction = [];
             for (let commandNumber = 0; commandNumber < newEmptyFunctionLength; commandNumber++)
-                newEmptyFunction.push({});
+                newEmptyFunction.push({color: 'n'});
             result.push(newEmptyFunction);
         }
         else
@@ -169,11 +170,18 @@ class App extends Component {
             'evaluating': false,
             'testing': false,
             'mapWidth': undefined,
-            'mapHeight': undefined
+            'mapHeight': undefined,
+            'draggingControllerType': undefined,
+            'draggingControllerPosition': undefined
         }
         this.state.levelDescription = this.state.initialLevelDescription;
 
         this.handleKeyPress = this.handleKeyPress.bind(this);
+        this.onMouseDownOnAvailableControl = this.onMouseDownOnAvailableControl.bind(this);
+        this.onMouseUp = this.onMouseUp.bind(this);
+        this.onMouseMove = this.onMouseMove.bind(this);
+        this.onMouseUp = this.onMouseUp.bind(this);
+        this.processCurrentAlgorithm = this.processCurrentAlgorithm.bind(this);
     }
 
     setLevel(levelDescription, functionToExecuteAfter) {
@@ -269,16 +277,13 @@ class App extends Component {
     }
 
     processMinSolution() {
-        this.processAlgorithm(this.state.levelDescription.minSolution);
+        this.setAlgorithm(this.state.levelDescription.minSolution);
+        this.processCurrentAlgorithm();
     }
 
     processStarSolution() {
-        console.log('processStarSolution for level', this.state.levelDescription.name)
-        this.processAlgorithm(this.state.levelDescription.starSolution);
-        this.setState(state => {
-            state.evaluating = true;
-            return state;
-        });
+        this.setAlgorithm(this.state.levelDescription.starSolution);
+        this.processCurrentAlgorithm();
     }
 
     test() {
@@ -289,15 +294,8 @@ class App extends Component {
             }
         }
         const firstLevel = testingLevelsList[0];
-        this.setState(state => {
-            state.testing = true;
-            state.testingLevelsList = testingLevelsList;
-            state.testingLevelsList = state.testingLevelsList.reverse();
-            return state;
-        });
-        this.setLevel(firstLevel, () => {
-            this.processStarSolution()
-        });
+        this.setState(state => ({testing: true, testingLevelsList: testingLevelsList.reverse()}));
+        this.setLevel(firstLevel, () => {this.processStarSolution()});
     }
 
     testNextLevelInTestingList() {
@@ -329,8 +327,6 @@ class App extends Component {
     }
 
     commandCondition(command) {
-        if (command === undefined)
-            return false;
         const x = this.state.levelDescription.arrowCoordinates.x;
         const y = this.state.levelDescription.arrowCoordinates.y;
         const color = this.state.levelDescription.colors[y][x];
@@ -362,9 +358,15 @@ class App extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         const stack = this.state.stack;
+        console.log(stack.length);
         const evaluating = this.state.evaluating;
-        if (stack.length !== 0 && evaluating) {
+        if (evaluating) {
             const pointerPosition = this.state.stackPointerPosition;
+            if (pointerPosition === stack.length) {
+                console.log('end of algorithm reached');
+                this.setState(state => ({stack: [], evaluating: false, pointerPosition: undefined}));
+                return;
+            }
             const command = stack[pointerPosition];
             const functionsList = this.state.functionsList;
             //console.log(this.state.levelDescription.arrowCoordinates, stack, pointerPosition, command);
@@ -404,16 +406,18 @@ class App extends Component {
         }
     }
 
-    processAlgorithm(functionsList) {
+    processCurrentAlgorithm() {
+        this.setState(state => ({evaluating: true, stackPointerPosition: 0, stack: state.functionsList[0]}));
+    }
+
+    setAlgorithm(functionsList) {
         this.setState((state) => {
-            state.stackPointerPosition = 0;
             for (let functionNumber = 0; functionNumber < state.functionsList.length; functionNumber++)
                 for (let commandNumber = 0; commandNumber < state.functionsList[functionNumber].length; commandNumber++) {
                     const newFunction = functionsList[functionNumber][commandNumber];
                     state.functionsList[functionNumber][commandNumber] = (newFunction === undefined) ? {} : newFunction;
                 }
-            state.stack = functionsList[0];
-            return state;
+            return {functionsList: state.functionsList};
         });
     }
 
@@ -422,12 +426,71 @@ class App extends Component {
     componentWillUnmount() {
     }
 
+    onMouseDownOnAvailableControl(event, controllerType) {
+        if (this.state.evaluating)
+            return;
+        console.log('picked');
+        const mouseX = event.pageX;
+        const mouseY = event.pageY;
+        this.setState(state => ({
+            draggingControllerPosition: {x: mouseX, y: mouseY},
+            draggingControllerType: controllerType
+        }));
+    }
+
+    onMouseMove(event) {
+        if (this.state.draggingControllerType === undefined)
+            return;
+        const mouseX = event.pageX;
+        const mouseY = event.pageY;
+        this.setState(state => ({draggingControllerPosition: {x: mouseX, y: mouseY}}));
+    }
+
+    onMouseUp(event) {
+        if (this.state.draggingControllerType === undefined)
+            return;
+        console.log('droped');
+        const mouseX = event.pageX;
+        const mouseY = event.pageY;
+        const DraggingControlElement = document.getElementById('DraggingController');
+        DraggingControlElement.hidden = true;
+        const elementUnderCursor = document.elementFromPoint(mouseX, mouseY);
+        DraggingControlElement.hidden = false;
+        if (elementUnderCursor.classList.contains('functionCell')) {
+            const rowIndex = elementUnderCursor.getAttribute('rowindex');
+            const cellIndex = elementUnderCursor.getAttribute('cellindex');
+            console.log(rowIndex, cellIndex);
+            const splitedDraggingControllerType = this.state.draggingControllerType.split('-');
+            const type = splitedDraggingControllerType[0];
+            const parameter = splitedDraggingControllerType[1];
+            const newCommandDiff = {};
+            newCommandDiff[type] = parameter;
+            if (type === 'action') {
+                if (parameter === 'f')
+                    newCommandDiff['fNumber'] = splitedDraggingControllerType[2];
+                if (parameter === 'p')
+                    newCommandDiff['paintColor'] = splitedDraggingControllerType[2];
+            }
+
+            this.setState(state => {
+                const oldCommand = state.functionsList[rowIndex][cellIndex];
+                const newCommand = Object.assign(oldCommand, newCommandDiff);
+                state.functionsList[rowIndex][cellIndex] = newCommand;
+                return {functionsList: state.functionsList};
+            });
+            console.log(elementUnderCursor);
+        }
+        this.setState(state => ({draggingControllerType: undefined}));
+    }
+
     render() {
         const colors = this.state.levelDescription.colors;
         const elements = this.state.levelDescription.elements;
         const angle = this.state.levelDescription.angle;
         const controlsList = this.state.levelDescription.availableControls;
         const functionsList = this.state.functionsList;
+        const draggingControllerType = this.state.draggingControllerType;
+        const draggingControllerPosition = this.state.draggingControllerPosition;
 
         const maxMapWidth = 80 * window.innerWidth / 100;
         const maxMapHeight = 60 * window.innerHeight / 100;
@@ -441,14 +504,17 @@ class App extends Component {
         const mapHeight = cellSize * rowsNumber + dimension;
 
         return (
-            <div className="App" onKeyDown={this.handleKeyPress} tabIndex={-1}>
+            <div className="App" onKeyDown={this.handleKeyPress} onMouseUp={this.onMouseUp} onMouseMove={this.onMouseMove} tabIndex={-1}>
                 <div className="Map" style={{width: mapWidth, height: mapHeight}}>
                     <ColorLayer colors={colors} mapWidth={mapWidth} mapHeight={mapHeight}></ColorLayer>
                     <ElementsLayer elements={elements} angle={angle} mapWidth={mapWidth} mapHeight={mapHeight}></ElementsLayer>
                 </div>
                 <div className="ControlsPanel">
-                    <AvailableControls controlsList={controlsList}></AvailableControls>
+                    <AvailableControls controlsList={controlsList}
+                        onMouseDown={this.onMouseDownOnAvailableControl}></AvailableControls>
                     <Functions functionsList={functionsList}></Functions>
+                    <DraggingController type={draggingControllerType} position={draggingControllerPosition}></DraggingController>
+                    <button onClick={this.processCurrentAlgorithm}>Start</button>
                 </div>
             </div>
         );

@@ -1,64 +1,66 @@
-.AvailableControls {
-    max-width: 100vw;
-    margin: 0 auto;
-}
+.DraggingController {
+    position: absolute;
 
-.AvailableControls tr td {
     border: 0px;
     border-radius: 1vh;
     width: 8vh;
+    height: 8vh;
+    margin-left: -4vh;
+    margin-top: -4vh;
 
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
 }
 
-.AvailableControls tr td:after {
-    content: "";
-    display: block;
-    padding-top: 100%;
+.DraggingController.undefined {
+    z-index: -1000;
 }
 
-.AvailableControls tr td.action-u {
+.DraggingController:not(.undefined) {
+    z-index: 1000;
+}
+
+.DraggingController.action-u {
     background-image: url('./images/up.svg');
 }
 
-.AvailableControls tr td.action-l {
+.DraggingController.action-l {
     background-image: url('./images/left.svg');
 }
 
-.AvailableControls tr td.action-r {
+.DraggingController.action-r {
     background-image: url('./images/right.svg');
 }
 
-.AvailableControls tr td.color-g {
+.DraggingController.color-g {
     background-image: url('./images/green.svg');
 }
 
-.AvailableControls tr td.color-b {
+.DraggingController.color-b {
     background-image: url('./images/blue.svg');
 }
 
-.AvailableControls tr td.color-r {
+.DraggingController.color-r {
     background-image: url('./images/red.svg');
 }
 
-.AvailableControls tr td.action-p-g {
+.DraggingController.action-p-g {
     background-image: url('./images/painter_green.svg');
 }
 
-.AvailableControls tr td.action-p-b {
+.DraggingController.action-p-b {
     background-image: url('./images/painter_blue.svg');
 }
 
-.AvailableControls tr td.action-p-r {
+.DraggingController.action-p-r {
     background-image: url('./images/painter_red.svg');
 }
 
-.AvailableControls tr td.action-f-1 {
+.DraggingController.action-f-1 {
     background-image: url('./images/f1.svg');
 }
 
-.AvailableControls tr td.action-f-2 {
+.DraggingController.action-f-2 {
     background-image: url('./images/f2.svg');
 }
