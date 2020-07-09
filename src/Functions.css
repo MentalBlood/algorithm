@@ -92,9 +92,11 @@
 }
 
 .Functions td:not(.processing) {
-    border: 0.5vh solid transparent;
+    border: 0.5vh solid white;
+    transition-duration: 0.3s;
 }
 
 .Functions td.processing {
     border: 0.5vh solid orange;
+    transition-duration: 0.3s;
 }

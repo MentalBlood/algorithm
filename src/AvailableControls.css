@@ -3,7 +3,7 @@
     margin: 0 auto;
 }
 
-.AvailableControls tr td {
+.AvailableControls td {
     border: 0px;
     border-radius: 1vh;
     width: 8vh;
@@ -13,52 +13,62 @@
     background-size: cover;
 }
 
-.AvailableControls tr td:after {
+.AvailableControls td:after {
     content: "";
     display: block;
     padding-top: 100%;
 }
 
-.AvailableControls tr td.action-u {
+.AvailableControls td.action-u {
     background-image: url('./images/up.svg');
 }
 
-.AvailableControls tr td.action-l {
+.AvailableControls td.action-l {
     background-image: url('./images/left.svg');
 }
 
-.AvailableControls tr td.action-r {
+.AvailableControls td.action-r {
     background-image: url('./images/right.svg');
 }
 
-.AvailableControls tr td.color-g {
+.AvailableControls td.color-g {
     background-image: url('./images/green.svg');
 }
 
-.AvailableControls tr td.color-b {
+.AvailableControls td.color-b {
     background-image: url('./images/blue.svg');
 }
 
-.AvailableControls tr td.color-r {
+.AvailableControls td.color-r {
     background-image: url('./images/red.svg');
 }
 
-.AvailableControls tr td.action-p-g {
+.AvailableControls td.action-p-g {
     background-image: url('./images/painter_green.svg');
 }
 
-.AvailableControls tr td.action-p-b {
+.AvailableControls td.action-p-b {
     background-image: url('./images/painter_blue.svg');
 }
 
-.AvailableControls tr td.action-p-r {
+.AvailableControls td.action-p-r {
     background-image: url('./images/painter_red.svg');
 }
 
-.AvailableControls tr td.action-f-1 {
+.AvailableControls td.action-f-1 {
     background-image: url('./images/f1.svg');
 }
 
-.AvailableControls tr td.action-f-2 {
+.AvailableControls td.action-f-2 {
     background-image: url('./images/f2.svg');
+}
+
+.AvailableControls td:not(:hover) {
+    border: 0.5vh solid white;
+    transition-duration: 0.3s;
+}
+
+.AvailableControls td:hover {
+    border: 0.5vh solid orange;
+    transition-duration: 0.3s;
 }
