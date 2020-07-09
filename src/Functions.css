@@ -12,7 +12,6 @@
 }
 
 .Functions td:not(.functionName) {
-    border: 1px solid white;
     border-radius: 1vh;
 }
 
@@ -90,4 +89,12 @@
 
 .Functions td.action-f.function-2::before {
     background-image: url('./images/f2.svg');
+}
+
+.Functions td:not(.processing) {
+    border: 0.5vh solid transparent;
+}
+
+.Functions td.processing {
+    border: 0.5vh solid orange;
 }

@@ -3,6 +3,8 @@ import './Functions.css';
 
 function Functions(props) {
     const functionsList = props.functionsList;
+    const pointerFunctionIndex = props.pointerFunctionIndex;
+    const pointerCommandIndex = props.pointerCommandIndex;
     return (
         <table className="Functions" style={{width: props.mapWidth, height: props.mapHeight}}>
             <tbody>
@@ -26,6 +28,8 @@ function Functions(props) {
                                             const functionNumber = command.fNumber;
                                             className += " function-" + functionNumber.toString();
                                         }
+                                        if ((pointerFunctionIndex === rowIndex) && (pointerCommandIndex === cellIndex))
+                                            className += " processing";
                                         return <td rowindex={rowIndex} cellindex={cellIndex} key={cellIndex}
                                                    className={className}></td>;
                                     }

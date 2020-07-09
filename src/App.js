@@ -10,18 +10,18 @@ import DraggingController from './DraggingController.js';
 import levels from './levels.json';
 
 const defaultLevelDescription = {
-                "name": "Lollipop",
-                "controlsBinaryId": 823,
-                "columns": 7,
-                "rows": 12,
-                "path": "n n n r n n n n n n r n n n n n n r n n n n n n r n n n n n n r n n n b r r g r r b r n n r n n r r n n r n n r r n n g r n r r n n n n n r r n n n n n r b r r r r r b",
-                "angle": 1.0,
-                "elements": "n n n a n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n s n n n n n s n n n n n n n n n n n n n n n n n n f n n n n n n n n n n n n n n n n s n n n n n s",
-                "f1Len": 5,
+                "name": "Recursion",
+                "controlsBinaryId": 565,
+                "columns": 8,
+                "rows": 8,
+                "path": "n n n n n n n b n n n n n n n b n n n n n n n b n n n n n n n b n n n n n n n b n n n n n n n b n n n n n n n b g g g g g g g b",
+                "angle": 0.5,
+                "elements": "n n n n n n n f n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n a n n n n n n s",
+                "f1Len": 4,
                 "f2Len": 0,
-                "f1MinSol": "u_n u_n r_g f1_n",
+                "f1MinSol": "u_n r_b f1_g u_n",
                 "f2MinSol": "",
-                "f1StarSol": "u_n r_g l_b pb_g f1_n",
+                "f1StarSol": "u_n r_b f1_g u_n",
                 "f2StarSol": ""
             };
 
@@ -74,12 +74,14 @@ function elementCoordinatesFromColumnsAndElementsString(element, columns, elemen
     return coordinates;
 }
 
-function commandDictFromCommandString(commandString) {
+function commandDictFromCommandString(commandString, functionIndex, commandIndex) {
     let commandDict = undefined;
     const splitedCommandString = commandString.split('_');
     commandDict = {
         'action': splitedCommandString[0][0],
-        'color': splitedCommandString[1]
+        'color': splitedCommandString[1],
+        'functionIndex': functionIndex,
+        'commandIndex': commandIndex
     };
     if (commandDict.action[0] === 'f') {
         commandDict.fNumber = Number.parseInt(splitedCommandString[0].substring(1));
@@ -90,12 +92,14 @@ function commandDictFromCommandString(commandString) {
     return commandDict;
 }
 
-function commandsListFromCommandsString(commandsString) {
+function commandsListFromCommandsString(commandsString, functionIndex) {
     if (commandsString.length === 0)
         return [];
     let commandsList = undefined;
     const commandsStringsList = commandsString.split(' ');
-    commandsList = commandsStringsList.map(commandDictFromCommandString);
+    commandsList = commandsStringsList.map(
+        (commandString, commandIndex) => commandDictFromCommandString(commandString, functionIndex, commandIndex)
+    );
     return commandsList;
 }
 
@@ -148,8 +152,12 @@ function emptyFunctionsListFromLevelDescription(levelDescription) {
             if (newEmptyFunctionLength === 0)
                 break;
             let newEmptyFunction = [];
-            for (let commandNumber = 0; commandNumber < newEmptyFunctionLength; commandNumber++)
-                newEmptyFunction.push({color: 'n'});
+            for (let commandIndex = 0; commandIndex < newEmptyFunctionLength; commandIndex++)
+                newEmptyFunction.push({
+                    color: 'n',
+                    functionIndex: functionNumber - 1,
+                    commandIndex: commandIndex
+                });
             result.push(newEmptyFunction);
         }
         else
@@ -182,6 +190,7 @@ class App extends Component {
         this.onMouseMove = this.onMouseMove.bind(this);
         this.onMouseUp = this.onMouseUp.bind(this);
         this.processCurrentAlgorithm = this.processCurrentAlgorithm.bind(this);
+        this.processStartButtonClick = this.processStartButtonClick.bind(this);
     }
 
     setLevel(levelDescription, functionToExecuteAfter) {
@@ -358,15 +367,10 @@ class App extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         const stack = this.state.stack;
-        console.log(stack.length);
         const evaluating = this.state.evaluating;
-        if (evaluating) {
+        console.log('componentDidUpdate', evaluating);
+        if (evaluating && !(this.state.timeout === true)) {
             const pointerPosition = this.state.stackPointerPosition;
-            if (pointerPosition === stack.length) {
-                console.log('end of algorithm reached');
-                this.setState(state => ({stack: [], evaluating: false, pointerPosition: undefined}));
-                return;
-            }
             const command = stack[pointerPosition];
             const functionsList = this.state.functionsList;
             //console.log(this.state.levelDescription.arrowCoordinates, stack, pointerPosition, command);
@@ -380,6 +384,10 @@ class App extends Component {
                 newEvaluating = false;
                 newStack = [];
                 newPointerPosition = undefined;
+            } else if (pointerPosition === stack.length) {
+                console.log('end of algorithm reached');
+                this.setState(state => ({stack: [], evaluating: false, pointerPosition: undefined}));
+                return;
             }
             else
                 if ((command.action !== undefined) && (this.commandCondition(command) === true)) {
@@ -392,17 +400,20 @@ class App extends Component {
                     else
                         newState = this.tryMove(command.action);
                 }
+            this.setState({timeout: true});
             setTimeout(() => {
-                this.setState((state) => {
+                this.setState(state => {
+                    console.log(newPointerPosition, 'setState in timeout');
                     newState.stack = newStack;
                     newState.stackPointerPosition = newPointerPosition;
                     newState.testing = newTesting;
-                    newState.evaluating = newEvaluating;
+                    newState.evaluating = state.evaluating ? newEvaluating : false;
+                    newState.timeout = undefined;
                     return newState;
                 });
                 if (newTesting && (newStack.length === 0))
                     this.testNextLevelInTestingList();
-            }, 0);
+            }, 200);
         }
     }
 
@@ -483,6 +494,18 @@ class App extends Component {
         this.setState(state => ({draggingControllerType: undefined}));
     }
 
+    processStartButtonClick() {
+        console.log('processStartButtonClick', this.state.evaluating);
+        if (this.state.evaluating === false) {
+            if (this.state.stack.length === 0)
+                this.processCurrentAlgorithm();
+            else
+                setTimeout(() => this.setState({evaluating: true}), 200);
+        }
+        else 
+            setTimeout(() => this.setState({evaluating: false}), 200);
+    }
+
     render() {
         const colors = this.state.levelDescription.colors;
         const elements = this.state.levelDescription.elements;
@@ -491,6 +514,14 @@ class App extends Component {
         const functionsList = this.state.functionsList;
         const draggingControllerType = this.state.draggingControllerType;
         const draggingControllerPosition = this.state.draggingControllerPosition;
+        const startButtonText = this.state.evaluating === false ? 'Start' : 'Pause';
+        const processStartButtonClick = this.processStartButtonClick;
+
+        const stack = this.state.stack;
+        const pointerPosition = this.state.stackPointerPosition;
+        const command = stack[pointerPosition];
+        const pointerFunctionIndex = command === undefined ? undefined : command.functionIndex;
+        const pointerCommandIndex = command === undefined ? undefined : command.commandIndex;
 
         const maxMapWidth = 80 * window.innerWidth / 100;
         const maxMapHeight = 60 * window.innerHeight / 100;
@@ -512,9 +543,10 @@ class App extends Component {
                 <div className="ControlsPanel">
                     <AvailableControls controlsList={controlsList}
                         onMouseDown={this.onMouseDownOnAvailableControl}></AvailableControls>
-                    <Functions functionsList={functionsList}></Functions>
+                    <Functions functionsList={functionsList} pointerFunctionIndex={pointerFunctionIndex}
+                        pointerCommandIndex={pointerCommandIndex}></Functions>
                     <DraggingController type={draggingControllerType} position={draggingControllerPosition}></DraggingController>
-                    <button onClick={this.processCurrentAlgorithm}>Start</button>
+                    <button onClick={processStartButtonClick}>{startButtonText}</button>
                 </div>
             </div>
         );
