@@ -16,19 +16,19 @@ input[type=range].speedRange:focus {
     outline: none;
 }
 input[type=range].speedRange::-webkit-slider-runnable-track {
-    margin-top: calc(calc(calc(8 * min(1vh, 1vw)) - calc(1.5vh)) / 2);
+    margin-top: calc(calc(calc(8 * calc(1vh + 1vw) / 2) - calc(1.5vh)) / 2);
     background: #cccccc;
-    border-radius: calc(0.35 * min(1vh, 1vw));
+    border-radius: calc(0.35 * calc(1vh + 1vw) / 2);
     width: 100%;
     height: 1.5vh;
     cursor: pointer;
 }
 input[type=range].speedRange::-webkit-slider-thumb {
-    margin-top: calc(-1 * calc(calc(8 * min(1vh, 1vw)) - calc(1.5vh)) / 2);
-    width: calc(8 * min(1vh, 1vw));
-    height: calc(8 * min(1vh, 1vw));
+    margin-top: calc(-1 * calc(calc(8 * calc(1vh + 1vw) / 2) - calc(1.5vh)) / 2);
+    width: calc(8 * calc(1vh + 1vw) / 2);
+    height: calc(8 * calc(1vh + 1vw) / 2);
     background: #41454d;
-    border-radius: calc(0.5 * min(1vh, 1vw));
+    border-radius: calc(0.5 * calc(1vh + 1vw) / 2);
     cursor: pointer;
     -webkit-appearance: none;
 }
@@ -37,22 +37,22 @@ input[type=range].speedRange:focus::-webkit-slider-runnable-track {
 }
 input[type=range].speedRange::-moz-range-track {
     background: #cccccc;
-    border-radius: calc(0.35 * min(1vh, 1vw));
+    border-radius: calc(0.35 * calc(1vh + 1vw) / 2);
     width: 100%;
     height: 1.5vh;
     cursor: pointer;
 }
 input[type=range].speedRange::-moz-range-thumb {
-    width: calc(8 * min(1vh, 1vw));
-    height: calc(8 * min(1vh, 1vw));
+    width: calc(8 * calc(1vh + 1vw) / 2);
+    height: calc(8 * calc(1vh + 1vw) / 2);
     background: #41454d;
-    border-radius: calc(0.5 * min(1vh, 1vw));
+    border-radius: calc(0.5 * calc(1vh + 1vw) / 2);
     cursor: pointer;
 }
 input[type=range].speedRange::-ms-track {
     background: transparent;
     border-color: transparent;
-    border-width: calc(calc(-5 * min(1vh, 1vw)) / 2.5) 0;
+    border-width: calc(calc(-5 * calc(1vh + 1vw) / 2) / 2.5) 0;
     color: transparent;
     width: 100%;
     height: 1.5vh;
@@ -61,19 +61,19 @@ input[type=range].speedRange::-ms-track {
 input[type=range].speedRange::-ms-fill-lower {
     background: #bfbfbf;
     border: 0px solid #cccccc;
-    border-radius: calc(0.35 * min(1vh, 1vw));
+    border-radius: calc(0.35 * calc(1vh + 1vw) / 2);
 }
 input[type=range].speedRange::-ms-fill-upper {
     background: #cccccc;
     border: 0px solid #cccccc;
-    border-radius: calc(0.35 * min(1vh, 1vw));
+    border-radius: calc(0.35 * calc(1vh + 1vw) / 2);
 }
 input[type=range].speedRange::-ms-thumb {
-    width: calc(8 * min(1vh, 1vw));
-    height: calc(8 * min(1vh, 1vw));
+    width: calc(8 * calc(1vh + 1vw) / 2);
+    height: calc(8 * calc(1vh + 1vw) / 2);
     background: #41454d;
     border: 0;
-    border-radius: calc(0.5 * min(1vh, 1vw));
+    border-radius: calc(0.5 * calc(1vh + 1vw) / 2);
     cursor: pointer;
     margin-top: 0px;
     /*Needed to keep the Edge thumb centred*/

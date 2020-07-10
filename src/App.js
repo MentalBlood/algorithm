@@ -330,10 +330,6 @@ class App extends Component {
         const key = event.key;
         if (key === 'a')
             this.processStarSolution();
-        else if (key === 't')
-            this.test();
-        else
-            this.tryMove(key);
     }
 
     commandCondition(command) {
@@ -377,13 +373,15 @@ class App extends Component {
             return;
         const pointerPosition = this.state.stackPointerPosition;
         const algorithmEnded = (pointerPosition === stack.length);
-        if (algorithmEnded)
+        if (algorithmEnded) {
+            this.setState({stack: [], stackPointerPosition: undefined});
             return;
+        }
         const waitingForSetState = (this.state.timeout === true);
         if (waitingForSetState)
             return;
         if (this.finishReached()) {
-            this.setState({stack: [], stackPointerPosition: undefined})
+            this.setState({stack: [], stackPointerPosition: undefined});
             return;
         }
 
@@ -536,6 +534,10 @@ class App extends Component {
             this.loadCurrentAlgorithmToStack();
         }
         this.setState({speed: event.target.value});
+    }
+
+    componentDidMount() {
+        console.log(this);
     }
 
     render() {
