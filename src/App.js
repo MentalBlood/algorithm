@@ -536,8 +536,25 @@ class App extends Component {
         this.setState({speed: event.target.value});
     }
 
+    refreshMapSize() {
+        const colors = this.state.levelDescription.colors;
+        const maxMapWidth = 80 * window.innerWidth / 100;
+        const maxMapHeight = 60 * window.innerHeight / 100;
+        const dimension = 'px';
+
+        const rowsNumber = colors.length;
+        const columnsNumber = colors[0].length;
+        const cellSize = Math.min(maxMapWidth / columnsNumber, maxMapHeight / rowsNumber);
+
+        const mapWidth = cellSize * columnsNumber + dimension;
+        const mapHeight = cellSize * rowsNumber + dimension;
+
+        this.setState({mapWidth: mapWidth, mapHeight: mapHeight})
+    }
+
     componentDidMount() {
-        console.log(this);
+        window.addEventListener('resize', this.refreshMapSize.bind(this));
+        this.refreshMapSize();
     }
 
     render() {
@@ -558,16 +575,8 @@ class App extends Component {
         const pointerFunctionIndex = command === undefined ? undefined : command.functionIndex;
         const pointerCommandIndex = command === undefined ? undefined : command.commandIndex;
 
-        const maxMapWidth = 80 * window.innerWidth / 100;
-        const maxMapHeight = 60 * window.innerHeight / 100;
-        const dimension = 'px';
-
-        const rowsNumber = colors.length;
-        const columnsNumber = colors[0].length;
-        const cellSize = Math.min(maxMapWidth / columnsNumber, maxMapHeight / rowsNumber);
-
-        const mapWidth = cellSize * columnsNumber + dimension;
-        const mapHeight = cellSize * rowsNumber + dimension;
+        const mapWidth = this.state.mapWidth;
+        const mapHeight = this.state.mapHeight;
 
         return (
             <div className="App" onKeyDown={this.handleKeyPress} onMouseUp={this.onMouseUp} onMouseMove={this.onMouseMove} tabIndex={-1}>
