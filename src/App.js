@@ -175,7 +175,7 @@ class App extends Component {
             'stack': [],
             'stackPointerPosition': undefined,
             'functionsList': emptyFunctionsListFromLevelDescription(defaultLevelDescription),
-            'evaluating': false,
+            'speed': 0,
             'testing': false,
             'mapWidth': undefined,
             'mapHeight': undefined,
@@ -189,8 +189,8 @@ class App extends Component {
         this.onMouseUp = this.onMouseUp.bind(this);
         this.onMouseMove = this.onMouseMove.bind(this);
         this.onMouseUp = this.onMouseUp.bind(this);
-        this.processCurrentAlgorithm = this.processCurrentAlgorithm.bind(this);
-        this.processStartButtonClick = this.processStartButtonClick.bind(this);
+        this.loadCurrentAlgorithmToStack = this.loadCurrentAlgorithmToStack.bind(this);
+        this.speedRangeOnInput = this.speedRangeOnInput.bind(this);
     }
 
     setLevel(levelDescription, functionToExecuteAfter) {
@@ -281,18 +281,25 @@ class App extends Component {
         if (this.canMove(direction)) {
             return this.move(direction);
         }
-        console.log('fucked');
+        console.log('can not move');
         return this.state;
+    }
+
+    loadCurrentAlgorithmToStack() {
+        console.log('loadCurrentAlgorithmToStack');
+        this.setState(state => ({stackPointerPosition: 0, stack: state.functionsList[0]}));
     }
 
     processMinSolution() {
         this.setAlgorithm(this.state.levelDescription.minSolution);
-        this.processCurrentAlgorithm();
+        this.loadCurrentAlgorithmToStack();
+        this.setState({speed: 50});
     }
 
     processStarSolution() {
         this.setAlgorithm(this.state.levelDescription.starSolution);
-        this.processCurrentAlgorithm();
+        this.loadCurrentAlgorithmToStack();
+        this.setState({speed: 50});
     }
 
     test() {
@@ -366,59 +373,62 @@ class App extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
+        console.log('update and speed is', this.state.speed, 'and stack size is', this.state.stack.length);
         const stack = this.state.stack;
-        const evaluating = this.state.evaluating;
-        console.log('componentDidUpdate', evaluating);
-        if (evaluating && !(this.state.timeout === true)) {
-            const pointerPosition = this.state.stackPointerPosition;
-            const command = stack[pointerPosition];
-            const functionsList = this.state.functionsList;
-            //console.log(this.state.levelDescription.arrowCoordinates, stack, pointerPosition, command);
-            let newStack = stack;
-            let newPointerPosition = pointerPosition + 1;
-            let newState = this.state;
-            let newTesting = this.state.testing;
-            let newEvaluating = evaluating;
-            if (this.finishReached()) {
-                console.log('finish reached');
-                newEvaluating = false;
-                newStack = [];
-                newPointerPosition = undefined;
-            } else if (pointerPosition === stack.length) {
-                console.log('end of algorithm reached');
-                this.setState(state => ({stack: [], evaluating: false, pointerPosition: undefined}));
-                return;
-            }
-            else
-                if ((command.action !== undefined) && (this.commandCondition(command) === true)) {
-                    if (command.action === 'f') {
-                        newStack = this.replaceElement(stack, functionsList[command.fNumber - 1], pointerPosition);
-                        newPointerPosition = pointerPosition;
-                    }
-                    else if (command.action[0] === 'p')
-                        newState = this.paintArrowCell(command.paintColor);
-                    else
-                        newState = this.tryMove(command.action);
-                }
-            this.setState({timeout: true});
-            setTimeout(() => {
-                this.setState(state => {
-                    console.log(newPointerPosition, 'setState in timeout');
-                    newState.stack = newStack;
-                    newState.stackPointerPosition = newPointerPosition;
-                    newState.testing = newTesting;
-                    newState.evaluating = state.evaluating ? newEvaluating : false;
-                    newState.timeout = undefined;
-                    return newState;
-                });
-                if (newTesting && (newStack.length === 0))
-                    this.testNextLevelInTestingList();
-            }, 200);
-        }
-    }
+        const stackIsEmpty = (stack.length === 0);
+        if (stackIsEmpty)
+            return;
+        const speed = Number.parseFloat(this.state.speed);
+        const evaluating = (speed > 0);
+        if (!(evaluating))
+            return;
+        const pointerPosition = this.state.stackPointerPosition;
+        const algorithmEnded = (pointerPosition === stack.length);
+        if (algorithmEnded)
+            return;
+        const waitingForSetState = (this.state.timeout === true);
+        if (waitingForSetState)
+            return;
 
-    processCurrentAlgorithm() {
-        this.setState(state => ({evaluating: true, stackPointerPosition: 0, stack: state.functionsList[0]}));
+        console.log('update and processing');
+        const command = stack[pointerPosition];
+        const functionsList = this.state.functionsList;
+        let newStack = stack;
+        let newPointerPosition = pointerPosition + 1;
+        let newState = this.state;
+        let newTesting = this.state.testing;
+        if (this.finishReached()) {
+            console.log('finish reached');
+            newStack = [];
+            newPointerPosition = undefined;
+        }
+        else
+            if ((command.action !== undefined) && (this.commandCondition(command) === true)) {
+                if (command.action === 'f') {
+                    newStack = this.replaceElement(stack, functionsList[command.fNumber - 1], pointerPosition);
+                    newPointerPosition = pointerPosition;
+                }
+                else if (command.action[0] === 'p')
+                    newState = this.paintArrowCell(command.paintColor);
+                else
+                    newState = this.tryMove(command.action);
+            }
+        this.setState({timeout: true});
+        const delay = 1000 / ((speed + 1) * (speed + 1));
+        console.log('speed is', speed);
+        console.log('delay is ', delay);
+        setTimeout(() => {
+            this.setState(state => {
+                newState.stack = newStack;
+                newState.stackPointerPosition = newPointerPosition;
+                newState.testing = newTesting;
+                newState.timeout = undefined;
+                newState.speed = state.speed;
+                return newState;
+            });
+            if (newTesting && (newStack.length === 0))
+                this.testNextLevelInTestingList();
+        }, delay);
     }
 
     setAlgorithm(functionsList) {
@@ -432,15 +442,9 @@ class App extends Component {
         });
     }
 
-    componentDidMount() {
-    }
-    componentWillUnmount() {
-    }
-
     onMouseDownOnAvailableControl(event, controllerType) {
         if (this.state.evaluating)
             return;
-        console.log('picked');
         const mouseX = event.pageX;
         const mouseY = event.pageY;
         this.setState(state => ({
@@ -460,7 +464,6 @@ class App extends Component {
     onMouseUp(event) {
         if (this.state.draggingControllerType === undefined)
             return;
-        console.log('droped');
         const mouseX = event.pageX;
         const mouseY = event.pageY;
         const DraggingControlElement = document.getElementById('DraggingController');
@@ -470,7 +473,6 @@ class App extends Component {
         if (elementUnderCursor.classList.contains('functionCell')) {
             const rowIndex = elementUnderCursor.getAttribute('rowindex');
             const cellIndex = elementUnderCursor.getAttribute('cellindex');
-            console.log(rowIndex, cellIndex);
             const splitedDraggingControllerType = this.state.draggingControllerType.split('-');
             const type = splitedDraggingControllerType[0];
             const parameter = splitedDraggingControllerType[1];
@@ -489,21 +491,16 @@ class App extends Component {
                 state.functionsList[rowIndex][cellIndex] = newCommand;
                 return {functionsList: state.functionsList};
             });
-            console.log(elementUnderCursor);
         }
         this.setState(state => ({draggingControllerType: undefined}));
     }
 
-    processStartButtonClick() {
-        console.log('processStartButtonClick', this.state.evaluating);
-        if (this.state.evaluating === false) {
-            if (this.state.stack.length === 0)
-                this.processCurrentAlgorithm();
-            else
-                setTimeout(() => this.setState({evaluating: true}), 200);
-        }
-        else 
-            setTimeout(() => this.setState({evaluating: false}), 200);
+    speedRangeOnInput(event) {
+        const stack = this.state.stack;
+        const stackIsEmpty = (stack.length === 0);
+        if (stackIsEmpty)
+            this.loadCurrentAlgorithmToStack();
+        this.setState({speed: event.target.value});
     }
 
     render() {
@@ -514,8 +511,8 @@ class App extends Component {
         const functionsList = this.state.functionsList;
         const draggingControllerType = this.state.draggingControllerType;
         const draggingControllerPosition = this.state.draggingControllerPosition;
-        const startButtonText = this.state.evaluating === false ? 'Start' : 'Pause';
-        const processStartButtonClick = this.processStartButtonClick;
+        const speedRangeOnInput = this.speedRangeOnInput;
+        const speed = this.state.speed;
 
         const stack = this.state.stack;
         const pointerPosition = this.state.stackPointerPosition;
@@ -546,7 +543,8 @@ class App extends Component {
                     <Functions functionsList={functionsList} pointerFunctionIndex={pointerFunctionIndex}
                         pointerCommandIndex={pointerCommandIndex}></Functions>
                     <DraggingController type={draggingControllerType} position={draggingControllerPosition}></DraggingController>
-                    <button onClick={processStartButtonClick}>{startButtonText}</button>
+                    <input className="speedRange" type="range" min="0" max="7" step="0.1"
+                        value={speed} onChange={speedRangeOnInput}/>
                 </div>
             </div>
         );
