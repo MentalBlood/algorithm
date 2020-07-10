@@ -128,17 +128,30 @@ function starSolutionsFunctionsListFromLevelDescription(levelDescription) {
     return solutionsFunctionsListFromLevelDescription(levelDescription, 'StarSol');
 }
 
+function deepCopy(inObject) {
+    let outObject, value, key;
+    if (typeof inObject !== "object" || inObject === null)
+        return inObject;
+    outObject = Array.isArray(inObject) ? [] : {};
+    for (key in inObject) {
+        value = inObject[key];
+        outObject[key] = deepCopy(value);
+    }
+    return outObject;
+}
+
 function getConvertedLevelDescription(levelDescription) {
+    const levelDescriptionCopy = deepCopy(levelDescription);
     const convertedLevelDescription = {
-        'name': levelDescription.name,
-        'availableControls': controlsListFromControlsBinaryId(levelDescription.controlsBinaryId),
-        'colors': twoDimArrayFromColumnsAndString(levelDescription.columns, levelDescription.path),
-        'angle': convertedAngle(levelDescription.angle),
-        'elements': twoDimArrayFromColumnsAndString(levelDescription.columns, levelDescription.elements),
-        'arrowCoordinates': elementCoordinatesFromColumnsAndElementsString('a', levelDescription.columns, levelDescription.elements),
-        'finishCoordinates': elementCoordinatesFromColumnsAndElementsString('f', levelDescription.columns, levelDescription.elements),
-        'minSolution': minSolutionsFunctionsListFromLevelDescription(levelDescription),
-        'starSolution': starSolutionsFunctionsListFromLevelDescription(levelDescription)
+        'name': levelDescriptionCopy.name,
+        'availableControls': controlsListFromControlsBinaryId(levelDescriptionCopy.controlsBinaryId),
+        'colors': twoDimArrayFromColumnsAndString(levelDescriptionCopy.columns, levelDescriptionCopy.path),
+        'angle': convertedAngle(levelDescriptionCopy.angle),
+        'elements': twoDimArrayFromColumnsAndString(levelDescriptionCopy.columns, levelDescriptionCopy.elements),
+        'arrowCoordinates': elementCoordinatesFromColumnsAndElementsString('a', levelDescriptionCopy.columns, levelDescriptionCopy.elements),
+        'finishCoordinates': elementCoordinatesFromColumnsAndElementsString('f', levelDescriptionCopy.columns, levelDescriptionCopy.elements),
+        'minSolution': minSolutionsFunctionsListFromLevelDescription(levelDescriptionCopy),
+        'starSolution': starSolutionsFunctionsListFromLevelDescription(levelDescriptionCopy)
     };
     return convertedLevelDescription;
 }
@@ -180,9 +193,10 @@ class App extends Component {
             'mapWidth': undefined,
             'mapHeight': undefined,
             'draggingControllerType': undefined,
-            'draggingControllerPosition': undefined
+            'draggingControllerPosition': undefined,
+            'timeout': false
         }
-        this.state.levelDescription = this.state.initialLevelDescription;
+        this.state.levelDescription = deepCopy(this.state.initialLevelDescription);
 
         this.handleKeyPress = this.handleKeyPress.bind(this);
         this.onMouseDownOnAvailableControl = this.onMouseDownOnAvailableControl.bind(this);
@@ -198,10 +212,15 @@ class App extends Component {
         const convertedLevelDescription = getConvertedLevelDescription(levelDescription);
         this.setState(state => {
             state.initialLevelDescription = convertedLevelDescription;
-            state.levelDescription = state.initialLevelDescription;
+            state.levelDescription = deepCopy(state.initialLevelDescription);
             state.functionsList = emptyFunctionsListFromLevelDescription(levelDescription);
             return state;
         }, functionToExecuteAfter);
+    }
+
+    resetCurrentLevel() {
+        console.log('reset level');
+        this.setState(state => ({levelDescription: deepCopy(state.initialLevelDescription)}));
     }
 
     isCellPassable(x, y) {
@@ -373,7 +392,6 @@ class App extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        console.log('update and speed is', this.state.speed, 'and stack size is', this.state.stack.length);
         const stack = this.state.stack;
         const stackIsEmpty = (stack.length === 0);
         if (stackIsEmpty)
@@ -390,7 +408,6 @@ class App extends Component {
         if (waitingForSetState)
             return;
 
-        console.log('update and processing');
         const command = stack[pointerPosition];
         const functionsList = this.state.functionsList;
         let newStack = stack;
@@ -415,19 +432,21 @@ class App extends Component {
             }
         this.setState({timeout: true});
         const delay = 1000 / ((speed + 1) * (speed + 1));
-        console.log('speed is', speed);
-        console.log('delay is ', delay);
         setTimeout(() => {
-            this.setState(state => {
-                newState.stack = newStack;
-                newState.stackPointerPosition = newPointerPosition;
-                newState.testing = newTesting;
-                newState.timeout = undefined;
-                newState.speed = state.speed;
-                return newState;
-            });
-            if (newTesting && (newStack.length === 0))
-                this.testNextLevelInTestingList();
+            if (this.state.speed === 0)
+                this.setState({timeout: false});
+            else {
+                this.setState(state => {
+                    newState.stack = newStack;
+                    newState.stackPointerPosition = newPointerPosition;
+                    newState.testing = newTesting;
+                    newState.timeout = false;
+                    newState.speed = state.speed;
+                    return newState;
+                });
+                if (newTesting && (newStack.length === 0))
+                    this.testNextLevelInTestingList();
+                }
         }, delay);
     }
 
@@ -462,6 +481,11 @@ class App extends Component {
     }
 
     onMouseUp(event) {
+        if (this.state.speed > 0) {
+            this.setState({speed: 0, stack: [], pointerPosition: undefined});
+            this.resetCurrentLevel();
+        }
+
         if (this.state.draggingControllerType === undefined)
             return;
         const mouseX = event.pageX;
