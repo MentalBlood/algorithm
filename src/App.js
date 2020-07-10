@@ -10,20 +10,27 @@ import DraggingController from './DraggingController.js';
 import levels from './levels.json';
 
 const defaultLevelDescription = {
-                "name": "Recursion",
-                "controlsBinaryId": 565,
-                "columns": 8,
-                "rows": 8,
-                "path": "n n n n n n n b n n n n n n n b n n n n n n n b n n n n n n n b n n n n n n n b n n n n n n n b n n n n n n n b g g g g g g g b",
-                "angle": 0.5,
-                "elements": "n n n n n n n f n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n a n n n n n n s",
+                "name": "Casket",
+                "controlsBinaryId": 1583,
+                "columns": 11,
+                "rows": 9,
+                "path": "g n n n n n n n n n g g n n n n n n n n n g b g g r b g b r g g b g n n n n n n n n n g g n n n n b n n n n g g n n n n r n n n n g b g g g n g n g r g b n n n r n g n g n n n n n n b g b g b n n n",
+                "angle": 1.0,
+                "elements": "f n n n n n n n n n a n n n n n n n n n n n n n n n s n s n n n n n n n n n n n n n n n n n n n n s n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n",
                 "f1Len": 4,
-                "f2Len": 0,
-                "f1MinSol": "u_n r_b f1_g u_n",
-                "f2MinSol": "",
-                "f1StarSol": "u_n r_b f1_g u_n",
-                "f2StarSol": ""
+                "f2Len": 4,
+                "f1MinSol": "u_n l_b f2_r f1_n",
+                "f2MinSol": "u_n u_b u_n",
+                "f1StarSol": "u_n l_b f2_r f1_n",
+                "f2StarSol": "u_n r_n r_b u_n"
             };
+
+let testingLevelsList = [];
+for (const [levelPackNumber, levelPack] of Object.entries(levels)) {
+    for (const [levelNumber, level] of Object.entries(levelPack.levels)) {
+        testingLevelsList.push(level);
+    }
+}
 
 function controlsListFromControlsBinaryId(controlsBinaryId) {
     let controlsList = [];
@@ -205,6 +212,7 @@ class App extends Component {
         this.onMouseUp = this.onMouseUp.bind(this);
         this.loadCurrentAlgorithmToStack = this.loadCurrentAlgorithmToStack.bind(this);
         this.speedRangeOnInput = this.speedRangeOnInput.bind(this);
+        this.onMouseDownOnFunctionCell = this.onMouseDownOnFunctionCell.bind(this);
     }
 
     setLevel(levelDescription, functionToExecuteAfter) {
@@ -306,49 +314,16 @@ class App extends Component {
 
     loadCurrentAlgorithmToStack() {
         console.log('loadCurrentAlgorithmToStack');
+        console.log(this.state.functionsList[0]);
         this.setState(state => ({stackPointerPosition: 0, stack: state.functionsList[0]}));
     }
 
     processMinSolution() {
         this.setAlgorithm(this.state.levelDescription.minSolution);
-        this.loadCurrentAlgorithmToStack();
-        this.setState({speed: 50});
     }
 
     processStarSolution() {
         this.setAlgorithm(this.state.levelDescription.starSolution);
-        this.loadCurrentAlgorithmToStack();
-        this.setState({speed: 50});
-    }
-
-    test() {
-        let testingLevelsList = [];
-        for (const [levelPackNumber, levelPack] of Object.entries(levels)) {
-            for (const [levelNumber, level] of Object.entries(levelPack.levels)) {
-                testingLevelsList.push(level);
-            }
-        }
-        const firstLevel = testingLevelsList[0];
-        this.setState(state => ({testing: true, testingLevelsList: testingLevelsList.reverse()}));
-        this.setLevel(firstLevel, () => {this.processStarSolution()});
-    }
-
-    testNextLevelInTestingList() {
-        const oldTestingList = this.state.testingLevelsList;
-        const newTestingList = this.state.testingLevelsList.slice(1);
-        const nextLevel = newTestingList[0];
-        if (oldTestingList.length <= 1)
-            this.setState(state => {
-                state.testing = false;
-                return state;
-            });
-        else {
-            this.setState(state => {
-                state.testingLevelsList = newTestingList;
-            });
-            this.setLevel(nextLevel);
-            this.processStarSolution();
-        }
     }
 
     handleKeyPress(event) {
@@ -407,6 +382,10 @@ class App extends Component {
         const waitingForSetState = (this.state.timeout === true);
         if (waitingForSetState)
             return;
+        if (this.finishReached()) {
+            this.setState({stack: [], stackPointerPosition: undefined})
+            return;
+        }
 
         const command = stack[pointerPosition];
         const functionsList = this.state.functionsList;
@@ -414,28 +393,22 @@ class App extends Component {
         let newPointerPosition = pointerPosition + 1;
         let newState = this.state;
         let newTesting = this.state.testing;
-        if (this.finishReached()) {
-            console.log('finish reached');
-            newStack = [];
-            newPointerPosition = undefined;
-        }
-        else
-            if ((command.action !== undefined) && (this.commandCondition(command) === true)) {
-                if (command.action === 'f') {
-                    newStack = this.replaceElement(stack, functionsList[command.fNumber - 1], pointerPosition);
-                    newPointerPosition = pointerPosition;
-                }
-                else if (command.action[0] === 'p')
-                    newState = this.paintArrowCell(command.paintColor);
-                else
-                    newState = this.tryMove(command.action);
+        if ((command.action !== undefined) && (this.commandCondition(command) === true)) {
+            if (command.action === 'f') {
+                newStack = this.replaceElement(stack, functionsList[command.fNumber - 1], pointerPosition);
+                newPointerPosition = pointerPosition;
             }
+            else if (command.action[0] === 'p')
+                newState = this.paintArrowCell(command.paintColor);
+            else
+                newState = this.tryMove(command.action);
+        }
         this.setState({timeout: true});
         const delay = 1000 / ((speed + 1) * (speed + 1));
         setTimeout(() => {
             if (this.state.speed === 0)
                 this.setState({timeout: false});
-            else {
+            else
                 this.setState(state => {
                     newState.stack = newStack;
                     newState.stackPointerPosition = newPointerPosition;
@@ -444,9 +417,6 @@ class App extends Component {
                     newState.speed = state.speed;
                     return newState;
                 });
-                if (newTesting && (newStack.length === 0))
-                    this.testNextLevelInTestingList();
-                }
         }, delay);
     }
 
@@ -462,7 +432,7 @@ class App extends Component {
     }
 
     onMouseDownOnAvailableControl(event, controllerType) {
-        if (this.state.evaluating)
+        if (this.state.speed > 0)
             return;
         const mouseX = event.pageX;
         const mouseY = event.pageY;
@@ -470,6 +440,45 @@ class App extends Component {
             draggingControllerPosition: {x: mouseX, y: mouseY},
             draggingControllerType: controllerType
         }));
+    }
+
+    onMouseDownOnFunctionCell(event) {
+        const cellElement = event.target;
+        const functionIndex = cellElement.getAttribute('rowindex');
+        const commandIndex = cellElement.getAttribute('cellIndex');
+        const cellCommand = this.state.functionsList[functionIndex][commandIndex];
+        const mouseX = event.pageX;
+        const mouseY = event.pageY;
+        if (cellCommand.action !== undefined) {
+            const action = cellCommand.action;
+            let controllerType = 'action-' + action;
+            if (action === 'f')
+                controllerType += '-' + cellCommand.fNumber.toString();
+            else if (action === 'p')
+                controllerType += '-' + cellCommand.paintColor;
+            this.setState(state => {
+                const newFunctionsList = state.functionsList;
+                newFunctionsList[functionIndex][commandIndex].action = undefined;
+                return {
+                    functionsList: newFunctionsList,
+                    draggingControllerPosition: {x: mouseX, y: mouseY},
+                    draggingControllerType: controllerType
+                };
+            });
+        }
+        else if (cellCommand.color !== 'n') {
+            const color = cellCommand.color;
+            const controllerType = 'color-' + color;
+            this.setState(state => {
+                const newFunctionsList = state.functionsList;
+                newFunctionsList[functionIndex][commandIndex].color = 'n';
+                return {
+                    functionsList: newFunctionsList,
+                    draggingControllerPosition: {x: mouseX, y: mouseY},
+                    draggingControllerType: controllerType
+                };
+            });
+        }
     }
 
     onMouseMove(event) {
@@ -522,8 +531,10 @@ class App extends Component {
     speedRangeOnInput(event) {
         const stack = this.state.stack;
         const stackIsEmpty = (stack.length === 0);
-        if (stackIsEmpty)
+        if (stackIsEmpty) {
+            this.resetCurrentLevel();
             this.loadCurrentAlgorithmToStack();
+        }
         this.setState({speed: event.target.value});
     }
 
@@ -537,6 +548,7 @@ class App extends Component {
         const draggingControllerPosition = this.state.draggingControllerPosition;
         const speedRangeOnInput = this.speedRangeOnInput;
         const speed = this.state.speed;
+        const onMouseDownOnFunctionCell = this.onMouseDownOnFunctionCell;
 
         const stack = this.state.stack;
         const pointerPosition = this.state.stackPointerPosition;
@@ -565,7 +577,7 @@ class App extends Component {
                     <AvailableControls controlsList={controlsList}
                         onMouseDown={this.onMouseDownOnAvailableControl}></AvailableControls>
                     <Functions functionsList={functionsList} pointerFunctionIndex={pointerFunctionIndex}
-                        pointerCommandIndex={pointerCommandIndex}></Functions>
+                        pointerCommandIndex={pointerCommandIndex} onMouseDownOnFunctionCell={onMouseDownOnFunctionCell}></Functions>
                     <DraggingController type={draggingControllerType} position={draggingControllerPosition}></DraggingController>
                     <input className="speedRange" type="range" min="0" max="7" step="0.1"
                         value={speed} onChange={speedRangeOnInput}/>

@@ -29,19 +29,19 @@
     background-image: url('./images/f2.svg');
 }
 
-.Functions td.color-r {
+.Functions td.color.color-r {
     background-image: url('./images/red.svg');
 }
 
-.Functions td.color-g {
+.Functions td.color.color-g {
     background-image: url('./images/green.svg');
 }
 
-.Functions td.color-b {
+.Functions td.color.color-b {
     background-image: url('./images/blue.svg');
 }
 
-.Functions td.color-undefined {
+.Functions td:not(.color) {
     background-image: url('./images/empty_color.svg');
 }
 
@@ -55,48 +55,48 @@
     background-size: cover;
 }
 
-.Functions td.action-u::before {
+.Functions td.action.action-u::before {
     background-image: url('./images/up.svg');
 }
 
-.Functions td.action-l::before {
+.Functions td.action.action-l::before {
     background-image: url('./images/left.svg');
 }
 
-.Functions td.action-r::before {
+.Functions td.action.action-r::before {
     background-image: url('./images/right.svg');
 }
 
-.Functions td.action-p.paintColor-b::before {
+.Functions td.action.action-p.paintColor-b::before {
     background-image: url('./images/painter_blue.svg');
 }
 
-.Functions td.action-p.paintColor-r::before {
+.Functions td.action.action-p.paintColor-r::before {
     background-image: url('./images/painter_red.svg');
 }
 
-.Functions td.action-p.paintColor-g::before {
+.Functions td.action.action-p.paintColor-g::before {
     background-image: url('./images/painter_green.svg');
 }
 
-.Functions td.action-p.paintColor-g::before {
+.Functions td.action.action-p.paintColor-g::before {
     background-image: url('./images/painter_green.svg');
 }
 
-.Functions td.action-f.function-1::before {
+.Functions td.action.action-f.function-1::before {
     background-image: url('./images/f1.svg');
 }
 
-.Functions td.action-f.function-2::before {
+.Functions td.action.action-f.function-2::before {
     background-image: url('./images/f2.svg');
 }
 
 .Functions td:not(.processing) {
     border: 0.5vh solid white;
-    transition-duration: 0.3s;
+    /*transition-duration: 0.3s;*/
 }
 
 .Functions td.processing {
     border: 0.5vh solid orange;
-    transition-duration: 0.3s;
+    /*transition-duration: 0.3s;*/
 }

@@ -5,6 +5,7 @@ function Functions(props) {
     const functionsList = props.functionsList;
     const pointerFunctionIndex = props.pointerFunctionIndex;
     const pointerCommandIndex = props.pointerCommandIndex;
+    const onMouseDown = props.onMouseDownOnFunctionCell;
     return (
         <table className="Functions" style={{width: props.mapWidth, height: props.mapHeight}}>
             <tbody>
@@ -16,10 +17,12 @@ function Functions(props) {
                                 someFunction.map(
                                     (command, cellIndex) => {
                                         let className = "functionCell";
-                                        const color = command.color === "n" ? 'undefined' : command.color;
-                                        className += " color-" + color;
+                                        const color = command.color;
+                                        if (color !== 'n')
+                                            className += " color color-" + color;
                                         const action = command.action;
-                                        className += " action-" + action;
+                                        if (action !== undefined)
+                                            className += " action action-" + action;
                                         if (action === "p") {
                                             const paintColor = command.paintColor;
                                             className += " paintColor-" + paintColor;
@@ -31,7 +34,7 @@ function Functions(props) {
                                         if ((pointerFunctionIndex === rowIndex) && (pointerCommandIndex === cellIndex))
                                             className += " processing";
                                         return <td rowindex={rowIndex} cellindex={cellIndex} key={cellIndex}
-                                                   className={className}></td>;
+                                                   onMouseDown={onMouseDown} className={className}></td>;
                                     }
                                 )
                             }

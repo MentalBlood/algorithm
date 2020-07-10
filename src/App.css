@@ -16,7 +16,7 @@ input[type=range].speedRange:focus {
     outline: none;
 }
 input[type=range].speedRange::-webkit-slider-runnable-track {
-    margin-top: calc(calc(5 * min(1vh, 1vw)) / 2.4);
+    margin-top: calc(calc(calc(8 * min(1vh, 1vw)) - calc(1.5vh)) / 2);
     background: #cccccc;
     border-radius: calc(0.35 * min(1vh, 1vw));
     width: 100%;
