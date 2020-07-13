@@ -201,7 +201,7 @@ class App extends Component {
             'mapHeight': undefined,
             'draggingControllerType': undefined,
             'draggingControllerPosition': undefined,
-            'timeout': false
+            'timersIds': []
         }
         this.state.levelDescription = deepCopy(this.state.initialLevelDescription);
 
@@ -228,7 +228,15 @@ class App extends Component {
 
     resetCurrentLevel() {
         console.log('reset level');
-        this.setState(state => ({levelDescription: deepCopy(state.initialLevelDescription)}));
+        this.setState(state => {
+            state.timersIds.forEach(clearTimeout);
+            return {
+                levelDescription: deepCopy(state.initialLevelDescription),
+                stack: [],
+                stackPointerPosition: undefined,
+                timersIds: []
+            };
+        });
     }
 
     isCellPassable(x, y) {
@@ -308,8 +316,10 @@ class App extends Component {
         if (this.canMove(direction)) {
             return this.move(direction);
         }
-        console.log('can not move');
-        return this.state;
+        else {
+            this.resetCurrentLevel();
+            return false;
+        }
     }
 
     loadCurrentAlgorithmToStack() {
@@ -362,6 +372,13 @@ class App extends Component {
         return newState;
     }
 
+    clearTimers() {
+        this.setState(state => {
+            state.timersIds.forEach(clearTimeout);
+            return {timersIds: []};
+        });
+    }
+
     componentDidUpdate(prevProps, prevState) {
         const stack = this.state.stack;
         const stackIsEmpty = (stack.length === 0);
@@ -374,14 +391,15 @@ class App extends Component {
         const pointerPosition = this.state.stackPointerPosition;
         const algorithmEnded = (pointerPosition === stack.length);
         if (algorithmEnded) {
-            this.setState({stack: [], stackPointerPosition: undefined});
+            this.resetCurrentLevel();
             return;
         }
-        const waitingForSetState = (this.state.timeout === true);
+        const timersIds = this.state.timersIds;
+        const waitingForSetState = (timersIds.length > 0);
         if (waitingForSetState)
             return;
         if (this.finishReached()) {
-            this.setState({stack: [], stackPointerPosition: undefined});
+            this.resetCurrentLevel();
             return;
         }
 
@@ -398,24 +416,34 @@ class App extends Component {
             }
             else if (command.action[0] === 'p')
                 newState = this.paintArrowCell(command.paintColor);
-            else
+            else {
                 newState = this.tryMove(command.action);
+                if (newState === false)
+                    return;
+            }
         }
-        this.setState({timeout: true});
         const delay = 1000 / ((speed + 1) * (speed + 1));
-        setTimeout(() => {
+        const timerId = setTimeout(() => {
             if (this.state.speed === 0)
-                this.setState({timeout: false});
+                this.clearTimers();
             else
                 this.setState(state => {
                     newState.stack = newStack;
                     newState.stackPointerPosition = newPointerPosition;
                     newState.testing = newTesting;
-                    newState.timeout = false;
+                    const indexOfThisTimerId = newState.timersIds.indexOf(timerId)
+                    if (indexOfThisTimerId > -1) {
+                        newState.timersIds.splice(indexOfThisTimerId, 1);
+                    }
                     newState.speed = state.speed;
                     return newState;
                 });
         }, delay);
+        this.setState(state => {
+            if (state.timersIds.indexOf(timerId) === -1) {
+                return {timersIds: state.timersIds.concat([timerId])};
+            }
+        });
     }
 
     setAlgorithm(functionsList) {
