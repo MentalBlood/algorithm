@@ -17,6 +17,7 @@ class App extends Component {
             currentScreen: "main"
         };
         this.launchLevel = this.launchLevel.bind(this);
+        this.closeLevel = this.closeLevel.bind(this);
     }
 
     getCurrentLevelPackColor() {
@@ -24,8 +25,22 @@ class App extends Component {
         return this.state.levels[currentLevelPack].color;
     }
 
+    getCurrentLevel() {
+        const currentLevelPack = this.state.currentLevelPack;
+        const currentLevelNumber = this.state.currentLevelNumber;
+        return this.state.levels[currentLevelPack].levels[currentLevelNumber-1];
+    }
+
     launchLevel(levelPack, levelNumber) {
-        this.setState({currentScreen: "game"});
+        this.setState(state => ({
+            currentScreen: "game",
+            currentLevelPack: levelPack === undefined ? state.currentLevelPack : levelPack,
+            currentLevelNumber: levelNumber === undefined ? state.currentLevelNumber : levelNumber
+        }));
+    }
+
+    closeLevel() {
+        this.setState({currentScreen: "main"});
     }
 
     render() {
@@ -39,12 +54,13 @@ class App extends Component {
                     <MainMenu lastLevelNumber={currentLevelNumber}
                         lastLevelPackColor={currentLevelPackColor}
                         onPlayButtonClick={this.launchLevel}></MainMenu>
-                    <Levels levels={this.state.levels}></Levels>
+                    <Levels levels={this.state.levels} launchLevelFunction={this.launchLevel}></Levels>
                 </div>
             );
         }
         else if (currentScreen === "game") {
-            return <Game></Game>
+            const level = this.getCurrentLevel();
+            return <Game level={level} backToMenuFunction={this.closeLevel}></Game>
         }
     }
 }

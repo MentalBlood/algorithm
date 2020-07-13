@@ -190,11 +190,16 @@ class Game extends Component {
     constructor(props) {
         super(props);
 
+        const level = props.level;
+        const backToMenuFunction = props.backToMenuFunction;
+
         this.state = {
-            'initialLevelDescription': getConvertedLevelDescription(defaultLevelDescription),
+            'pause': false,
+            'backToMenuFunction': backToMenuFunction,
+            'initialLevelDescription': getConvertedLevelDescription(level),
             'stack': [],
             'stackPointerPosition': undefined,
-            'functionsList': emptyFunctionsListFromLevelDescription(defaultLevelDescription),
+            'functionsList': emptyFunctionsListFromLevelDescription(level),
             'speed': 0,
             'testing': false,
             'mapWidth': undefined,
@@ -213,6 +218,8 @@ class Game extends Component {
         this.loadCurrentAlgorithmToStack = this.loadCurrentAlgorithmToStack.bind(this);
         this.speedRangeOnInput = this.speedRangeOnInput.bind(this);
         this.onMouseDownOnFunctionCell = this.onMouseDownOnFunctionCell.bind(this);
+        this.showPauseMenu = this.showPauseMenu.bind(this);
+        this.hidePauseMenu = this.hidePauseMenu.bind(this);
     }
 
     setLevel(levelDescription, functionToExecuteAfter) {
@@ -585,6 +592,18 @@ class Game extends Component {
         this.refreshMapSize();
     }
 
+    showPauseMenu() {
+        this.setState({pause: true});
+    }
+
+    hidePauseMenu() {
+        this.setState({pause: false});
+    }
+
+    getSolutionData() {
+
+    }
+
     render() {
         const colors = this.state.levelDescription.colors;
         const elements = this.state.levelDescription.elements;
@@ -596,6 +615,7 @@ class Game extends Component {
         const speedRangeOnInput = this.speedRangeOnInput;
         const speed = this.state.speed;
         const onMouseDownOnFunctionCell = this.onMouseDownOnFunctionCell;
+        const pause = this.state.pause;
 
         const stack = this.state.stack;
         const pointerPosition = this.state.stackPointerPosition;
@@ -607,7 +627,13 @@ class Game extends Component {
         const mapHeight = this.state.mapHeight;
 
         return (
-            <div className="App" onKeyDown={this.handleKeyPress} onMouseUp={this.onMouseUp} onMouseMove={this.onMouseMove} tabIndex={-1}>
+            <div className="Game" onKeyDown={this.handleKeyPress} onMouseUp={this.onMouseUp} onMouseMove={this.onMouseMove} tabIndex={-1}>
+                <button className="pauseButton" onClick={this.showPauseMenu}>pause</button>
+                <div className={"pauseMenu" + (pause ? "" : " hidden")}>
+                    <button className="backToMenuButton"
+                        onClick={event => this.state.backToMenuFunction(this.getSolutionData())}>Menu</button>
+                </div>
+                <div className={"pauseMenuOverlay" + (pause ? "" : " hidden")} onClick={this.hidePauseMenu}></div>
                 <div className="Map" style={{width: mapWidth, height: mapHeight}}>
                     <ColorLayer colors={colors} mapWidth={mapWidth} mapHeight={mapHeight}></ColorLayer>
                     <ElementsLayer elements={elements} angle={angle} mapWidth={mapWidth} mapHeight={mapHeight}></ElementsLayer>

@@ -7,18 +7,20 @@ function getAchivmentCircle(isAchivmentGot, radius) {
 }
 
 function Levels(props) {
+    const launchLevelFunction = props.launchLevelFunction;
     return (
         <div className="levels">
             {
                 Object.values(props.levels).map(
-                    (levelPack, index) => <div key={index} style={{backgroundColor: levelPack.color}} className="levelPack">
+                    (levelPack, levelPackIndex) => <div key={levelPackIndex} style={{backgroundColor: levelPack.color}} className="levelPack">
                                               <div className="levelPackName">{levelPack.name}</div>
                                               <div className="levels">
                                                   {
                                                       Object.values(levelPack.levels).map(
-                                                          (level, index) => <div key={index} className="levelCell">
-                                                              <div className="level">
-                                                                  <div className="levelNumber">{index+1}</div>
+                                                          (level, levelIndex) => <div key={levelIndex} className="levelCell">
+                                                              <div className="level"
+                                                                  onClick={event => launchLevelFunction(levelPackIndex, levelIndex+1)}>
+                                                                  <div className="levelNumber">{levelIndex+1}</div>
                                                               </div>
                                                           </div>
                                                       )
