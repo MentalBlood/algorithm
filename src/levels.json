@@ -1,6 +1,7 @@
 {
 	"0": {
 		"name": "Red",
+        "color": "#FD6167",
 		"levels": {
 			"0": {
 				"name": "Beginning",
@@ -306,6 +307,7 @@
 	},
 	"1": {
 		"name": "Green",
+        "color": "#48ED67",
 		"levels": {
 			"0": {
 				"name": "Recursion",
@@ -611,6 +613,7 @@
 	},
 	"2": {
 		"name": "Blue",
+        "color": "#1DC0FC",
 		"levels": {
 			"0": {
 				"name": "Ficircel",

@@ -1,0 +1,86 @@
+.App {
+    width: 100vw;
+    height: 100vh;
+
+    outline: none;
+}
+
+input[type=range].speedRange {
+    position: relative;
+    width: 80vw;
+    left: 10vw;
+    background-color: transparent;
+    -webkit-appearance: none;
+}
+input[type=range].speedRange:focus {
+    outline: none;
+}
+input[type=range].speedRange::-webkit-slider-runnable-track {
+    margin-top: calc(calc(calc(8 * 1vh) - calc(1.5vh)) / 2);
+    background: #cccccc;
+    border-radius: calc(0.35 * 1vh);
+    width: 100%;
+    height: 1.5vh;
+    cursor: pointer;
+}
+input[type=range].speedRange::-webkit-slider-thumb {
+    margin-top: calc(-1 * calc(calc(8 * 1vh) - calc(1.5vh)) / 2);
+    width: calc(8 * 1vh);
+    height: calc(8 * 1vh);
+    background: #41454d;
+    border-radius: calc(0.5 * 1vh);
+    cursor: pointer;
+    -webkit-appearance: none;
+}
+input[type=range].speedRange:focus::-webkit-slider-runnable-track {
+    background: #d9d9d9;
+}
+input[type=range].speedRange::-moz-range-track {
+    background: #cccccc;
+    border-radius: calc(0.35 * 1vh);
+    width: 100%;
+    height: 1.5vh;
+    cursor: pointer;
+}
+input[type=range].speedRange::-moz-range-thumb {
+    width: calc(8 * 1vh);
+    height: calc(8 * 1vh);
+    background: #41454d;
+    border-radius: calc(0.5 * 1vh);
+    cursor: pointer;
+}
+input[type=range].speedRange::-ms-track {
+    background: transparent;
+    border-color: transparent;
+    border-width: calc(calc(-5 * 1vh) / 2.5) 0;
+    color: transparent;
+    width: 100%;
+    height: 1.5vh;
+    cursor: pointer;
+}
+input[type=range].speedRange::-ms-fill-lower {
+    background: #bfbfbf;
+    border: 0px solid #cccccc;
+    border-radius: calc(0.35 * 1vh);
+}
+input[type=range].speedRange::-ms-fill-upper {
+    background: #cccccc;
+    border: 0px solid #cccccc;
+    border-radius: calc(0.35 * 1vh);
+}
+input[type=range].speedRange::-ms-thumb {
+    width: calc(8 * 1vh);
+    height: calc(8 * 1vh);
+    background: #41454d;
+    border: 0;
+    border-radius: calc(0.5 * 1vh);
+    cursor: pointer;
+    margin-top: 0px;
+    /*Needed to keep the Edge thumb centred*/
+}
+input[type=range].speedRange:focus::-ms-fill-lower {
+    background: #cccccc;
+}
+input[type=range].speedRange:focus::-ms-fill-upper {
+    background: #d9d9d9;
+}

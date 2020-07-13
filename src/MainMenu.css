@@ -1,0 +1,47 @@
+.upperButton {
+    width: 43vw;
+    height: 12.5vw;
+    background-color: #3E3E3E;
+
+    position: relative;
+    margin-left: 4.66vw;
+    margin-top: 14vw;
+
+    border: 0;
+    border-radius: 2vw;
+}
+
+.appLogo {
+    width: 100vw;
+    height: 18.3vw;
+
+    background-image: url('./images/logo.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+.playButton {
+    width: 58vw;
+    height: 12vw;
+    background-color: #FFC006;
+
+    margin-left: 21vw;
+
+    border: 0;
+    border-radius: 2vw;
+}
+
+.upperButton,
+.playButton {
+    font-family: 'Hind Siliguri', sans-serif;
+    font-size: 7vw;
+    color: white;
+
+    outline: none;
+}
+
+.appLogo,
+.playButton {
+    margin-top: 10vw;
+}
