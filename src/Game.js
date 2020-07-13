@@ -572,7 +572,7 @@ class Game extends Component {
     refreshMapSize() {
         const colors = this.state.levelDescription.colors;
         const maxMapWidth = 80 * window.innerWidth / 100;
-        const maxMapHeight = 60 * window.innerHeight / 100;
+        const maxMapHeight = 55 * window.innerHeight / 100;
         const dimension = 'px';
 
         const rowsNumber = colors.length;
@@ -590,8 +590,31 @@ class Game extends Component {
         this.refreshMapSize();
     }
 
-    getSolutionData() {
+    isAllStarsGathered() {
+        const elements = this.state.levelDescription.elements;
+        for (const row of elements)
+            for (const element of row)
+                if (element === 's')
+                    return false;
+        return true;
+    }
 
+    isCurrentAlgorithmMinimal() {
+        const minSolution = this.state.initialLevelDescription.minSolution;
+        const currentSolution = this.state.functionsList;
+        for (let functionNumber = 0; functionNumber < minSolution.length; functionNumber++)
+            if (minSolution[functionNumber].length < currentSolution[functionNumber].length)
+                return false;
+        return true;
+    }
+
+    getSolutionData() {
+        const solutionData = {
+            levelFinished: true,
+            minSolutionFound: this.isCurrentAlgorithmMinimal(),
+            allStarsGathered: this.isAllStarsGathered()
+        }
+        return solutionData;
     }
 
     render() {
@@ -619,7 +642,7 @@ class Game extends Component {
         return (
             <div className="Game" onKeyDown={this.handleKeyPress} onMouseUp={this.onMouseUp} onMouseMove={this.onMouseMove} tabIndex={-1}>
                 <button className="backToMenuButton"
-                    onClick={event => this.state.backToMenuFunction(this.getSolutionData())}>{"<"}</button>
+                    onClick={event => this.state.backToMenuFunction()}>{"<"}</button>
                 <div className="Map" style={{width: mapWidth, height: mapHeight}}>
                     <ColorLayer colors={colors} mapWidth={mapWidth} mapHeight={mapHeight}></ColorLayer>
                     <ElementsLayer elements={elements} angle={angle} mapWidth={mapWidth} mapHeight={mapHeight}></ElementsLayer>
