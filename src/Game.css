@@ -5,64 +5,18 @@
     outline: none;
 }
 
-.pauseButton {
-    width: 12vw;
+.backToMenuButton {
+    width: 6vw;
     height: 6vw;
     border: 0;
+    border-radius: 50%;
     background-color: #3E3E3E;
 
     font-family: 'Hind Siliguri', sans-serif;
-    font-size: 3vw;
+    font-size: 3.8vw;
     color: white;
 
     outline: none;
-}
-
-.pauseMenu {
-    width: 60vw;
-    height: 60vh;
-    border: 0;
-    border-radius: 2vw;
-    background-color: #3E3E3E;
-
-    position: absolute;
-    left: 20vw;
-    top: 20vh;
-}
-
-.pauseMenuOverlay {
-    position: absolute;
-    width: 100vw;
-    height: 100vh;
-    top: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
-.pauseMenu:not(.hidden) {
-    z-index: 11;
-}
-
-.pauseMenu.hidden {
-    z-index: -11;
-}
-
-.pauseMenuOverlay:not(.hidden) {
-    z-index: 10;
-}
-
-.pauseMenuOverlay.hidden {
-    z-index: -10;
-}
-
-.pauseMenu:not(.hidden),
-.pauseMenuOverlay:not(.hidden) {
-    opacity: 100%;
-}
-
-.pauseMenu.hidden,
-.pauseMenuOverlay.hidden {
-    opacity: 0%;
 }
 
 input[type=range].speedRange {
