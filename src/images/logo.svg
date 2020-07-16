@@ -1,12 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="350" height="82">
-    <defs>
-        <style type="text/css">
-            @font-face {
-                font-family: "Noah";
-                src: url("./Noah-Bold.ttf");
+    <style type="text/css">
+  @import url("data:text/css;base64,QGZvbnQtZmFjZSB7Zm9udC1mYW1pbHk6ICJOb2FoIEJvbGQiOw0KICAgICAgICAgICAgICAgIHNyYzogdXJsKCJlMjg4ZmVkODFmNmM3YjRiODc2NjMxNzEzYjdjMTNiMy5lb3QiKTsgLyogSUU5Ki8NCiAgICAgICAgICAgICAgICBzcmM6IHVybCgiZTI4OGZlZDgxZjZjN2I0Yjg3NjYzMTcxM2I3YzEzYjMuZW90PyNpZWZpeCIpIGZvcm1hdCgiZW1iZWRkZWQtb3BlbnR5cGUiKSwgLyogSUU2LUlFOCAqLw0KICAgICAgICAgICAgICAgIHVybCgiZTI4OGZlZDgxZjZjN2I0Yjg3NjYzMTcxM2I3YzEzYjMud29mZjIiKSBmb3JtYXQoIndvZmYyIiksIC8qIGNocm9tZeOAgWZpcmVmb3ggKi8NCiAgICAgICAgICAgICAgICB1cmwoImUyODhmZWQ4MWY2YzdiNGI4NzY2MzE3MTNiN2MxM2IzLndvZmYiKSBmb3JtYXQoIndvZmYiKSwgLyogY2hyb21l44CBZmlyZWZveCAqLw0KICAgICAgICAgICAgICAgIHVybCgiZTI4OGZlZDgxZjZjN2I0Yjg3NjYzMTcxM2I3YzEzYjMudHRmIikgZm9ybWF0KCJ0cnVldHlwZSIpLCAvKiBjaHJvbWXjgIFmaXJlZm9444CBb3BlcmHjgIFTYWZhcmksIEFuZHJvaWQsIGlPUyA0LjIrKi8NCiAgICAgICAgICAgICAgICB1cmwoImUyODhmZWQ4MWY2YzdiNGI4NzY2MzE3MTNiN2MxM2IzLnN2ZyNOb2FoIEJvbGQiKSBmb3JtYXQoInN2ZyIpOyAvKiBpT1MgNC4xLSAqLw0KICAgICAgICAgICAgfQ==");
+</style>
+    <style type="text/css">
+        @font-face {font-family: "Noah Bold";
+                src: url("e288fed81f6c7b4b876631713b7c13b3.eot"); /* IE9*/
+                src: url("e288fed81f6c7b4b876631713b7c13b3.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+                url("e288fed81f6c7b4b876631713b7c13b3.woff2") format("woff2"), /* chrome、firefox */
+                url("e288fed81f6c7b4b876631713b7c13b3.woff") format("woff"), /* chrome、firefox */
+                url("e288fed81f6c7b4b876631713b7c13b3.ttf") format("truetype"), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+                url("e288fed81f6c7b4b876631713b7c13b3.svg#Noah Bold") format("svg"); /* iOS 4.1- */
             }
-        </style>
-    </defs>
+    </style>
 
     <circle cx="11" cy="11" r="11" fill="#FFC006"></circle>
     <circle cx="339" cy="11" r="11" fill="#1DC0FC"></circle>
@@ -20,5 +25,5 @@
 
     <rect x="11" y="11" width="328" height="60" fill="white"></rect>
 
-    <text x="18" y="60" font-family="Noah" fill="#3E3E3E" font-size="55">ALGORITHM</text>
+    <text x="18" y="60" font-family="Noah Bold" fill="#3E3E3E" font-size="55">ALGORITHM</text>
 </svg>

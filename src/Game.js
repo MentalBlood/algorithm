@@ -7,31 +7,6 @@ import AvailableControls from './AvailableControls.js';
 import Functions from './Functions.js';
 import DraggingController from './DraggingController.js';
 
-import levels from './levels.json';
-
-const defaultLevelDescription = {
-                "name": "Casket",
-                "controlsBinaryId": 1583,
-                "columns": 11,
-                "rows": 9,
-                "path": "g n n n n n n n n n g g n n n n n n n n n g b g g r b g b r g g b g n n n n n n n n n g g n n n n b n n n n g g n n n n r n n n n g b g g g n g n g r g b n n n r n g n g n n n n n n b g b g b n n n",
-                "angle": 1.0,
-                "elements": "f n n n n n n n n n a n n n n n n n n n n n n n n n s n s n n n n n n n n n n n n n n n n n n n n s n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n",
-                "f1Len": 4,
-                "f2Len": 4,
-                "f1MinSol": "u_n l_b f2_r f1_n",
-                "f2MinSol": "u_n u_b u_n",
-                "f1StarSol": "u_n l_b f2_r f1_n",
-                "f2StarSol": "u_n r_n r_b u_n"
-            };
-
-let testingLevelsList = [];
-for (const [levelPackNumber, levelPack] of Object.entries(levels)) {
-    for (const [levelNumber, level] of Object.entries(levelPack.levels)) {
-        testingLevelsList.push(level);
-    }
-}
-
 function controlsListFromControlsBinaryId(controlsBinaryId) {
     let controlsList = [];
     const controllers = {
@@ -188,25 +163,32 @@ function emptyFunctionsListFromLevelDescription(levelDescription) {
 
 class Game extends Component {
     constructor(props) {
+        console.log('game constructor');
         super(props);
 
         const level = props.level;
         const backToMenuFunction = props.backToMenuFunction;
+        const nextLevelFunction = props.nextLevelFunction;
+        const restartLevelFunction = props.restartLevelFunction;
+
+        const emptyFunctionsList = emptyFunctionsListFromLevelDescription(level);
 
         this.state = {
-            'pause': false,
             'backToMenuFunction': backToMenuFunction,
+            'restartLevelFunction': restartLevelFunction,
+            'nextLevelFunction': nextLevelFunction,
             'initialLevelDescription': getConvertedLevelDescription(level),
             'stack': [],
             'stackPointerPosition': undefined,
-            'functionsList': emptyFunctionsListFromLevelDescription(level),
+            'functionsList': emptyFunctionsList,
             'speed': 0,
             'testing': false,
             'mapWidth': undefined,
             'mapHeight': undefined,
             'draggingControllerType': undefined,
             'draggingControllerPosition': undefined,
-            'timersIds': []
+            'timersIds': [],
+            'finishReached': false
         }
         this.state.levelDescription = deepCopy(this.state.initialLevelDescription);
 
@@ -220,18 +202,7 @@ class Game extends Component {
         this.onMouseDownOnFunctionCell = this.onMouseDownOnFunctionCell.bind(this);
     }
 
-    setLevel(levelDescription, functionToExecuteAfter) {
-        console.log('set level', levelDescription.name);
-        const convertedLevelDescription = getConvertedLevelDescription(levelDescription);
-        this.setState(state => {
-            state.initialLevelDescription = convertedLevelDescription;
-            state.levelDescription = deepCopy(state.initialLevelDescription);
-            state.functionsList = emptyFunctionsListFromLevelDescription(levelDescription);
-            return state;
-        }, functionToExecuteAfter);
-    }
-
-    resetCurrentLevel() {
+    resetLevel() {
         console.log('reset level');
         this.setState(state => {
             state.timersIds.forEach(clearTimeout);
@@ -242,6 +213,10 @@ class Game extends Component {
                 timersIds: []
             };
         });
+    }
+
+    resetFunctions() {
+        this.setState(state => ({functionsList: deepCopy(state.emptyFunctionsList)}));
     }
 
     isCellPassable(x, y) {
@@ -322,7 +297,7 @@ class Game extends Component {
             return this.move(direction);
         }
         else {
-            this.resetCurrentLevel();
+            this.resetLevel();
             return false;
         }
     }
@@ -363,10 +338,15 @@ class Game extends Component {
     }
 
     finishReached() {
+        if (this.state.finishReached === true)
+            return true;
         const x = this.state.levelDescription.arrowCoordinates.x;
         const y = this.state.levelDescription.arrowCoordinates.y;
         const finishCoordinates = this.state.levelDescription.finishCoordinates;
-        return (x === finishCoordinates.x) && (y === finishCoordinates.y);
+        const result = (x === finishCoordinates.x) && (y === finishCoordinates.y);
+        if (result === true)
+            this.setState({finishReached: true});
+        return result;
     }
 
     paintArrowCell(color) {
@@ -396,7 +376,7 @@ class Game extends Component {
         const pointerPosition = this.state.stackPointerPosition;
         const algorithmEnded = (pointerPosition === stack.length);
         if (algorithmEnded) {
-            this.resetCurrentLevel();
+            this.resetLevel();
             return;
         }
         const timersIds = this.state.timersIds;
@@ -404,7 +384,8 @@ class Game extends Component {
         if (waitingForSetState)
             return;
         if (this.finishReached()) {
-            this.resetCurrentLevel();
+            if (this.state.timersIds.length > 0)
+                this.clearTimers();
             return;
         }
 
@@ -521,10 +502,9 @@ class Game extends Component {
     }
 
     onMouseUp(event) {
-        if (this.state.stackPointerPosition !== undefined) {
-            this.setState({speed: 0, stack: [], stackPointerPosition: undefined});
-            this.resetCurrentLevel();
-        }
+        this.setState({speed: 0, stack: [], stackPointerPosition: undefined});
+        if (this.state.stackPointerPosition !== undefined)
+            this.resetLevel();
 
         if (this.state.draggingControllerType === undefined)
             return;
@@ -563,7 +543,7 @@ class Game extends Component {
         const stack = this.state.stack;
         const stackIsEmpty = (stack.length === 0);
         if (stackIsEmpty) {
-            this.resetCurrentLevel();
+            this.resetLevel();
             this.loadCurrentAlgorithmToStack();
         }
         this.setState({speed: event.target.value});
@@ -599,22 +579,53 @@ class Game extends Component {
         return true;
     }
 
+    functionNotEmptyCellsNumber(someFunction) {
+        let result = 0;
+        console.log('functionNotEmptyCellsNumber', someFunction);
+        for (const cell of someFunction)
+            if (cell.action !== undefined)
+                result += 1;
+        return result;
+    }
+
     isCurrentAlgorithmMinimal() {
         const minSolution = this.state.initialLevelDescription.minSolution;
         const currentSolution = this.state.functionsList;
         for (let functionNumber = 0; functionNumber < minSolution.length; functionNumber++)
-            if (minSolution[functionNumber].length < currentSolution[functionNumber].length)
-                return false;
+            if (currentSolution[functionNumber] !== undefined)
+                if (minSolution[functionNumber].length < this.functionNotEmptyCellsNumber(currentSolution[functionNumber]))
+                    return false;
         return true;
     }
 
-    getSolutionData() {
-        const solutionData = {
+    getAchivments() {
+        const achivments = {
             levelFinished: true,
             minSolutionFound: this.isCurrentAlgorithmMinimal(),
             allStarsGathered: this.isAllStarsGathered()
         }
-        return solutionData;
+        return achivments;
+    }
+
+    getAchivmentsHtml() {
+        const achivments = this.getAchivments();
+        return (
+            <div className="achivments">
+                {
+                    Object.entries(achivments).map(
+                        achivment => {
+                            const achivmentName = achivment[0];
+                            const achivmentGot = achivment[1];
+                            const className = "achivment" + " " + achivmentName;
+                            return achivmentGot ?
+                                <div key={achivmentName} className={className}></div>
+                                :
+                                null;
+                        }
+                    )
+                }
+            </div>
+        );
     }
 
     render() {
@@ -627,8 +638,12 @@ class Game extends Component {
         const draggingControllerPosition = this.state.draggingControllerPosition;
         const speedRangeOnInput = this.speedRangeOnInput;
         const speed = this.state.speed;
-        const onMouseDownOnFunctionCell = this.onMouseDownOnFunctionCell;
-        const pause = this.state.pause;
+        const finishReached = this.state.finishReached === true;
+        const onMouseDownOnFunctionCell = finishReached ? null : this.onMouseDownOnFunctionCell;
+        const onMouseUp = finishReached ? null : this.onMouseUp;
+        const onMouseMove = finishReached ? null : this.onMouseMove;
+        const onMouseDownOnAvailableControl = finishReached ? null : this.onMouseDownOnAvailableControl;
+        const onBackToMenuButtonClick = finishReached ? null : this.state.backToMenuFunction;
 
         const stack = this.state.stack;
         const pointerPosition = this.state.stackPointerPosition;
@@ -640,19 +655,42 @@ class Game extends Component {
         const mapHeight = this.state.mapHeight;
 
         return (
-            <div className="Game" onKeyDown={this.handleKeyPress} onMouseUp={this.onMouseUp} onMouseMove={this.onMouseMove} tabIndex={-1}>
+            <div className="Game" onKeyDown={this.handleKeyPress} onMouseUp={onMouseUp} onMouseMove={onMouseMove} tabIndex={-1}>
                 <button className="backToMenuButton"
-                    onClick={event => this.state.backToMenuFunction()}>{"<"}</button>
+                    onClick={onBackToMenuButtonClick}>{"<"}</button>
+                {
+                    finishReached ?
+                    <div className="finishMenu">
+                        <div className="finishMenuOverlay"></div>
+                        <div className="finishMenuWindow">
+                            <div className="verdict">AMAZING</div>
+                            {this.getAchivmentsHtml()}
+                            <div className="buttons">
+                                <button className="button restartButton"
+                                    onClick={event => this.state.restartLevelFunction()}>Restart</button>
+                                <button className="button nextButton"
+                                    onClick={this.state.nextLevelFunction}>Next</button>
+                            </div>
+                        </div>
+                    </div>
+                    :
+                    null
+                }
                 <div className="Map" style={{width: mapWidth, height: mapHeight}}>
                     <ColorLayer colors={colors} mapWidth={mapWidth} mapHeight={mapHeight}></ColorLayer>
                     <ElementsLayer elements={elements} angle={angle} mapWidth={mapWidth} mapHeight={mapHeight}></ElementsLayer>
                 </div>
                 <div className="ControlsPanel">
                     <AvailableControls controlsList={controlsList}
-                        onMouseDown={this.onMouseDownOnAvailableControl}></AvailableControls>
+                        onMouseDown={onMouseDownOnAvailableControl}></AvailableControls>
                     <Functions functionsList={functionsList} pointerFunctionIndex={pointerFunctionIndex}
                         pointerCommandIndex={pointerCommandIndex} onMouseDownOnFunctionCell={onMouseDownOnFunctionCell}></Functions>
-                    <DraggingController type={draggingControllerType} position={draggingControllerPosition}></DraggingController>
+                    {
+                        draggingControllerType === undefined ?
+                        null
+                        :
+                        <DraggingController type={draggingControllerType} position={draggingControllerPosition}></DraggingController>
+                    }
                     <input className="speedRange" type="range" min="0" max="7" step="0.1"
                         value={speed} onChange={speedRangeOnInput}/>
                 </div>

@@ -3,6 +3,9 @@
     height: 100vh;
 
     outline: none;
+
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 .backToMenuButton {
@@ -21,6 +24,105 @@
     outline: none;
 }
 
+.finishMenuOverlay {
+    z-index: 10;
+
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.75);
+
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.finishMenuWindow {
+    z-index: 11;
+
+    width: 55vmin;
+    background-color: white;
+
+    border-radius: 2vmin;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+
+    font-family: 'Hind Siliguri', sans-serif;
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+
+    padding: 4vmin 6.5vmin;
+}
+
+.finishMenuWindow .verdict {
+    font-size: 10vmin;
+    color: #3E3E3E;
+    font-style: italic;
+}
+
+.finishMenuWindow .buttons .button {
+    width: 55vmin;
+    height: 13.4vmin;
+    background-color: #FFC006;
+
+    margin-bottom: 3.9vmin;
+
+    border: 0;
+    border-radius: 2vmin;
+
+    font-size: 7vmin;
+    color: white;
+    font-style: italic;
+
+    outline: none;
+}
+
+.finishMenuWindow .achivments {
+    width: 100%;
+
+    display: flex;
+    align-content: space-between;
+    justify-content: center;
+    margin-bottom: 3.9vmin;
+}
+
+.finishMenuWindow .achivment {
+    width: 13vmin;
+    height: 13vmin;
+    background-color: transparent;
+
+    border: 0.7vmin solid #3E3E3E;
+    border-radius: 50%;
+
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.finishMenuWindow .achivment:not(:last-of-type) {
+    margin-right: 3vmin;
+}
+
+.finishMenuWindow .achivment.levelFinished {
+    background-image: url('./images/flag.svg');
+    background-size: 60%;
+}
+
+.finishMenuWindow .achivment.minSolutionFound {
+    background-image: url('./images/min_color.svg');
+    background-size: 60%;
+}
+
+.finishMenuWindow .achivment.allStarsGathered {
+    background-image: url('./images/star.svg');
+    background-size: 80%;
+}
+
 input[type=range].speedRange {
     position: relative;
     width: 80vw;
@@ -32,19 +134,19 @@ input[type=range].speedRange:focus {
     outline: none;
 }
 input[type=range].speedRange::-webkit-slider-runnable-track {
-    margin-top: calc(calc(calc(8 * 1vh) - calc(1.5vh)) / 2);
+    margin-top: calc(calc(8vh - 1.5vh) / 2);
     background: #cccccc;
-    border-radius: calc(0.35 * 1vh);
+    border-radius: 0.35vh;
     width: 100%;
     height: 1.5vh;
     cursor: pointer;
 }
 input[type=range].speedRange::-webkit-slider-thumb {
-    margin-top: calc(-1 * calc(calc(8 * 1vh) - calc(1.5vh)) / 2);
-    width: calc(8 * 1vh);
-    height: calc(8 * 1vh);
+    margin-top: calc(-1 * calc(8vh - 1.5vh) / 2);
+    width: 8vh;
+    height: 8vh;
     background: #41454d;
-    border-radius: calc(0.5 * 1vh);
+    border-radius: 0.5vh;
     cursor: pointer;
     -webkit-appearance: none;
 }
@@ -53,16 +155,16 @@ input[type=range].speedRange:focus::-webkit-slider-runnable-track {
 }
 input[type=range].speedRange::-moz-range-track {
     background: #cccccc;
-    border-radius: calc(0.35 * 1vh);
+    border-radius: 0.35vh;
     width: 100%;
     height: 1.5vh;
     cursor: pointer;
 }
 input[type=range].speedRange::-moz-range-thumb {
-    width: calc(8 * 1vh);
-    height: calc(8 * 1vh);
+    width: 8vh;
+    height: 8vh;
     background: #41454d;
-    border-radius: calc(0.5 * 1vh);
+    border-radius: 0.5vh;
     cursor: pointer;
 }
 input[type=range].speedRange::-ms-track {
@@ -77,19 +179,19 @@ input[type=range].speedRange::-ms-track {
 input[type=range].speedRange::-ms-fill-lower {
     background: #bfbfbf;
     border: 0px solid #cccccc;
-    border-radius: calc(0.35 * 1vh);
+    border-radius: 0.35vh;
 }
 input[type=range].speedRange::-ms-fill-upper {
     background: #cccccc;
     border: 0px solid #cccccc;
-    border-radius: calc(0.35 * 1vh);
+    border-radius: 0.35vh;
 }
 input[type=range].speedRange::-ms-thumb {
-    width: calc(8 * 1vh);
-    height: calc(8 * 1vh);
+    width: 8vh;
+    height: 8vh;
     background: #41454d;
     border: 0;
-    border-radius: calc(0.5 * 1vh);
+    border-radius: 0.5vh;
     cursor: pointer;
     margin-top: 0px;
     /*Needed to keep the Edge thumb centred*/

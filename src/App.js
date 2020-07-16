@@ -17,6 +17,8 @@ class App extends Component {
             currentScreen: "main"
         };
         this.launchLevel = this.launchLevel.bind(this);
+        this.launchNextLevel = this.launchNextLevel.bind(this);
+        this.getCurrentLevel = this.getCurrentLevel.bind(this);
         this.closeLevel = this.closeLevel.bind(this);
     }
 
@@ -37,6 +39,24 @@ class App extends Component {
             currentLevelPack: levelPack === undefined ? state.currentLevelPack : levelPack,
             currentLevelNumber: levelNumber === undefined ? state.currentLevelNumber : levelNumber
         }));
+    }
+
+    launchNextLevel() {
+        const currentLevelNumber = this.state.currentLevelNumber;
+        const currentLevelPack = this.state.currentLevelPack;
+        let nextLevelNumber = currentLevelNumber + 1;
+        let nextLevelPack = currentLevelPack;
+        if (this.state.levels[nextLevelPack].levels[nextLevelNumber-1] === undefined) {
+            nextLevelNumber = 1;
+            nextLevelPack = currentLevelPack + 1;
+            if (this.state.levels[nextLevelPack] === undefined)
+                nextLevelPack = 1;
+        }
+        this.setState({
+            currentLevelNumber: nextLevelNumber,
+            currentLevelPack: nextLevelPack,
+            currentScreen: "game"
+        });
     }
 
     closeLevel() {
@@ -60,7 +80,10 @@ class App extends Component {
         }
         else if (currentScreen === "game") {
             const level = this.getCurrentLevel();
-            return <Game level={level} backToMenuFunction={this.closeLevel}></Game>
+            return <Game key={level.name + " " + Date.now().toString()} level={level}
+                       backToMenuFunction={this.closeLevel}
+                       nextLevelFunction={this.launchNextLevel}
+                       restartLevelFunction={this.launchLevel}></Game>
         }
     }
 }

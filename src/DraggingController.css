@@ -13,14 +13,6 @@
     background-size: cover;
 }
 
-.DraggingController.undefined {
-    z-index: -1000;
-}
-
-.DraggingController:not(.undefined) {
-    z-index: 1000;
-}
-
 .DraggingController.action-u {
     background-image: url('./images/up.svg');
 }
