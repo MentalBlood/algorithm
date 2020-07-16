@@ -37,10 +37,12 @@
 }
 
 .logoText {
-    font-family: url('./Noah-Bold.ttf');
-    font-size: 10vmin;
-    text-align: center;
-    vertical-align: middle;
+    font-family: Noah;
+    font-size: 12vmin;
+    color: #3E3E3E;
+    
+    position: relative;
+    top: 10%;
 }
 
 .playButton {
