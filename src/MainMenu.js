@@ -9,11 +9,13 @@ function MainMenu(props) {
 
     return (
         <div className="MainMenu">
-            <button className="upperButton creditsButton">Credits</button>
-            <button className="upperButton settingsButton">Settings</button>
+            <div className="buttons">
+                <button className="upperButton creditsButton">Credits</button>
+                <button className="upperButton settingsButton">Settings</button>
+            </div>
             <div className="appLogo"></div>
             <button className="playButton" onClick={event => onPlayButtonClick()}>
-                Play {getSvgCircle(lastLevelPackColor, "2.3vw")}{lastLevelNumber}
+                Play {getSvgCircle(lastLevelPackColor, "2.3vmin")}{lastLevelNumber}
             </button>
         </div>
     );

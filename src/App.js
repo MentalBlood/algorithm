@@ -50,7 +50,7 @@ class App extends Component {
             nextLevelNumber = 1;
             nextLevelPack = currentLevelPack + 1;
             if (this.state.levels[nextLevelPack] === undefined)
-                nextLevelPack = 1;
+                nextLevelPack = 0;
         }
         this.setState({
             currentLevelNumber: nextLevelNumber,

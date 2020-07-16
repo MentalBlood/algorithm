@@ -1,19 +1,31 @@
+.buttons {
+    margin-top: 5vmin;
+    padding: 0 5vmin;
+
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 .upperButton {
-    width: 43vw;
-    height: 12.5vw;
+    width: 43vmin;
+    height: 12.5vmin;
     background-color: #3E3E3E;
 
-    position: relative;
-    margin-left: 4.66vw;
-    margin-top: 7vw;
-
     border: 0;
-    border-radius: 2vw;
+    border-radius: 2vmin;
+}
+
+.upperButton:not(:last-of-type) {
+    margin-right: 3vmin;
 }
 
 .appLogo {
-    width: 100vw;
-    height: 18.3vw;
+    height: 18.3vmin;
 
     background-image: url('./images/logo.svg');
     background-repeat: no-repeat;
@@ -22,20 +34,23 @@
 }
 
 .playButton {
-    width: 58vw;
-    height: 12vw;
+    width: 58vmin;
+    height: 12vmin;
     background-color: #FFC006;
 
-    margin-left: 21vw;
+    position: relative;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
 
     border: 0;
-    border-radius: 2vw;
+    border-radius: 2vmin;
 }
 
 .upperButton,
 .playButton {
     font-family: 'Hind Siliguri', sans-serif;
-    font-size: 7vw;
+    font-size: 7vmin;
     color: white;
 
     outline: none;
@@ -43,5 +58,5 @@
 
 .appLogo,
 .playButton {
-    margin-top: 10vw;
+    margin-top: 10vmin;
 }

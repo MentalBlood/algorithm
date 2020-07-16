@@ -1,36 +1,36 @@
-.levelPack {
-    width: 100vw;
-    margin-top: 10vw;
-    padding: 4.7vw 3.9vw;
+.levels {
     font-family: 'Hind Siliguri', sans-serif;
 }
 
+.levelPack {
+    width: 100vw;
+    margin-top: 2vmin;
+    padding: 3vmin 3.9vmin;
+}
+
 .levelPackName {
-    font-family: 'Hind Siliguri', sans-serif;
     font-style: italic;
-    font-size: 7vw;
+    font-size: 7vmin;
     color: white;
 }
 
 .levels {
-    margin-top: 6.25vw;
-
     display: -webkit-box;
     display: -moz-box;
     display: -ms-flexbox;
     display: -webkit-flex;
     display: flex;
-    justify-content: start;
+    justify-content: center;
     flex-wrap: wrap;
 }
 
 .levelCell {
-    flex: 0 0 25%;
+    flex: 20vmin 0;
     display: flex;
     justify-content: center;
     align-items: stretch;
     box-sizing: border-box;
-    padding: 1.5vw;
+    padding: 1.5vmin;
 }
 
 .levelCell:before {
@@ -41,7 +41,7 @@
 
 .level {
     flex-grow: 1;
-    border-radius: 2vw;
+    border-radius: 2vmin;
     background: white;
     color: #3E3E3E;
 
@@ -51,5 +51,5 @@
 }
 
 .levelNumber {
-    font-size: 6vw;
+    font-size: 6vmin;
 }

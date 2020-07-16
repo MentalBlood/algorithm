@@ -163,7 +163,6 @@ function emptyFunctionsListFromLevelDescription(levelDescription) {
 
 class Game extends Component {
     constructor(props) {
-        console.log('game constructor');
         super(props);
 
         const level = props.level;
@@ -203,7 +202,6 @@ class Game extends Component {
     }
 
     resetLevel() {
-        console.log('reset level');
         this.setState(state => {
             state.timersIds.forEach(clearTimeout);
             return {
@@ -303,8 +301,6 @@ class Game extends Component {
     }
 
     loadCurrentAlgorithmToStack() {
-        console.log('loadCurrentAlgorithmToStack');
-        console.log(this.state.functionsList[0]);
         this.setState(state => ({stackPointerPosition: 0, stack: state.functionsList[0]}));
     }
 
@@ -581,7 +577,6 @@ class Game extends Component {
 
     functionNotEmptyCellsNumber(someFunction) {
         let result = 0;
-        console.log('functionNotEmptyCellsNumber', someFunction);
         for (const cell of someFunction)
             if (cell.action !== undefined)
                 result += 1;
