@@ -1,4 +1,4 @@
-.buttons {
+.mainMenu .buttons {
     margin-top: 5vmin;
     padding: 0 5vmin;
 
@@ -7,6 +7,7 @@
     display: -ms-flexbox;
     display: -webkit-flex;
     display: flex;
+    flex-direction: row;
     align-items: center;
     justify-content: space-between;
 }
@@ -31,6 +32,15 @@
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
+
+    text-align: center;
+}
+
+.logoText {
+    font-family: url('./Noah-Bold.ttf');
+    font-size: 10vmin;
+    text-align: center;
+    vertical-align: middle;
 }
 
 .playButton {

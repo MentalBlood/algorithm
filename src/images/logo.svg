@@ -24,6 +24,4 @@
     <rect x="0" y="11" width="11" height="60" fill="#FFC006"></rect>
 
     <rect x="11" y="11" width="328" height="60" fill="white"></rect>
-
-    <text x="18" y="60" font-family="Noah Bold" fill="#3E3E3E" font-size="55">ALGORITHM</text>
 </svg>

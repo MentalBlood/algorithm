@@ -66,6 +66,11 @@
     font-style: italic;
 }
 
+.finishMenuWindow .buttons {
+    display: flex;
+    flex-direction: column;
+}
+
 .finishMenuWindow .buttons .button {
     width: 55vmin;
     height: 13.4vmin;
