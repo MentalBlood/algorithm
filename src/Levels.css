@@ -25,7 +25,7 @@
 }
 
 .levelCell {
-    flex: 20vmin 0;
+    flex: 22vmin 0;
     display: flex;
     justify-content: center;
     align-items: stretch;
