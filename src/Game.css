@@ -208,3 +208,15 @@ input[type=range].speedRange:focus::-ms-fill-lower {
 input[type=range].speedRange:focus::-ms-fill-upper {
     background: #d9d9d9;
 }
+
+.color-r {
+    background: radial-gradient(circle, rgba(255,100,107,1) 0%, rgba(242,62,70,1) 100%);
+}
+
+.color-g {
+    background: radial-gradient(circle, rgba(88,247,116,1) 0%, rgba(13,195,48,1) 100%);
+}
+
+.color-b {
+    background: radial-gradient(circle, rgba(26,198,251,1) 0%, rgba(56,137,255,1) 100%);
+}

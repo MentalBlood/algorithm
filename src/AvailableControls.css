@@ -31,18 +31,6 @@
     background-image: url('./images/right.svg');
 }
 
-.AvailableControls td.color-g {
-    background-image: url('./images/green.svg');
-}
-
-.AvailableControls td.color-b {
-    background-image: url('./images/blue.svg');
-}
-
-.AvailableControls td.color-r {
-    background-image: url('./images/red.svg');
-}
-
 .AvailableControls td.action-p-g {
     background-image: url('./images/painter_green.svg');
 }

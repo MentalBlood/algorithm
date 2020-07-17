@@ -10,7 +10,7 @@ function ColorLayer(props) {
                 {
                     colors.map((row, index) => 
                         <tr key={index}>
-                            {row.map((color, index) => <td key={index} className={color}></td>)}
+                            {row.map((color, index) => <td key={index} className={'color-' + color}></td>)}
                         </tr>
                     )
                 }

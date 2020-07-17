@@ -27,18 +27,6 @@
     background-image: url('./images/right.svg');
 }
 
-.DraggingController.color-g {
-    background-image: url('./images/green.svg');
-}
-
-.DraggingController.color-b {
-    background-image: url('./images/blue.svg');
-}
-
-.DraggingController.color-r {
-    background-image: url('./images/red.svg');
-}
-
 .DraggingController.action-p-g {
     background-image: url('./images/painter_green.svg');
 }
