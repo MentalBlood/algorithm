@@ -1,4 +1,6 @@
 .DraggingController {
+    z-index: 100;
+
     position: absolute;
 
     border: 0px;
