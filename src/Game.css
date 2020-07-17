@@ -220,3 +220,43 @@ input[type=range].speedRange:focus::-ms-fill-upper {
 .color-b {
     background: radial-gradient(circle, rgba(26,198,251,1) 0%, rgba(56,137,255,1) 100%);
 }
+
+.action-u,
+.Functions .action-u:before {
+    background-image: url('./images/up.svg');
+}
+
+.action-l,
+.Functions .action-l:before {
+    background-image: url('./images/left.svg');
+}
+
+.action-r,
+.Functions .action-r:before {
+    background-image: url('./images/right.svg');
+}
+
+.action-p-g,
+.Functions .action-p.paintColor-g:before {
+    background-image: url('./images/painter_green.svg');
+}
+
+.action-p-b,
+.Functions .action-p.paintColor-b:before {
+    background-image: url('./images/painter_blue.svg');
+}
+
+.action-p-r,
+.Functions .action-p.paintColor-r:before {
+    background-image: url('./images/painter_red.svg');
+}
+
+.action-f-1,
+.Functions .action-f-1:before {
+    background-image: url('./images/f1.svg');
+}
+
+.action-f-2,
+.Functions .action-f-2:before {
+    background-image: url('./images/f2.svg');
+}

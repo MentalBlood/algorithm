@@ -19,38 +19,6 @@
     padding-top: 100%;
 }
 
-.AvailableControls td.action-u {
-    background-image: url('./images/up.svg');
-}
-
-.AvailableControls td.action-l {
-    background-image: url('./images/left.svg');
-}
-
-.AvailableControls td.action-r {
-    background-image: url('./images/right.svg');
-}
-
-.AvailableControls td.action-p-g {
-    background-image: url('./images/painter_green.svg');
-}
-
-.AvailableControls td.action-p-b {
-    background-image: url('./images/painter_blue.svg');
-}
-
-.AvailableControls td.action-p-r {
-    background-image: url('./images/painter_red.svg');
-}
-
-.AvailableControls td.action-f-1 {
-    background-image: url('./images/f1.svg');
-}
-
-.AvailableControls td.action-f-2 {
-    background-image: url('./images/f2.svg');
-}
-
 .AvailableControls td:not(:hover) {
     border: 0.5vh solid white;
     transition-duration: 0.3s;

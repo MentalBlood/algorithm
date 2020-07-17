@@ -14,35 +14,3 @@
     background-position: center;
     background-size: cover;
 }
-
-.DraggingController.action-u {
-    background-image: url('./images/up.svg');
-}
-
-.DraggingController.action-l {
-    background-image: url('./images/left.svg');
-}
-
-.DraggingController.action-r {
-    background-image: url('./images/right.svg');
-}
-
-.DraggingController.action-p-g {
-    background-image: url('./images/painter_green.svg');
-}
-
-.DraggingController.action-p-b {
-    background-image: url('./images/painter_blue.svg');
-}
-
-.DraggingController.action-p-r {
-    background-image: url('./images/painter_red.svg');
-}
-
-.DraggingController.action-f-1 {
-    background-image: url('./images/f1.svg');
-}
-
-.DraggingController.action-f-2 {
-    background-image: url('./images/f2.svg');
-}
