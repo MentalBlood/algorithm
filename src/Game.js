@@ -490,7 +490,6 @@ class Game extends Component {
     }
 
     onMouseMove(event) {
-        event.preventDefault();
         if (this.state.draggingControllerType === undefined)
             return;
         const mouseX = event.pageX !== undefined ? event.pageX : event.touches[0].screenX;
