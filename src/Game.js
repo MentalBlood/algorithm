@@ -490,6 +490,7 @@ class Game extends Component {
     }
 
     onMouseMove(event) {
+        event.preventDefault();
         if (this.state.draggingControllerType === undefined)
             return;
         const mouseX = event.pageX !== undefined ? event.pageX : event.touches[0].screenX;
@@ -498,7 +499,6 @@ class Game extends Component {
     }
 
     onMouseUp(event) {
-        console.log('onMouseUp is', event.changedTouches);
         this.setState({speed: 0, stack: [], stackPointerPosition: undefined});
         if (this.state.stackPointerPosition !== undefined)
             this.resetLevel();
@@ -509,7 +509,6 @@ class Game extends Component {
         const mouseY = event.pageY !== undefined ? event.pageY : event.changedTouches[0].screenY;
         const DraggingControlElement = document.getElementById('DraggingController');
         DraggingControlElement.hidden = true;
-        console.log('mouse is', mouseX, mouseY);
         const elementUnderCursor = document.elementFromPoint(mouseX, mouseY);
         DraggingControlElement.hidden = false;
         if (elementUnderCursor.classList.contains('functionCell')) {
