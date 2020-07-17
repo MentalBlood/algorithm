@@ -6,7 +6,7 @@ function AvailableControls(props) {
     const onMouseDown = props.onMouseDown;
     const onTouchStart = props.onTouchStart;
     return (
-        <table className="AvailableControls">
+        <table className="availableControls">
             <tbody>
                 <tr>
                     {

@@ -7,7 +7,7 @@
 <style type="text/css">
 <![CDATA[
 .ps03 { stroke:#98B3FC;fill:none; }
-.ps01 { stroke:none;fill-opacity:0;fill:#D7D7D7;fill-rule:nonzero; }
+.ps01 { stroke:none;fill:none }
 .ps02 { stroke:none;fill:#4D4D4D;fill-rule:nonzero; }
 .ps00 { stroke:none;fill:none; }
 .ps10 { stroke-width:0.05; }
