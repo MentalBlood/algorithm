@@ -442,8 +442,8 @@ class Game extends Component {
     onMouseDownOnAvailableControl(event, controllerType) {
         if (this.state.speed > 0)
             return;
-        const mouseX = event.pageX !== undefined ? event.pageX : event.touches[0].screenX;
-        const mouseY = event.pageY !== undefined ? event.pageY : event.touches[0].screenY;
+        const mouseX = event.clientX !== undefined ? event.clientX : event.touches[0].clientX;
+        const mouseY = event.clientY !== undefined ? event.clientY : event.touches[0].clientY;
         this.setState(state => ({
             draggingControllerPosition: {x: mouseX, y: mouseY},
             draggingControllerType: controllerType
@@ -455,8 +455,8 @@ class Game extends Component {
         const functionIndex = cellElement.getAttribute('rowindex');
         const commandIndex = cellElement.getAttribute('cellIndex');
         const cellCommand = this.state.functionsList[functionIndex][commandIndex];
-        const mouseX = event.pageX !== undefined ? event.pageX : event.touches[0].screenX;
-        const mouseY = event.pageY !== undefined ? event.pageY : event.touches[0].screenY;
+        const mouseX = event.clientX !== undefined ? event.clientX : event.touches[0].clientX;
+        const mouseY = event.clientY !== undefined ? event.clientY : event.touches[0].clientY;
         if (cellCommand.action !== undefined) {
             const action = cellCommand.action;
             let controllerType = 'action-' + action;
@@ -492,8 +492,8 @@ class Game extends Component {
     onMouseMove(event) {
         if (this.state.draggingControllerType === undefined)
             return;
-        const mouseX = event.pageX !== undefined ? event.pageX : event.touches[0].screenX;
-        const mouseY = event.pageY !== undefined ? event.pageY : event.touches[0].screenY;
+        const mouseX = event.clientX !== undefined ? event.clientX : event.touches[0].clientX;
+        const mouseY = event.clientY !== undefined ? event.clientY : event.touches[0].clientY;
         this.setState(state => ({draggingControllerPosition: {x: mouseX, y: mouseY}}));
     }
 
@@ -504,8 +504,8 @@ class Game extends Component {
 
         if (this.state.draggingControllerType === undefined)
             return;
-        const mouseX = event.pageX !== undefined ? event.pageX : event.changedTouches[0].screenX;
-        const mouseY = event.pageY !== undefined ? event.pageY : event.changedTouches[0].screenY;
+        const mouseX = event.clientX !== undefined ? event.clientX : event.changedTouches[0].clientX;
+        const mouseY = event.clientY !== undefined ? event.clientY : event.changedTouches[0].clientY;
         const DraggingControlElement = document.getElementById('DraggingController');
         DraggingControlElement.hidden = true;
         const elementUnderCursor = document.elementFromPoint(mouseX, mouseY);
