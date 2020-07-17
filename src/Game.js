@@ -506,7 +506,7 @@ class Game extends Component {
             return;
         const mouseX = event.clientX !== undefined ? event.clientX : event.changedTouches[0].clientX;
         const mouseY = event.clientY !== undefined ? event.clientY : event.changedTouches[0].clientY;
-        const DraggingControlElement = document.getElementById('DraggingController');
+        const DraggingControlElement = document.getElementById('draggingController');
         DraggingControlElement.hidden = true;
         const elementUnderCursor = document.elementFromPoint(mouseX, mouseY);
         DraggingControlElement.hidden = false;

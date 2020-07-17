@@ -225,42 +225,50 @@ input[type=range].speedRange:focus::-ms-fill-upper {
     background: radial-gradient(circle, rgba(236,236,236,1) 0%, rgba(194,194,194,1) 100%);
 }
 
-:not(.Functions) .action-u,
+.availableControls .action-u,
+.draggingController.action-u,
 .Functions .action-u:before {
     background-image: url('./images/up.svg');
 }
 
 .availableControls .action-l,
+.draggingController.action-l,
 .Functions .action-l:before {
     background-image: url('./images/left.svg');
 }
 
 .availableControls .action-r,
+.draggingController.action-r,
 .Functions .action-r:before {
     background-image: url('./images/right.svg');
 }
 
 .availableControls .action-p-g,
+.draggingController.action-p-g,
 .Functions .action-p.paintColor-g:before {
     background-image: url('./images/painter_green.svg');
 }
 
 .availableControls .action-p-b,
+.draggingController.action-p-b,
 .Functions .action-p.paintColor-b:before {
     background-image: url('./images/painter_blue.svg');
 }
 
 .availableControls .action-p-r,
+.draggingController.action-p-r,
 .Functions .action-p.paintColor-r:before {
     background-image: url('./images/painter_red.svg');
 }
 
 .availableControls .action-f-1,
+.draggingController.action-f-1,
 .Functions .action-f.function-1:before {
     background-image: url('./images/f1.svg');
 }
 
 .availableControls .action-f-2,
+.draggingController.action-f-2,
 .Functions .action-f.function-2:before {
     background-image: url('./images/f2.svg');
 }
