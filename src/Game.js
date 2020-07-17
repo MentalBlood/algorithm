@@ -442,8 +442,8 @@ class Game extends Component {
     onMouseDownOnAvailableControl(event, controllerType) {
         if (this.state.speed > 0)
             return;
-        const mouseX = event.pageX;
-        const mouseY = event.pageY;
+        const mouseX = event.pageX !== undefined ? event.pageX : event.touches[0].screenX;
+        const mouseY = event.pageY !== undefined ? event.pageY : event.touches[0].screenY;
         this.setState(state => ({
             draggingControllerPosition: {x: mouseX, y: mouseY},
             draggingControllerType: controllerType
@@ -455,8 +455,8 @@ class Game extends Component {
         const functionIndex = cellElement.getAttribute('rowindex');
         const commandIndex = cellElement.getAttribute('cellIndex');
         const cellCommand = this.state.functionsList[functionIndex][commandIndex];
-        const mouseX = event.pageX;
-        const mouseY = event.pageY;
+        const mouseX = event.pageX !== undefined ? event.pageX : event.touches[0].screenX;
+        const mouseY = event.pageY !== undefined ? event.pageY : event.touches[0].screenY;
         if (cellCommand.action !== undefined) {
             const action = cellCommand.action;
             let controllerType = 'action-' + action;
@@ -492,22 +492,24 @@ class Game extends Component {
     onMouseMove(event) {
         if (this.state.draggingControllerType === undefined)
             return;
-        const mouseX = event.pageX;
-        const mouseY = event.pageY;
+        const mouseX = event.pageX !== undefined ? event.pageX : event.touches[0].screenX;
+        const mouseY = event.pageY !== undefined ? event.pageY : event.touches[0].screenY;
         this.setState(state => ({draggingControllerPosition: {x: mouseX, y: mouseY}}));
     }
 
     onMouseUp(event) {
+        console.log('onMouseUp is', event.changedTouches);
         this.setState({speed: 0, stack: [], stackPointerPosition: undefined});
         if (this.state.stackPointerPosition !== undefined)
             this.resetLevel();
 
         if (this.state.draggingControllerType === undefined)
             return;
-        const mouseX = event.pageX;
-        const mouseY = event.pageY;
+        const mouseX = event.pageX !== undefined ? event.pageX : event.changedTouches[0].screenX;
+        const mouseY = event.pageY !== undefined ? event.pageY : event.changedTouches[0].screenY;
         const DraggingControlElement = document.getElementById('DraggingController');
         DraggingControlElement.hidden = true;
+        console.log('mouse is', mouseX, mouseY);
         const elementUnderCursor = document.elementFromPoint(mouseX, mouseY);
         DraggingControlElement.hidden = false;
         if (elementUnderCursor.classList.contains('functionCell')) {
@@ -650,7 +652,9 @@ class Game extends Component {
         const mapHeight = this.state.mapHeight;
 
         return (
-            <div className="Game" onKeyDown={this.handleKeyPress} onMouseUp={onMouseUp} onMouseMove={onMouseMove} tabIndex={-1}>
+            <div className="Game" onKeyDown={this.handleKeyPress}
+                onMouseUp={onMouseUp} onTouchEnd={onMouseUp}
+                onMouseMove={onMouseMove} onTouchMove={onMouseMove} tabIndex={-1}>
                 <button className="backToMenuButton"
                     onClick={onBackToMenuButtonClick}>{"<"}</button>
                 {
@@ -677,9 +681,12 @@ class Game extends Component {
                 </div>
                 <div className="ControlsPanel">
                     <AvailableControls controlsList={controlsList}
-                        onMouseDown={onMouseDownOnAvailableControl}></AvailableControls>
+                        onMouseDown={onMouseDownOnAvailableControl}
+                        onTouchStart={onMouseDownOnAvailableControl}></AvailableControls>
                     <Functions functionsList={functionsList} pointerFunctionIndex={pointerFunctionIndex}
-                        pointerCommandIndex={pointerCommandIndex} onMouseDownOnFunctionCell={onMouseDownOnFunctionCell}></Functions>
+                        pointerCommandIndex={pointerCommandIndex}
+                        onMouseDownOnFunctionCell={onMouseDownOnFunctionCell}
+                        onTouchStart={onMouseDownOnFunctionCell}></Functions>
                     {
                         draggingControllerType === undefined ?
                         null

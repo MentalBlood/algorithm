@@ -6,6 +6,7 @@ function Functions(props) {
     const pointerFunctionIndex = props.pointerFunctionIndex;
     const pointerCommandIndex = props.pointerCommandIndex;
     const onMouseDown = props.onMouseDownOnFunctionCell;
+    const onTouchStart = props.onTouchStart;
     return (
         <table className="Functions" style={{width: props.mapWidth, height: props.mapHeight}}>
             <tbody>
@@ -34,7 +35,8 @@ function Functions(props) {
                                         if ((pointerFunctionIndex === rowIndex) && (pointerCommandIndex === cellIndex))
                                             className += " processing";
                                         return <td rowindex={rowIndex} cellindex={cellIndex} key={cellIndex}
-                                                   onMouseDown={onMouseDown} className={className}></td>;
+                                                   onMouseDown={onMouseDown} onTouchStart={onTouchStart}
+                                                   className={className}></td>;
                                     }
                                 )
                             }
