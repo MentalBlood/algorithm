@@ -4,6 +4,8 @@
 }
 
 .Functions td {
+    position: relative;
+
     width: 8vh;
 
     background-repeat: no-repeat;
@@ -31,9 +33,11 @@
 
 .Functions td::before {
     content: "";
-    width: 8vh;
-    height: 8vh;
+    width: 100%;
+    height: 100%;
     position: absolute;
+    top: 0;
+    left: 0;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
