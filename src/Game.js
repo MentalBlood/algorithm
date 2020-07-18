@@ -56,58 +56,8 @@ function elementCoordinatesFromColumnsAndElementsString(element, columns, elemen
     return coordinates;
 }
 
-function commandDictFromCommandString(commandString, functionIndex, commandIndex) {
-    let commandDict = undefined;
-    const splitedCommandString = commandString.split('_');
-    commandDict = {
-        'action': splitedCommandString[0][0],
-        'color': splitedCommandString[1],
-        'functionIndex': functionIndex,
-        'commandIndex': commandIndex
-    };
-    if (commandDict.action[0] === 'f') {
-        commandDict.fNumber = Number.parseInt(splitedCommandString[0].substring(1));
-        commandDict.action = 'f';
-    }
-    else if (commandDict.action[0] === 'p')
-        commandDict.paintColor = splitedCommandString[0][1];
-    return commandDict;
-}
-
-function commandsListFromCommandsString(commandsString, functionIndex) {
-    if (commandsString.length === 0)
-        return [];
-    let commandsList = undefined;
-    const commandsStringsList = commandsString.split(' ');
-    commandsList = commandsStringsList.map(
-        (commandString, commandIndex) => commandDictFromCommandString(commandString, functionIndex, commandIndex)
-    );
-    return commandsList;
-}
-
 function convertedAngle(angle) {
     return (angle - 0.5 + 2) % 2;
-}
-
-function solutionsFunctionsListFromLevelDescription(levelDescription, postfix) {
-    let result = [];
-    for (let functionNumber = 1; ; functionNumber++) {
-        const propertyName = 'f' + functionNumber.toString() + postfix;
-        if (propertyName in levelDescription)
-            result.push(levelDescription[propertyName]);
-        else
-            break;
-    }
-    result = result.map(commandsListFromCommandsString);
-    return result;
-}
-
-function minSolutionsFunctionsListFromLevelDescription(levelDescription) {
-    return solutionsFunctionsListFromLevelDescription(levelDescription, 'MinSol');
-}
-
-function starSolutionsFunctionsListFromLevelDescription(levelDescription) {
-    return solutionsFunctionsListFromLevelDescription(levelDescription, 'StarSol');
 }
 
 function deepCopy(inObject) {
@@ -122,18 +72,33 @@ function deepCopy(inObject) {
     return outObject;
 }
 
+function getMinSolutionFunctionsLengths(levelDescription) {
+    const result = [];
+    for (let functionNumber = 1; ; functionNumber++) {
+        const propertyName = 'f' + functionNumber.toString() + "MinSol";
+        if (propertyName in levelDescription) {
+            const currentFunction = levelDescription[propertyName];
+            if (currentFunction.length === 0)
+                result.push(0);
+            else
+                result.push(currentFunction.split(" ").length);
+        }
+        else
+            break;
+    }
+    return result;
+}
+
 function getConvertedLevelDescription(levelDescription) {
     const levelDescriptionCopy = deepCopy(levelDescription);
     const convertedLevelDescription = {
-        'name': levelDescriptionCopy.name,
-        'availableControls': controlsListFromControlsBinaryId(levelDescriptionCopy.controlsBinaryId),
-        'colors': twoDimArrayFromColumnsAndString(levelDescriptionCopy.columns, levelDescriptionCopy.path),
-        'angle': convertedAngle(levelDescriptionCopy.angle),
-        'elements': twoDimArrayFromColumnsAndString(levelDescriptionCopy.columns, levelDescriptionCopy.elements),
-        'arrowCoordinates': elementCoordinatesFromColumnsAndElementsString('a', levelDescriptionCopy.columns, levelDescriptionCopy.elements),
-        'finishCoordinates': elementCoordinatesFromColumnsAndElementsString('f', levelDescriptionCopy.columns, levelDescriptionCopy.elements),
-        'minSolution': minSolutionsFunctionsListFromLevelDescription(levelDescriptionCopy),
-        'starSolution': starSolutionsFunctionsListFromLevelDescription(levelDescriptionCopy)
+        name: levelDescriptionCopy.name,
+        availableControls: controlsListFromControlsBinaryId(levelDescriptionCopy.controlsBinaryId),
+        colors: twoDimArrayFromColumnsAndString(levelDescriptionCopy.columns, levelDescriptionCopy.path),
+        angle: convertedAngle(levelDescriptionCopy.angle),
+        elements: twoDimArrayFromColumnsAndString(levelDescriptionCopy.columns, levelDescriptionCopy.elements),
+        arrowCoordinates: elementCoordinatesFromColumnsAndElementsString('a', levelDescriptionCopy.columns, levelDescriptionCopy.elements),
+        finishCoordinates: elementCoordinatesFromColumnsAndElementsString('f', levelDescriptionCopy.columns, levelDescriptionCopy.elements),
     };
     return convertedLevelDescription;
 }
@@ -189,11 +154,11 @@ class Game extends Component {
             draggingControllerType: undefined,
             draggingControllerPosition: undefined,
             timersIds: [],
-            finishReached: false
+            finishReached: false,
+            minSolutionFunctionsLengths: getMinSolutionFunctionsLengths(level)
         }
         this.state.levelDescription = deepCopy(this.state.initialLevelDescription);
 
-        this.handleKeyPress = this.handleKeyPress.bind(this);
         this.onMouseDownOnAvailableControl = this.onMouseDownOnAvailableControl.bind(this);
         this.onMouseUp = this.onMouseUp.bind(this);
         this.onMouseMove = this.onMouseMove.bind(this);
@@ -307,20 +272,6 @@ class Game extends Component {
         this.setState(state => ({stackPointerPosition: 0, stack: state.functionsList[0]}));
     }
 
-    processMinSolution() {
-        this.setAlgorithm(this.state.levelDescription.minSolution);
-    }
-
-    processStarSolution() {
-        this.setAlgorithm(this.state.levelDescription.starSolution);
-    }
-
-    handleKeyPress(event) {
-        const key = event.key;
-        if (key === 'a')
-            this.processStarSolution();
-    }
-
     commandCondition(command) {
         const x = this.state.levelDescription.arrowCoordinates.x;
         const y = this.state.levelDescription.arrowCoordinates.y;
@@ -429,17 +380,6 @@ class Game extends Component {
             if (state.timersIds.indexOf(timerId) === -1) {
                 return {timersIds: state.timersIds.concat([timerId])};
             }
-        });
-    }
-
-    setAlgorithm(functionsList) {
-        this.setState((state) => {
-            for (let functionNumber = 0; functionNumber < state.functionsList.length; functionNumber++)
-                for (let commandNumber = 0; commandNumber < state.functionsList[functionNumber].length; commandNumber++) {
-                    const newFunction = functionsList[functionNumber][commandNumber];
-                    state.functionsList[functionNumber][commandNumber] = (newFunction === undefined) ? {} : newFunction;
-                }
-            return {functionsList: state.functionsList};
         });
     }
 
@@ -588,11 +528,11 @@ class Game extends Component {
     }
 
     isCurrentAlgorithmMinimal() {
-        const minSolution = this.state.initialLevelDescription.minSolution;
+        const minSolutionFunctionsLengths = this.state.minSolutionFunctionsLengths;
         const currentSolution = this.state.functionsList;
-        for (let functionNumber = 0; functionNumber < minSolution.length; functionNumber++)
+        for (let functionNumber = 0; functionNumber < minSolutionFunctionsLengths.length; functionNumber++)
             if (currentSolution[functionNumber] !== undefined)
-                if (minSolution[functionNumber].length < this.functionNotEmptyCellsNumber(currentSolution[functionNumber]))
+                if (minSolutionFunctionsLengths[functionNumber] < this.functionNotEmptyCellsNumber(currentSolution[functionNumber]))
                     return false;
         return true;
     }
