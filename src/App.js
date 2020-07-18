@@ -13,9 +13,9 @@ class App extends Component {
 
         this.state = {
             levels: levels,
-            statistics: [],
-            currentLevelNumber: 20,
-            currentLevelPack: 2,
+            statistics: {},
+            currentLevelNumber: 1,
+            currentLevelPack: 0,
             currentScreen: "main"
         };
         this.launchLevel = this.launchLevel.bind(this);
@@ -24,6 +24,10 @@ class App extends Component {
         this.closeLevel = this.closeLevel.bind(this);
         this.load = this.load.bind(this);
         this.save = this.save.bind(this);
+        this.getLevelAchivments = this.getLevelAchivments.bind(this);
+        this.setLevelAchivments = this.setLevelAchivments.bind(this);
+        this.restartLevel = this.restartLevel.bind(this);
+        this.launchCurrentLevel = this.launchCurrentLevel.bind(this);
     }
 
     getCurrentLevelPackColor() {
@@ -40,14 +44,30 @@ class App extends Component {
     launchLevel(levelPack, levelNumber) {
         this.setState(state => ({
             currentScreen: "game",
-            currentLevelPack: levelPack === undefined ? state.currentLevelPack : levelPack,
-            currentLevelNumber: levelNumber === undefined ? state.currentLevelNumber : levelNumber
+            currentLevelPack: levelPack,
+            currentLevelNumber: levelNumber
         }));
     }
 
-    launchNextLevel() {
+    launchCurrentLevel() {
+        const currentLevelPack = this.state.currentLevelPack;
+        const currentLevelNumber = this.state.currentLevelNumber;
+        this.launchLevel(currentLevelPack, currentLevelNumber);
+    }
+
+    restartLevel(achivmentsBinary) {
+        const currentLevelPack = this.state.currentLevelPack;
+        const currentLevelNumber = this.state.currentLevelNumber;
+        this.setLevelAchivments(currentLevelPack, currentLevelNumber, achivmentsBinary);
+        this.setState(state => ({
+            currentScreen: "game"
+        }));
+    }
+
+    launchNextLevel(achivmentsBinary) {
         const currentLevelNumber = this.state.currentLevelNumber;
         const currentLevelPack = this.state.currentLevelPack;
+        this.setLevelAchivments(currentLevelPack, currentLevelNumber, achivmentsBinary);
         let nextLevelNumber = currentLevelNumber + 1;
         let nextLevelPack = currentLevelPack;
         if (this.state.levels[nextLevelPack].levels[nextLevelNumber-1] === undefined) {
@@ -102,8 +122,34 @@ class App extends Component {
             + '.json', saveDataText);
     }
 
+    getLevelAchivments(levelNumber, levelPack) {
+        const statistics = this.state.statistics;
+        if (statistics[levelPack] === undefined)
+            return [false, false, false];
+        if (statistics[levelPack][levelNumber] === undefined)
+            return [false, false, false];
+        return statistics[levelPack][levelNumber];
+    }
+
+    setLevelAchivments(levelPack, levelNumber, achivments) {
+        this.setState(state => {
+            const newAchivments = achivments;
+            if (state.statistics[levelPack] === undefined)
+                state.statistics[levelPack] = {};
+            if (state.statistics[levelPack][levelNumber] !== undefined)
+                for (let i = 0; i < newAchivments.length; i++) {
+                    if ((newAchivments[i] === false)
+                        && (state.statistics[levelPack][levelNumber][i] === true))
+                        newAchivments[i] = true;
+                }
+            state.statistics[levelPack][levelNumber] = newAchivments;
+            return {statistics: state.statistics};
+        });
+    }
+
     render() {
         const currentScreen = this.state.currentScreen;
+        const statistics = this.state.statistics;
         if (currentScreen === "main") {
             const currentLevelPackColor = this.getCurrentLevelPackColor();
             const currentLevelNumber = this.state.currentLevelNumber;
@@ -112,10 +158,12 @@ class App extends Component {
                 <div className="app">
                     <MainMenu lastLevelNumber={currentLevelNumber}
                         lastLevelPackColor={currentLevelPackColor}
-                        onPlayButtonClick={this.launchLevel}
+                        onPlayButtonClick={this.launchCurrentLevel}
                         loadFunction={this.load}
                         saveFunction={this.save}></MainMenu>
-                    <Levels levels={this.state.levels} launchLevelFunction={this.launchLevel}></Levels>
+                    <Levels levels={this.state.levels}
+                        launchLevelFunction={this.launchLevel}
+                        getLevelAchivments={this.getLevelAchivments}></Levels>
                 </div>
             );
         }
@@ -124,7 +172,8 @@ class App extends Component {
             return <Game key={level.name + " " + Date.now().toString()} level={level}
                        backToMenuFunction={this.closeLevel}
                        nextLevelFunction={this.launchNextLevel}
-                       restartLevelFunction={this.launchLevel}></Game>
+                       restartLevelFunction={this.restartLevel}
+                       reportAchivmentsFunction={this.setLevelAchivments}></Game>
         }
     }
 }

@@ -169,25 +169,27 @@ class Game extends Component {
         const backToMenuFunction = props.backToMenuFunction;
         const nextLevelFunction = props.nextLevelFunction;
         const restartLevelFunction = props.restartLevelFunction;
+        const reportAchivmentsFunction = props.reportAchivmentsFunction;
 
         const emptyFunctionsList = emptyFunctionsListFromLevelDescription(level);
 
         this.state = {
-            'backToMenuFunction': backToMenuFunction,
-            'restartLevelFunction': restartLevelFunction,
-            'nextLevelFunction': nextLevelFunction,
-            'initialLevelDescription': getConvertedLevelDescription(level),
-            'stack': [],
-            'stackPointerPosition': undefined,
-            'functionsList': emptyFunctionsList,
-            'speed': 0,
-            'testing': false,
-            'mapWidth': undefined,
-            'mapHeight': undefined,
-            'draggingControllerType': undefined,
-            'draggingControllerPosition': undefined,
-            'timersIds': [],
-            'finishReached': false
+            backToMenuFunction: backToMenuFunction,
+            restartLevelFunction: restartLevelFunction,
+            reportAchivmentsFunction: reportAchivmentsFunction,
+            nextLevelFunction: nextLevelFunction,
+            initialLevelDescription: getConvertedLevelDescription(level),
+            stack: [],
+            stackPointerPosition: undefined,
+            functionsList: emptyFunctionsList,
+            speed: 0,
+            testing: false,
+            mapWidth: undefined,
+            mapHeight: undefined,
+            draggingControllerType: undefined,
+            draggingControllerPosition: undefined,
+            timersIds: [],
+            finishReached: false
         }
         this.state.levelDescription = deepCopy(this.state.initialLevelDescription);
 
@@ -199,6 +201,7 @@ class Game extends Component {
         this.loadCurrentAlgorithmToStack = this.loadCurrentAlgorithmToStack.bind(this);
         this.speedRangeOnInput = this.speedRangeOnInput.bind(this);
         this.onMouseDownOnFunctionCell = this.onMouseDownOnFunctionCell.bind(this);
+        this.getAchivmentsBinary = this.getAchivmentsBinary.bind(this);
     }
 
     resetLevel() {
@@ -340,8 +343,9 @@ class Game extends Component {
         const y = this.state.levelDescription.arrowCoordinates.y;
         const finishCoordinates = this.state.levelDescription.finishCoordinates;
         const result = (x === finishCoordinates.x) && (y === finishCoordinates.y);
-        if (result === true)
+        if (result === true) {
             this.setState({finishReached: true});
+        }
         return result;
     }
 
@@ -602,6 +606,15 @@ class Game extends Component {
         return achivments;
     }
 
+    getAchivmentsBinary() {
+        const achivments = this.getAchivments();
+        return [
+            achivments.levelFinished,
+            achivments.minSolutionFound,
+            achivments.allStarsGathered
+        ];
+    }
+
     getAchivmentsHtml() {
         const achivments = this.getAchivments();
         return (
@@ -639,6 +652,7 @@ class Game extends Component {
         const onMouseMove = finishReached ? null : this.onMouseMove;
         const onMouseDownOnAvailableControl = finishReached ? null : this.onMouseDownOnAvailableControl;
         const onBackToMenuButtonClick = finishReached ? null : this.state.backToMenuFunction;
+        const achivmentsBinary = finishReached ? this.getAchivmentsBinary() : null;
 
         const stack = this.state.stack;
         const pointerPosition = this.state.stackPointerPosition;
@@ -664,9 +678,9 @@ class Game extends Component {
                             {this.getAchivmentsHtml()}
                             <div className="buttons">
                                 <button className="button restartButton"
-                                    onClick={event => this.state.restartLevelFunction()}>Restart</button>
+                                    onClick={event => this.state.restartLevelFunction(achivmentsBinary)}>Restart</button>
                                 <button className="button nextButton"
-                                    onClick={this.state.nextLevelFunction}>Next</button>
+                                    onClick={event => this.state.nextLevelFunction(achivmentsBinary)}>Next</button>
                             </div>
                         </div>
                     </div>
