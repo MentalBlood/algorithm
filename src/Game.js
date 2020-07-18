@@ -555,14 +555,6 @@ class Game extends Component {
         ];
     }
 
-    achivmentsGot(achivmentsBinary) {
-        let result = 0
-        for (const achivmentGot of achivmentsBinary)
-            if (achivmentGot === true)
-                result += 1;
-        return result;
-    }
-
     getAchivmentsHtml() {
         const achivments = this.getAchivments();
         return (
@@ -602,7 +594,7 @@ class Game extends Component {
         const onMouseDownOnAvailableControl = finishReached ? null : this.onMouseDownOnAvailableControl;
         const onBackToMenuButtonClick = finishReached ? null : this.state.backToMenuFunction;
         const achivmentsBinary = finishReached ? this.getAchivmentsBinary() : null;
-        const achivmentsGot = finishReached ? this.achivmentsGot(achivmentsBinary) : null;
+        const achivmentsGot = finishReached ? achivmentsBinary.filter(achivmentGot => achivmentGot === true).length : null;
 
         const stack = this.state.stack;
         const pointerPosition = this.state.stackPointerPosition;

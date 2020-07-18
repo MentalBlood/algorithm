@@ -8,7 +8,13 @@
     padding: 3vmin 3.9vmin;
 }
 
-.levelPackName {
+.levelPackHead {
+    display: flex;
+    justify-content: space-between;
+}
+
+.levelPackName,
+.achivmentsCounter {
     font-style: italic;
     font-size: 7vmin;
     color: white;

@@ -28,6 +28,8 @@ class App extends Component {
         this.setLevelAchivments = this.setLevelAchivments.bind(this);
         this.restartLevel = this.restartLevel.bind(this);
         this.launchCurrentLevel = this.launchCurrentLevel.bind(this);
+        this.packAchivmentsGot = this.packAchivmentsGot.bind(this);
+        this.packAchivmentsMax = this.packAchivmentsMax.bind(this);
     }
 
     getCurrentLevelPackColor() {
@@ -147,6 +149,22 @@ class App extends Component {
         });
     }
 
+    packAchivmentsGot(packIndex) {
+        let result = 0;
+        const packStatistics = this.state.statistics[packIndex];
+        if (packStatistics !== undefined) {
+            for (const levelStatistics of Object.values(packStatistics))
+                result += levelStatistics.filter(achivmentGot => achivmentGot === true).length;
+        }
+        return result;
+    }
+
+    packAchivmentsMax(packIndex) {
+        const pack = this.state.levels[packIndex];
+        const numberOfLevelsInPack = Object.values(pack.levels).length;
+        return numberOfLevelsInPack * 3;
+    }
+
     render() {
         const currentScreen = this.state.currentScreen;
         const statistics = this.state.statistics;
@@ -163,7 +181,9 @@ class App extends Component {
                         saveFunction={this.save}></MainMenu>
                     <Levels levels={this.state.levels}
                         launchLevelFunction={this.launchLevel}
-                        getLevelAchivments={this.getLevelAchivments}></Levels>
+                        getLevelAchivments={this.getLevelAchivments}
+                        packAchivmentsMax={this.packAchivmentsMax}
+                        packAchivmentsGot={this.packAchivmentsGot}></Levels>
                 </div>
             );
         }
