@@ -1,10 +1,5 @@
 import React from 'react';
 import './Levels.css';
-import getSvgCircle from './paintFunctions.js';
-
-function getAchivmentCircle(isAchivmentGot, radius) {
-    return isAchivmentGot ? getSvgCircle("#3E3E3E", radius) : getSvgCircle("red", radius);
-}
 
 function Levels(props) {
     const launchLevelFunction = props.launchLevelFunction;

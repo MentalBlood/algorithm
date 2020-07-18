@@ -5,6 +5,7 @@ import levels from './levels.json';
 import MainMenu from './MainMenu.js';
 import Levels from './Levels.js';
 import Game from './Game.js';
+import {uploadFile, downloadFile} from './uploadDownload.js';
 
 class App extends Component {
     constructor(props) {
@@ -20,6 +21,8 @@ class App extends Component {
         this.launchNextLevel = this.launchNextLevel.bind(this);
         this.getCurrentLevel = this.getCurrentLevel.bind(this);
         this.closeLevel = this.closeLevel.bind(this);
+        this.load = this.load.bind(this);
+        this.save = this.save.bind(this);
     }
 
     getCurrentLevelPackColor() {
@@ -59,8 +62,42 @@ class App extends Component {
         });
     }
 
+    getSaveData() {
+        return {
+            currentLevelNumber: this.state.currentLevelNumber,
+            currentLevelPack: this.state.currentLevelPack
+        };
+    }
+
+    setSaveData(data) {
+        this.setState(data);
+    }
+
     closeLevel() {
         this.setState({currentScreen: "main"});
+    }
+
+    load() {
+        uploadFile('json', jsonText => {
+            const json = JSON.parse(jsonText);
+            this.setSaveData(json);
+        });
+    }
+
+    save() {
+        const saveData = this.getSaveData();
+        const saveDataText = JSON.stringify(saveData);
+        const today = new Date();
+        const currentDate = today.getFullYear().toString()
+            + '-' + (today.getMonth() + 1).toString()
+            + '-' + today.getDate().toString();
+        const currentTime = today.getHours()
+            + ":" + today.getMinutes()
+            + ":" + today.getSeconds();
+        downloadFile('algorithm-save'
+            + '-' + currentDate
+            + '-' + currentTime
+            + '.json', saveDataText);
     }
 
     render() {
@@ -73,7 +110,9 @@ class App extends Component {
                 <div className="app">
                     <MainMenu lastLevelNumber={currentLevelNumber}
                         lastLevelPackColor={currentLevelPackColor}
-                        onPlayButtonClick={this.launchLevel}></MainMenu>
+                        onPlayButtonClick={this.launchLevel}
+                        loadFunction={this.load}
+                        saveFunction={this.save}></MainMenu>
                     <Levels levels={this.state.levels} launchLevelFunction={this.launchLevel}></Levels>
                 </div>
             );

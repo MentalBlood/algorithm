@@ -1,6 +1,5 @@
-.mainMenu .buttons {
-    margin-top: 5vmin;
-    padding: 0 5vmin;
+.mainMenu .buttonsGroup {
+    padding: 5vmin 5vmin;
 
     display: -webkit-box;
     display: -moz-box;
@@ -12,17 +11,32 @@
     justify-content: space-between;
 }
 
-.upperButton {
-    width: 43vmin;
+.buttonsGroup button {
+    width: 28vmin;
     height: 12.5vmin;
-    background-color: #3E3E3E;
 
     border: 0;
     border-radius: 2vmin;
+
+    font-family: 'Hind Siliguri', sans-serif;
+    font-size: 6vmin;
+    color: white;
+
+    outline: none;
 }
 
-.upperButton:not(:last-of-type) {
-    margin-right: 3vmin;
+.playButton {
+    background-color: #FFC006;
+}
+
+.buttonsGroup button:not(.playButton) {
+    background-color: #3E3E3E;
+}
+
+.playButton .lastLevelNumber {
+    display: inline-block;
+    width: 9vmin;
+    border-radius: 1vmin;
 }
 
 .appLogo {
@@ -45,30 +59,6 @@
     top: 10%;
 }
 
-.playButton {
-    width: 58vmin;
-    height: 12vmin;
-    background-color: #FFC006;
-
-    position: relative;
-    left: 50%;
-    margin-right: -50%;
-    transform: translate(-50%, -50%);
-
-    border: 0;
-    border-radius: 2vmin;
-}
-
-.upperButton,
-.playButton {
-    font-family: 'Hind Siliguri', sans-serif;
-    font-size: 7vmin;
-    color: white;
-
-    outline: none;
-}
-
 .appLogo,
-.playButton {
-    margin-top: 10vmin;
+.lowerButtons {
 }
