@@ -48,3 +48,7 @@
     border: 0.5vh solid orange;
     /*transition-duration: 0.3s;*/
 }
+
+.Functions .minSolutionCell {
+    background: radial-gradient(circle, rgba(255,194,225,1) 0%, rgba(255,168,179,1) 100%);
+}

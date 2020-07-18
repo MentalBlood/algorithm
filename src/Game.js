@@ -594,6 +594,7 @@ class Game extends Component {
         const draggingControllerPosition = this.state.draggingControllerPosition;
         const speedRangeOnInput = this.speedRangeOnInput;
         const speed = this.state.speed;
+        const minSolutionFunctionsLengths = this.state.minSolutionFunctionsLengths;
         const finishReached = this.state.finishReached === true;
         const onMouseDownOnFunctionCell = finishReached ? null : this.onMouseDownOnFunctionCell;
         const onMouseUp = finishReached ? null : this.onMouseUp;
@@ -651,7 +652,8 @@ class Game extends Component {
                     <Functions functionsList={functionsList} pointerFunctionIndex={pointerFunctionIndex}
                         pointerCommandIndex={pointerCommandIndex}
                         onMouseDownOnFunctionCell={onMouseDownOnFunctionCell}
-                        onTouchStart={onMouseDownOnFunctionCell}></Functions>
+                        onTouchStart={onMouseDownOnFunctionCell}
+                        minSolutionFunctionsLengths={minSolutionFunctionsLengths}></Functions>
                     {
                         draggingControllerType === undefined ?
                         null

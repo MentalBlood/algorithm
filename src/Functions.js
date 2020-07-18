@@ -7,6 +7,7 @@ function Functions(props) {
     const pointerCommandIndex = props.pointerCommandIndex;
     const onMouseDown = props.onMouseDownOnFunctionCell;
     const onTouchStart = props.onTouchStart;
+    const minSolutionFunctionsLengths = props.minSolutionFunctionsLengths;
     return (
         <table className="Functions" style={{width: props.mapWidth, height: props.mapHeight}}>
             <tbody>
@@ -18,6 +19,8 @@ function Functions(props) {
                                 someFunction.map(
                                     (command, cellIndex) => {
                                         let className = "functionCell";
+                                        if (cellIndex < minSolutionFunctionsLengths[rowIndex])
+                                            className += " minSolutionCell";
                                         const color = command.color;
                                         if (color !== 'n')
                                             className += " color color-" + color;
