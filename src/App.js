@@ -13,6 +13,7 @@ class App extends Component {
 
         this.state = {
             levels: levels,
+            statistics: [],
             currentLevelNumber: 20,
             currentLevelPack: 2,
             currentScreen: "main"
@@ -65,7 +66,8 @@ class App extends Component {
     getSaveData() {
         return {
             currentLevelNumber: this.state.currentLevelNumber,
-            currentLevelPack: this.state.currentLevelPack
+            currentLevelPack: this.state.currentLevelPack,
+            statistics: this.state.statistics
         };
     }
 
