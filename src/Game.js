@@ -7,6 +7,8 @@ import AvailableControls from './AvailableControls.js';
 import Functions from './Functions.js';
 import DraggingController from './DraggingController.js';
 import ModalWindow from './ModalWindow.js';
+import levels from './levels.json';
+import {downloadFile} from './uploadDownload.js';
 
 function controlsListFromControlsBinaryId(controlsBinaryId) {
     let controlsList = [];
@@ -156,7 +158,7 @@ class Game extends Component {
             draggingControllerPosition: undefined,
             timersIds: [],
             finishReached: false,
-            minSolutionFunctionsLengths: getMinSolutionFunctionsLengths(level)
+            minSolutionFunctionsLengths: level.minSolutionFunctionsLengths
         }
         this.state.levelDescription = deepCopy(this.state.initialLevelDescription);
 
