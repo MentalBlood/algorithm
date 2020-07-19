@@ -47,7 +47,6 @@
 
 .level {
     flex-grow: 1;
-    border-radius: 2vmin;
     background: white;
     color: #3E3E3E;
 
@@ -59,6 +58,16 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.level:not(:hover) {
+    border-radius: 2vmin;
+    transition-duration: 0.4s;
+}
+
+.level:hover {
+    border-radius: 40%;
+    transition-duration: 0.4s;
 }
 
 .levelNumber {

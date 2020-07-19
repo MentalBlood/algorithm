@@ -1,0 +1,50 @@
+<?xml-stylesheet type="text/css" href="back.css"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- PDFTron PDFNet Generated! Version: 7.1.0.74195 -->
+<svg id="svgRoot" version="1.1" baseProfile="Full" width="82px" height="82px" viewBox="0 0 82 82" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:cs="http://www.pdftron.com/pdf2svg" xml:space="preserve">
+<defs>
+</defs>
+<style type="text/css">
+<![CDATA[
+.ps02 { stroke:#98B3FC;fill:none; }
+.ps01 { stroke:none;fill:#4D4D4D;fill-rule:nonzero; }
+.ps00 { stroke:none;fill:none; }
+.ps10 { stroke-width:0.05; }
+.ps20 { 
+letter-spacing:0px;word-spacing:0;font-family:fnt0;font-style:normal;font-weight:normal;font-size:12.947px; }
+]]>
+</style>
+<clipPath id="clp1" clip-rule="nonzero">
+<rect x="0" y="0" width="82" height="82"/>
+</clipPath>
+<g clip-path="url(#clp1)" transform="matrix(1 0 0 -1 -0 82)">
+<g id="q1" class="">
+<g id="q2" class="">
+</g>
+<g id="q3" class="">
+<clipPath id="clp2" clip-rule="evenodd">
+<path d="M69.991 12.009 C86.003 28.02 86.003 53.98 69.991 69.991 C53.98 86.003 28.02 86.003 12.009 69.991 C-4.0029 53.98 -4.0029 28.02 12.009 12.009 C28.02 -4.0029 53.98 -4.0029 69.991 12.009 ZM51.177 18.708 C51.173 18.704 51.17 18.7 51.166 18.696 C50.089 17.626 48.349 17.631 47.278 18.708 L26.854 39.253 C25.735 40.379 25.735 42.198 26.854 43.324 L47.278 63.87 C47.282 63.874 47.286 63.878 47.29 63.881 C48.366 64.952 50.107 64.947 51.177 63.87 C52.256 62.785 52.256 61.033 51.177 59.948 L34.652 43.324 C33.533 42.198 33.533 40.379 34.652 39.253 L51.177 22.63 C52.256 21.545 52.256 19.793 51.177 18.708 Z"/>
+</clipPath>
+<g clip-path="url(#clp2)">
+<clipPath id="clp3" clip-rule="nonzero">
+<path d="M0 0 L82 0 L82 82 L0 82 Z"/>
+</clipPath>
+<g clip-path="url(#clp3)">
+<path d="M41 106.05 L-24.054 41 L41 -24.054 L106.05 41 Z" class="ps01"/>
+</g>
+</g>
+</g>
+</g>
+<g id="q4" class="">
+<g id="xfrm5" transform="matrix(82 0 0 82 0 0)">
+<clipPath id="clp4" clip-rule="nonzero">
+<rect x="0" y="0" width="100" height="100"/>
+</clipPath>
+<g id="frm6" transform="matrix(0.01 0 0 0.01 0 0)" clip-path="url(#clp4)">
+<text transform="matrix(1 0 0 -1 0 43.5267)"><tspan x="0,9.3475,18.695,28.043,31.642,38.84,46.038,49.638,53.237,57.548,64.746,71.945,75.544,82.017,89.216" y="-0" class="ps02 ps10 ps20"></tspan>
+</text>
+</g>
+</g>
+</g>
+</g>
+</svg>

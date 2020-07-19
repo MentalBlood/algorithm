@@ -613,7 +613,7 @@ class Game extends Component {
                 onMouseUp={onMouseUp} onTouchEnd={onMouseUp}
                 onMouseMove={onMouseMove} onTouchMove={onMouseMove} tabIndex={-1}>
                 <button className="backToMenuButton"
-                    onClick={onBackToMenuButtonClick}>{"<"}</button>
+                    onClick={onBackToMenuButtonClick}></button>
                 {
                     finishReached ?
                     <ModalWindow className="finishMenu"

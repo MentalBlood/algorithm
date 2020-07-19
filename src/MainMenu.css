@@ -11,14 +11,12 @@
 }
 
 .buttonsGroup button {
-    width: 28vmin;
     height: 12.5vmin;
 
     border: 0;
     border-radius: 2vmin;
 
     font-family: 'Hind Siliguri', sans-serif;
-    font-size: 6vmin;
     color: white;
 
     outline: none;
@@ -32,9 +30,21 @@
     background-color: #3E3E3E;
 }
 
+.buttonsGroup button:not(:hover) {
+    width: 26vmin;
+    font-size: 5.5vmin;
+    transition-duration: 0.4s;
+}
+
+.buttonsGroup button:hover {
+    width: 32vmin;
+    font-size: 7vmin;
+    transition-duration: 0.4s;
+}
+
 .playButton .lastLevelNumber {
     display: inline-block;
-    width: 9vmin;
+    width: 35%;
     border-radius: 1vmin;
 }
 
