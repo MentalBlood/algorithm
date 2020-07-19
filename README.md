@@ -1,1 +1,1 @@
-## pre-release version can be found [here](http://algorithm-game.ru/)
+## You can try this app [here](http://algorithm-game.ru/)
