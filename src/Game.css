@@ -1,4 +1,8 @@
 .Game {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 5vh;
+
     position: fixed;
     width: 100vw;
     height: 100vh;

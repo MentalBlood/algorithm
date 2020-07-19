@@ -495,7 +495,7 @@ class Game extends Component {
     refreshMapSize() {
         const colors = this.state.levelDescription.colors;
         const maxMapWidth = 80 * window.innerWidth / 100;
-        const maxMapHeight = 55 * window.innerHeight / 100;
+        const maxMapHeight = 50 * window.innerHeight / 100;
         const dimension = 'px';
 
         const rowsNumber = colors.length;
