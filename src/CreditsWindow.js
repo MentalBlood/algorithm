@@ -12,7 +12,7 @@ function CreditsWindow(props) {
                     This is a web port of the iOS game <a href="https://apps.apple.com/us/app/algorithm-the-logic-game/id1475410194" className="reference"><span className="originalAppName">Algorithm - The Logic Game</span></a>
                 </div>
                 <div className="originalAppAuthors">
-                    <div className="originalAppAuthorsIntro">iOS app made by</div>
+                    <div className="originalAppAuthorsIntro">iOS game made by</div>
                     <a href="mailto:theleokul@gmail.com" className="reference">
                         <div className="originalAppAuthor">Leonid Kulikov</div>
                     </a>
