@@ -25,54 +25,18 @@
     outline: none;
 }
 
-.finishMenuOverlay {
-    z-index: 10;
-
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.75);
-
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.finishMenuWindow {
-    z-index: 11;
-
-    width: 55vmin;
-    background-color: white;
-
-    border-radius: 2vmin;
-
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-right: -50%;
-    transform: translate(-50%, -50%);
-
-    font-family: 'Hind Siliguri', sans-serif;
-    text-align: center;
-
-    display: flex;
-    flex-direction: column;
-    align-content: space-between;
-
-    padding: 4vmin 6.5vmin;
-}
-
-.finishMenuWindow .verdict {
+.finishMenu .verdict {
     font-size: 10vmin;
     color: #3E3E3E;
     font-style: italic;
 }
 
-.finishMenuWindow .buttons {
+.finishMenu .buttons {
     display: flex;
     flex-direction: column;
 }
 
-.finishMenuWindow .buttons .button {
+.finishMenu .buttons .button {
     width: 55vmin;
     height: 13.4vmin;
     background-color: #FFC006;
@@ -89,7 +53,7 @@
     outline: none;
 }
 
-.finishMenuWindow .achivments {
+.finishMenu .achivments {
     width: 100%;
 
     display: flex;
@@ -98,7 +62,7 @@
     margin-bottom: 3.9vmin;
 }
 
-.finishMenuWindow .achivment {
+.finishMenu .achivment {
     width: 13vmin;
     height: 13vmin;
     background-color: transparent;
@@ -112,16 +76,16 @@
     background-position: center;
 }
 
-.finishMenuWindow .achivment:not(:last-of-type) {
+.finishMenu .achivment:not(:last-of-type) {
     margin-right: 3vmin;
 }
 
-.finishMenuWindow .achivment.levelFinished {
+.finishMenu .achivment.levelFinished {
     background-image: url('./images/flag.svg');
     background-size: 60%;
 }
 
-.finishMenuWindow .achivment.minSolutionFound:before {
+.finishMenu .achivment.minSolutionFound:before {
     content: "";
     background: radial-gradient(circle, rgba(255,194,225,1) 0%, rgba(255,168,179,1) 100%);
 
@@ -136,7 +100,7 @@
     transform: translate(-50%, -50%);
 }
 
-.finishMenuWindow .achivment.allStarsGathered {
+.finishMenu .achivment.allStarsGathered {
     background-image: url('./images/star.svg');
     background-size: 80%;
 }

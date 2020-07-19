@@ -168,7 +168,7 @@ class App extends Component {
     render() {
         const currentScreen = this.state.currentScreen;
         const statistics = this.state.statistics;
-        if (currentScreen === "main") {
+        if ((currentScreen === "main") || (currentScreen === "credits")) {
             const currentLevelPackColor = this.getCurrentLevelPackColor();
             const currentLevelNumber = this.state.currentLevelNumber;
 

@@ -6,6 +6,7 @@ import ElementsLayer from './ElementsLayer.js';
 import AvailableControls from './AvailableControls.js';
 import Functions from './Functions.js';
 import DraggingController from './DraggingController.js';
+import ModalWindow from './ModalWindow.js';
 
 function controlsListFromControlsBinaryId(controlsBinaryId) {
     let controlsList = [];
@@ -588,11 +589,11 @@ class Game extends Component {
         const speed = this.state.speed;
         const minSolutionFunctionsLengths = this.state.minSolutionFunctionsLengths;
         const finishReached = this.state.finishReached === true;
-        const onMouseDownOnFunctionCell = finishReached ? null : this.onMouseDownOnFunctionCell;
+        const onMouseDownOnFunctionCell = this.onMouseDownOnFunctionCell;
         const onMouseUp = finishReached ? null : this.onMouseUp;
-        const onMouseMove = finishReached ? null : this.onMouseMove;
-        const onMouseDownOnAvailableControl = finishReached ? null : this.onMouseDownOnAvailableControl;
-        const onBackToMenuButtonClick = finishReached ? null : this.state.backToMenuFunction;
+        const onMouseMove = this.onMouseMove;
+        const onMouseDownOnAvailableControl = this.onMouseDownOnAvailableControl;
+        const onBackToMenuButtonClick = this.state.backToMenuFunction;
         const achivmentsBinary = finishReached ? this.getAchivmentsBinary() : null;
         const achivmentsGot = finishReached ? achivmentsBinary.filter(achivmentGot => achivmentGot === true).length : null;
 
@@ -613,23 +614,21 @@ class Game extends Component {
                     onClick={onBackToMenuButtonClick}>{"<"}</button>
                 {
                     finishReached ?
-                    <div className="finishMenu">
-                        <div className="finishMenuOverlay"></div>
-                        <div className="finishMenuWindow">
-                            <div className="verdict">
-                                {
-                                    ["CONGRATULATIONS", "AWESOME", "AMAZING"][achivmentsGot-1]
-                                }
-                            </div>
-                            {this.getAchivmentsHtml()}
-                            <div className="buttons">
-                                <button className="button restartButton"
-                                    onClick={event => this.state.restartLevelFunction(achivmentsBinary)}>Restart</button>
-                                <button className="button nextButton"
-                                    onClick={event => this.state.nextLevelFunction(achivmentsBinary)}>Next</button>
-                            </div>
+                    <ModalWindow className="finishMenu"
+                        closeFunction={event => null}>
+                        <div className="verdict">
+                            {
+                                ["CONGRATULATIONS", "AWESOME", "AMAZING"][achivmentsGot-1]
+                            }
                         </div>
-                    </div>
+                        {this.getAchivmentsHtml()}
+                        <div className="buttons">
+                            <button className="button restartButton"
+                                onClick={event => this.state.restartLevelFunction(achivmentsBinary)}>Restart</button>
+                            <button className="button nextButton"
+                                onClick={event => this.state.nextLevelFunction(achivmentsBinary)}>Next</button>
+                        </div>
+                    </ModalWindow>
                     :
                     null
                 }

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './MainMenu.css';
+import CreditsWindow from './CreditsWindow.js';
 
 function MainMenu(props) {
     const lastLevelNumber = props.lastLevelNumber;
@@ -7,15 +8,22 @@ function MainMenu(props) {
     const onPlayButtonClick = props.onPlayButtonClick;
     const loadFunction = props.loadFunction;
     const saveFunction = props.saveFunction;
+    const [showCredits, setShowCredits] = useState(false);
 
     const lastLevelNumberStyle = {backgroundColor: lastLevelPackColor};
 
     return (
         <div className="mainMenu">
             <div className="buttonsGroup upperButtons">
-                <button className="upperButton creditsButton">Credits</button>
-                <button className="upperButton settingsButton">Settings</button>
+                <button className="upperButton creditsButton"
+                    onClick={event => setShowCredits(true)}>Credits</button>
             </div>
+            {
+                showCredits ?
+                <CreditsWindow closeFunction={event => setShowCredits(false)}></CreditsWindow>
+                :
+                null
+            }
             <div className="appLogo"><span className="logoText">ALGORITHM</span></div>
             <div className="buttonsGroup lowerButtons">
                 <button className="lowerButton loadButton"
