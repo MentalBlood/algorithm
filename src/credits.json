@@ -1,11 +1,13 @@
 [
     {
         "position": "Web App Developer",
-        "name": "MentalBlood"
+        "name": "MentalBlood",
+        "reference": "https://github.com/MentalBlood/algorithm"
     },
     {
         "position": "iOS App Developer",
-        "name": "Leonid Kulikov"
+        "name": "Leonid Kulikov",
+        "reference": "https://apps.apple.com/us/app/algorithm-the-logic-game/id1475410194"
     },
     {
         "position": "Game Designer",

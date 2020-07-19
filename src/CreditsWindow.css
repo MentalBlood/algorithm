@@ -1,20 +1,38 @@
-.credit {
-    background-color: #3E3E3E;
-    border-radius: 1vmin;
-
-    padding: 5vmin;
-
-    color: white;
-}
-
-.credit:not(:last-of-type) {
-    margin-bottom: 4vmin;
-}
-
-.credit .position {
+.originalAppInfoIntro,
+.portInfoIntro,
+.originalAppAuthorsIntro {
     font-size: 4vmin;
 }
 
-.credit .name {
-    font-size: 5vmin;
+.reference {
+    display: inline-block;
+    border-radius: 1vmin;
+
+    margin: 1vmin 0;
+
+    font-size: 4vmin;
+    text-decoration: none;
+}
+
+.reference:not(:hover) {
+    background-color: #3E3E3E;
+    padding: 0.8vmin 2vmin;
+    color: white;
+
+    transition-duration: 0.5s;
+}
+
+.reference:hover {
+    background-color: #FFC006;
+    padding: 2vmin 3vmin;
+    color: white;
+
+    transition-duration: 0.5s;
+
+    cursor: pointer;
+}
+
+.originalAppAuthorsIntro,
+.portInfoIntro {
+    margin-top: 5vmin;
 }

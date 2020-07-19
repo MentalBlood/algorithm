@@ -173,7 +173,7 @@ class App extends Component {
             const currentLevelNumber = this.state.currentLevelNumber;
 
             return (
-                <div className="app">
+                <div className="app unselectable">
                     <MainMenu lastLevelNumber={currentLevelNumber}
                         lastLevelPackColor={currentLevelPackColor}
                         onPlayButtonClick={this.launchCurrentLevel}
@@ -189,11 +189,15 @@ class App extends Component {
         }
         else if (currentScreen === "game") {
             const level = this.getCurrentLevel();
-            return <Game key={level.name + " " + Date.now().toString()} level={level}
-                       backToMenuFunction={this.closeLevel}
-                       nextLevelFunction={this.launchNextLevel}
-                       restartLevelFunction={this.restartLevel}
-                       reportAchivmentsFunction={this.setLevelAchivments}></Game>
+            return (
+                <div className="app unselectable">
+                    <Game key={level.name + " " + Date.now().toString()} level={level}
+                        backToMenuFunction={this.closeLevel}
+                        nextLevelFunction={this.launchNextLevel}
+                        restartLevelFunction={this.restartLevel}
+                        reportAchivmentsFunction={this.setLevelAchivments}></Game>
+                </div>
+            )
         }
     }
 }
