@@ -16,7 +16,7 @@ function CreditsWindow(props) {
                     <a href="mailto:theleokul@gmail.com" className="reference">
                         <div className="originalAppAuthor">Leonid Kulikov</div>
                     </a>
-                    <a href="#" className="reference">
+                    <a href="https://vk.com/iamonaboat" className="reference">
                         <div className="originalAppAuthor">Dmitry Nechaev</div>
                     </a>
                 </div>
