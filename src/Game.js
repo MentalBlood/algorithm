@@ -333,15 +333,15 @@ class Game extends Component {
             this.resetLevel();
             return;
         }
-        const timersIds = this.state.timersIds;
-        const waitingForSetState = (timersIds.length > 0);
-        if (waitingForSetState)
-            return;
         if (this.finishReached()) {
             if (this.state.timersIds.length > 0)
                 this.clearTimers();
             return;
         }
+        const timersIds = this.state.timersIds;
+        const waitingForSetState = (timersIds.length > 0);
+        if (waitingForSetState)
+            return;
 
         const command = stack[pointerPosition];
         const functionsList = this.state.functionsList;
