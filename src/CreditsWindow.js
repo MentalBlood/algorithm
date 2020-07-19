@@ -9,7 +9,7 @@ function CreditsWindow(props) {
             closeFunction={closeFunction}>
             <div className="originalAppInfo">
                 <div className="originalAppInfoIntro">
-                    This is a web port of the iOS app <a href="https://apps.apple.com/us/app/algorithm-the-logic-game/id1475410194" className="reference"><span className="originalAppName">Algorithm - The Logic Game</span></a>
+                    This is a web port of the iOS game <a href="https://apps.apple.com/us/app/algorithm-the-logic-game/id1475410194" className="reference"><span className="originalAppName">Algorithm - The Logic Game</span></a>
                 </div>
                 <div className="originalAppAuthors">
                     <div className="originalAppAuthorsIntro">iOS app made by</div>
