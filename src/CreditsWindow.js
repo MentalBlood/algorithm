@@ -13,10 +13,10 @@ function CreditsWindow(props) {
                 </div>
                 <div className="originalAppAuthors">
                     <div className="originalAppAuthorsIntro">iOS app made by</div>
-                    <a href="theleokul@gmail.com" className="reference">
+                    <a href="mailto:theleokul@gmail.com" className="reference">
                         <div className="originalAppAuthor">Leonid Kulikov</div>
                     </a>
-                    <a href="theleokul@gmail.com" className="reference">
+                    <a href="#" className="reference">
                         <div className="originalAppAuthor">Dmitry Nechaev</div>
                     </a>
                 </div>
