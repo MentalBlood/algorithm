@@ -170,6 +170,8 @@ class Game extends Component {
         this.speedRangeOnInput = this.speedRangeOnInput.bind(this);
         this.onMouseDownOnFunctionCell = this.onMouseDownOnFunctionCell.bind(this);
         this.getAchivmentsBinary = this.getAchivmentsBinary.bind(this);
+        this.refreshMapSize = this.refreshMapSize.bind(this);
+        this.onContextMenu = this.onContextMenu.bind(this);
     }
 
     resetLevel() {
@@ -401,6 +403,18 @@ class Game extends Component {
         const cellElement = event.target;
         const functionIndex = cellElement.getAttribute('rowindex');
         const commandIndex = cellElement.getAttribute('cellIndex');
+
+        const itsRightMouseKey = event.button === 2;
+        if (itsRightMouseKey) {
+            this.setState(state => {
+                const newFunctionsList = state.functionsList;
+                newFunctionsList[functionIndex][commandIndex].action = undefined;
+                newFunctionsList[functionIndex][commandIndex].color = 'n';
+                return newFunctionsList;
+            })
+            return;
+        }
+
         const cellCommand = this.state.functionsList[functionIndex][commandIndex];
         const mouseX = event.clientX !== undefined ? event.clientX : event.touches[0].clientX;
         const mouseY = event.clientY !== undefined ? event.clientY : event.touches[0].clientY;
@@ -421,6 +435,7 @@ class Game extends Component {
                 };
             });
         }
+
         else if (cellCommand.color !== 'n') {
             const color = cellCommand.color;
             const controllerType = 'color-' + color;
@@ -508,9 +523,19 @@ class Game extends Component {
         this.setState({mapWidth: mapWidth, mapHeight: mapHeight})
     }
 
+    onContextMenu(event) {
+        event.preventDefault();
+    }
+
     componentDidMount() {
-        window.addEventListener('resize', this.refreshMapSize.bind(this));
+        window.addEventListener('resize', this.refreshMapSize);
         this.refreshMapSize();
+        window.addEventListener('contextmenu', this.onContextMenu);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.refreshMapSize);
+        window.removeEventListener('contextmenu', this.onContextMenu);
     }
 
     isAllStarsGathered() {
