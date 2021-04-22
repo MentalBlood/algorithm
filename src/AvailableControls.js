@@ -1,5 +1,4 @@
-import React from 'react';
-import './AvailableControls.css';
+"use strict"
 
 function AvailableControls(props) {
     const controlsList = props.controlsList;
@@ -20,5 +19,3 @@ function AvailableControls(props) {
         </table>
     );
 }
-
-export default AvailableControls;

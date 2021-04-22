@@ -20,7 +20,7 @@
     height: 6vh;
     border: 0;
     border-radius: 3vh;
-    background-image: url('./images/back.svg');
+    background-image: url('images/back.svg');
     background-repeat: no-repeat;
     background-size: cover;
 
@@ -96,7 +96,7 @@
 }
 
 .finishMenu .achivment.levelFinished {
-    background-image: url('./images/flag.svg');
+    background-image: url('images/flag.svg');
     background-size: 60%;
 }
 
@@ -219,47 +219,47 @@ input[type=range].speedRange:focus::-ms-fill-upper {
 .availableControls .action-u,
 .draggingController.action-u,
 .Functions .action-u:before {
-    background-image: url('./images/up.svg');
+    background-image: url('images/up.svg');
 }
 
 .availableControls .action-l,
 .draggingController.action-l,
 .Functions .action-l:before {
-    background-image: url('./images/left.svg');
+    background-image: url('images/left.svg');
 }
 
 .availableControls .action-r,
 .draggingController.action-r,
 .Functions .action-r:before {
-    background-image: url('./images/right.svg');
+    background-image: url('images/right.svg');
 }
 
 .availableControls .action-p-g,
 .draggingController.action-p-g,
 .Functions .action-p.paintColor-g:before {
-    background-image: url('./images/painter_green.svg');
+    background-image: url('images/painter_green.svg');
 }
 
 .availableControls .action-p-b,
 .draggingController.action-p-b,
 .Functions .action-p.paintColor-b:before {
-    background-image: url('./images/painter_blue.svg');
+    background-image: url('images/painter_blue.svg');
 }
 
 .availableControls .action-p-r,
 .draggingController.action-p-r,
 .Functions .action-p.paintColor-r:before {
-    background-image: url('./images/painter_red.svg');
+    background-image: url('images/painter_red.svg');
 }
 
 .availableControls .action-f-1,
 .draggingController.action-f-1,
 .Functions .action-f.function-1:before {
-    background-image: url('./images/f1.svg');
+    background-image: url('images/f1.svg');
 }
 
 .availableControls .action-f-2,
 .draggingController.action-f-2,
 .Functions .action-f.function-2:before {
-    background-image: url('./images/f2.svg');
+    background-image: url('images/f2.svg');
 }

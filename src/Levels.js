@@ -1,6 +1,4 @@
-import React from 'react';
-import './Levels.css';
-import {getSvgCircle, getSvgRing} from './paintFunctions.js';
+"use strict"
 
 function Levels(props) {
     const launchLevelFunction = props.launchLevelFunction;
@@ -48,5 +46,3 @@ function Levels(props) {
         </div>
     );
 }
-
-export default Levels;

@@ -1,13 +1,6 @@
-import React, {Component} from 'react';
-import './App.css';
-import getSvgCircle from './paintFunctions.js';
-import levels from './levels.json';
-import MainMenu from './MainMenu.js';
-import Levels from './Levels.js';
-import Game from './Game.js';
-import {uploadFile, downloadFile} from './uploadDownload.js';
+"use strict"
 
-class App extends Component {
+class App extends React.Component {
     constructor(props) {
         super(props);
 
@@ -189,6 +182,7 @@ class App extends Component {
         }
         else if (currentScreen === "game") {
             const level = this.getCurrentLevel();
+            console.log('level', level)
             return (
                 <div className="app unselectable">
                     <Game key={level.name + " " + Date.now().toString()} level={level}
@@ -201,5 +195,3 @@ class App extends Component {
         }
     }
 }
-
-export default App;

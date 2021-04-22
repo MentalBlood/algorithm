@@ -1,6 +1,4 @@
-import React from 'react';
-import './Layer.css';
-import './ColorLayer.css';
+"use strict"
 
 function ColorLayer(props) {
     const colors = props.colors;
@@ -18,5 +16,3 @@ function ColorLayer(props) {
         </table>
     );
 }
-
-export default ColorLayer;

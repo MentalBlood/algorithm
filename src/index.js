@@ -1,17 +1,20 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+'use strict'
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+class Root extends React.Component {
+	constructor(props) {
+		super(props);
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+		this.state = {
+
+		};
+	}
+
+	render() {
+		return (<React.Fragment>
+			<App></App>
+		</React.Fragment>);
+	}
+}
+
+const rootElement = document.getElementById('root');
+ReactDOM.render(React.createElement(Root), rootElement);

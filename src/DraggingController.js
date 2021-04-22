@@ -1,5 +1,4 @@
-import React from 'react';
-import './draggingController.css';
+"use strict"
 
 function DraggingController(props) {
     const type = props.type;
@@ -8,5 +7,3 @@ function DraggingController(props) {
 
     return <div id="draggingController" className={"draggingController" + " " + type} style={style}></div>;
 }
-
-export default DraggingController;

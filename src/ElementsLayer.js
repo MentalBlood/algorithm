@@ -1,6 +1,4 @@
-import React from 'react';
-import './Layer.css';
-import './ElementsLayer.css';
+"use strict"
 
 function directionFromAngle(angle) {
     let direction = undefined;
@@ -38,5 +36,3 @@ function ElementsLayer(props) {
         </table>
     );
 }
-
-export default ElementsLayer;

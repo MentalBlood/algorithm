@@ -1,0 +1,1 @@
+"use strict";function ModalWindow(e){return React.createElement("div",{className:e.className},React.createElement("div",{className:"modalWindowOverlay",onClick:e.closeFunction}),React.createElement("div",{className:"modalWindow"},e.children))}

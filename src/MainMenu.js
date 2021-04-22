@@ -1,6 +1,4 @@
-import React, {useState} from 'react';
-import './MainMenu.css';
-import CreditsWindow from './CreditsWindow.js';
+"use strict"
 
 function MainMenu(props) {
     const lastLevelNumber = props.lastLevelNumber;
@@ -8,7 +6,7 @@ function MainMenu(props) {
     const onPlayButtonClick = props.onPlayButtonClick;
     const loadFunction = props.loadFunction;
     const saveFunction = props.saveFunction;
-    const [showCredits, setShowCredits] = useState(false);
+    const [showCredits, setShowCredits] = React.useState(false);
 
     const lastLevelNumberStyle = {backgroundColor: lastLevelPackColor};
 
@@ -37,5 +35,3 @@ function MainMenu(props) {
         </div>
     );
 }
-
-export default MainMenu;

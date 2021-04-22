@@ -1,4 +1,4 @@
-import React from 'react';
+"use strict"
 
 function getSvgCircle(color, radius, key) {
     const radiusString = radius.toString();
@@ -26,5 +26,3 @@ function getSvgRing(color, radius, strokeWidth, key) {
         </svg>
     );
 }
-
-export {getSvgCircle, getSvgRing};

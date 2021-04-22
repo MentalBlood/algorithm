@@ -1,0 +1,1 @@
+"use strict";class Root extends React.Component{constructor(e){super(e),this.state={}}render(){return React.createElement(React.Fragment,null,React.createElement(App,null))}}const rootElement=document.getElementById("root");ReactDOM.render(React.createElement(Root),rootElement);

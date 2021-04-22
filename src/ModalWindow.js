@@ -1,5 +1,4 @@
-import React from 'react';
-import './ModalWindow.css';
+"use strict"
 
 function ModalWindow(props) {
     return (
@@ -12,5 +11,3 @@ function ModalWindow(props) {
         </div>
     );
 }
-
-export default ModalWindow;

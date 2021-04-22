@@ -27,5 +27,3 @@ function uploadFile(fileExtension, onUploaded) {
     });
     fileElement.click();
 }
-
-export {uploadFile, downloadFile};

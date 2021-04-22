@@ -1,6 +1,4 @@
-import React from 'react';
-import './CreditsWindow.css';
-import ModalWindow from './ModalWindow.js';
+"use strict"
 
 function CreditsWindow(props) {
     const closeFunction = props.closeFunction;
@@ -30,5 +28,3 @@ function CreditsWindow(props) {
         </ModalWindow>
     );
 }
-
-export default CreditsWindow;

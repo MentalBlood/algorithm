@@ -1,14 +1,4 @@
-import React, { Component } from 'react';
-import './Game.css';
-import './Map.css';
-import ColorLayer from './ColorLayer.js';
-import ElementsLayer from './ElementsLayer.js';
-import AvailableControls from './AvailableControls.js';
-import Functions from './Functions.js';
-import DraggingController from './DraggingController.js';
-import ModalWindow from './ModalWindow.js';
-import levels from './levels.json';
-import {downloadFile} from './uploadDownload.js';
+"use strict"
 
 function controlsListFromControlsBinaryId(controlsBinaryId) {
     let controlsList = [];
@@ -32,7 +22,7 @@ function controlsListFromControlsBinaryId(controlsBinaryId) {
 }
 
 function twoDimArrayFromColumnsAndString(columns, string) {
-    let twoDimArray = []
+    let twoDimArray = [];
     const splitedString = string.split(' ');
     const rows = splitedString.length / columns;
     for (let i = 0; i < rows; i++)
@@ -129,7 +119,7 @@ function emptyFunctionsListFromLevelDescription(levelDescription) {
     return result;
 }
 
-class Game extends Component {
+class Game extends React.Component {
     constructor(props) {
         super(props);
 
@@ -685,5 +675,3 @@ class Game extends Component {
         );
     }
 }
-
-export default Game;

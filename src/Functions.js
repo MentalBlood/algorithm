@@ -1,5 +1,4 @@
-import React from 'react';
-import './Functions.css';
+"use strict"
 
 function Functions(props) {
     const functionsList = props.functionsList;
@@ -50,5 +49,3 @@ function Functions(props) {
         </table>
     );
 }
-
-export default Functions;

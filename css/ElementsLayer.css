@@ -5,11 +5,11 @@ table.ElementsLayer tbody tr td {
 }
 
 table.ElementsLayer tbody tr td.s {
-    background-image: url("./images/star.svg");
+    background-image: url("images/star.svg");
 }
 
 table.ElementsLayer tbody tr td.a {
-    background-image: url("./images/arrow.svg");
+    background-image: url("images/arrow.svg");
 }
 
 table.ElementsLayer tbody tr td.a.right {
@@ -29,5 +29,5 @@ table.ElementsLayer tbody tr td.down {
 }
 
 table.ElementsLayer tbody tr td.f {
-    background-image: url("./images/flag.svg");
+    background-image: url("images/flag.svg");
 }

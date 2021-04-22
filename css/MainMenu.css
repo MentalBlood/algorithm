@@ -51,7 +51,7 @@
 .appLogo {
     height: 18.3vmin;
 
-    background-image: url('./images/logo.svg');
+    background-image: url('images/logo.svg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
@@ -61,7 +61,7 @@
 
 @font-face {
     font-family: Noah;
-    src: url('./fonts/Noah-Bold.woff2') format('woff2');
+    src: url('fonts/Noah-Bold.woff2') format('woff2');
 }
 
 .logoText {
