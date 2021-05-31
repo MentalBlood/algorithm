@@ -1,1 +1,1 @@
-## You can try this app [here](http://algorithm-game.ru/)
+
