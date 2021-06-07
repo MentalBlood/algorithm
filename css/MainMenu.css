@@ -72,6 +72,7 @@
 @font-face {
     font-family: Noah;
     src: url('fonts/Noah-Bold.woff2') format('woff2');
+    font-display: swap;
 }
 
 .logoText {
