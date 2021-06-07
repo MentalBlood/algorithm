@@ -916,25 +916,5 @@ const levels = {
 				]
 			}
 		}
-	},
-	"3": {
-		"name": "Black Box",
-		"color": "#111",
-		"levels": {
-			"0": {
-				"f1Len": 9,
-				"f2Len": 8,
-				"controlsBinaryId": 1583,
-				"rows": 6,
-				"columns": 8,
-				"path": "r r r n n n n n n n r r n n n n n n r r n n n n n n n r r r r n n n n n n n r n n n n n n n r r",
-				"angle": 0.5,
-				"elements": "s n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n n",
-				"minSolutionFunctionsLengths": [
-					9,
-					8
-				]
-			}
-		}
 	}
 };
