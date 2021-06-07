@@ -182,7 +182,6 @@ class App extends React.Component {
         }
         else if (currentScreen === "game") {
             const level = this.getCurrentLevel();
-            console.log('level', level)
             return (
                 <div className="app unselectable">
                     <Game key={level.name + " " + Date.now().toString()} level={level}
