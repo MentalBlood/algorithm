@@ -1,4 +1,4 @@
-"use strict"
+/** @jsx h */
 
 function Functions(props) {
     const functionsList = props.functionsList;

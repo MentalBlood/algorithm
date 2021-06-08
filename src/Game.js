@@ -1,4 +1,4 @@
-"use strict"
+/** @jsx h */
 
 function controlsListFromControlsBinaryId(controlsBinaryId) {
     let controlsList = [];
@@ -119,7 +119,7 @@ function emptyFunctionsListFromLevelDescription(levelDescription) {
     return result;
 }
 
-class Game extends React.Component {
+class Game extends preact.Component {
     constructor(props) {
         super(props);
 
@@ -669,7 +669,7 @@ class Game extends React.Component {
                         <DraggingController type={draggingControllerType} position={draggingControllerPosition}></DraggingController>
                     }
                     <input className="speedRange" type="range" min="0" max="7" step="0.1"
-                        value={speed} onChange={speedRangeOnInput}/>
+                        value={speed} onInput={speedRangeOnInput}/>
                 </div>
             </div>
         );

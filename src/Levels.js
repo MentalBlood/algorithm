@@ -1,4 +1,4 @@
-"use strict"
+/** @jsx h */
 
 function Levels(props) {
     const launchLevelFunction = props.launchLevelFunction;

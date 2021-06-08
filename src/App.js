@@ -1,6 +1,6 @@
-"use strict"
+/** @jsx h */
 
-class App extends React.Component {
+class App extends preact.Component {
     constructor(props) {
         super(props);
 

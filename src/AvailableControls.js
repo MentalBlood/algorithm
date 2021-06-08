@@ -1,4 +1,4 @@
-"use strict"
+/** @jsx h */
 
 function AvailableControls(props) {
     const controlsList = props.controlsList;

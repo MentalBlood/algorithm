@@ -1,4 +1,4 @@
-"use strict"
+/** @jsx h */
 
 function MainMenu(props) {
     const lastLevelNumber = props.lastLevelNumber;
@@ -6,7 +6,7 @@ function MainMenu(props) {
     const onPlayButtonClick = props.onPlayButtonClick;
     const loadFunction = props.loadFunction;
     const saveFunction = props.saveFunction;
-    const [showCredits, setShowCredits] = React.useState(false);
+    const [showCredits, setShowCredits] = useState(false);
 
     const lastLevelNumberStyle = {backgroundColor: lastLevelPackColor};
 

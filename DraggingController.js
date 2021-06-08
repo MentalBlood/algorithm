@@ -1,1 +1,1 @@
-"use strict";function DraggingController(t){const e=t.type,r=t.position,n=void 0===r?{}:{top:r.y,left:r.x};return React.createElement("div",{id:"draggingController",className:"draggingController "+e,style:n})}
+"use strict";function DraggingController(t){const o=t.type,r=t.position,n=void 0===r?{}:{top:r.y,left:r.x};return h("div",{id:"draggingController",className:"draggingController "+o,style:n})}

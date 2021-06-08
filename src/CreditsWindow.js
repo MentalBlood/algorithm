@@ -1,4 +1,4 @@
-"use strict"
+/** @jsx h */
 
 function CreditsWindow(props) {
     const closeFunction = props.closeFunction;

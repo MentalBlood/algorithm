@@ -1,4 +1,4 @@
-"use strict"
+/** @jsx h */
 
 function DraggingController(props) {
     const type = props.type;

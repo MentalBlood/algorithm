@@ -1,4 +1,4 @@
-"use strict"
+/** @jsx h */
 
 function ColorLayer(props) {
     const colors = props.colors;

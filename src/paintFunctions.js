@@ -1,4 +1,4 @@
-"use strict"
+/** @jsx h */
 
 function getSvgCircle(color, radius, key) {
     const radiusString = radius.toString();

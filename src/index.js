@@ -1,20 +1,6 @@
-'use strict'
-
-class Root extends React.Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-
-		};
-	}
-
-	render() {
-		return (<React.Fragment>
-			<App></App>
-		</React.Fragment>);
-	}
-}
+/** @jsx h */
+const { h } = preact;
+const { useState } = preactHooks;
 
 const rootElement = document.getElementById('root');
-ReactDOM.render(React.createElement(Root), rootElement);
+preact.render(<App></App>, rootElement);

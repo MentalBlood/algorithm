@@ -1,1 +1,1 @@
-"use strict";function ColorLayer(e){const t=e.colors;return React.createElement("table",{className:"Layer ColorLayer",style:{width:e.mapWidth,height:e.mapHeight}},React.createElement("tbody",null,t.map(((e,t)=>React.createElement("tr",{key:t},e.map(((e,t)=>React.createElement("td",{key:t,className:"color-"+e}))))))))}
+"use strict";function ColorLayer(t){const e=t.colors;return h("table",{className:"Layer ColorLayer",style:{width:t.mapWidth,height:t.mapHeight}},h("tbody",null,e.map(((t,e)=>h("tr",{key:e},t.map(((t,e)=>h("td",{key:e,className:"color-"+t}))))))))}
